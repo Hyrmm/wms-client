@@ -1,0 +1,23 @@
+{
+  "id": "3766838",
+  "name": "库存管理系统",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11111000",
+      "name": "出库",
+      "font_class": "chuku",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "11111014",
+      "name": "入库",
+      "font_class": "ruku",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    }
+  ]
+}
