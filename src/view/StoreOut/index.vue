@@ -1,8 +1,9 @@
 <template>
-  <h1>入库</h1>
+  <router-view></router-view>
 </template>
 
 <script>
+
 export default {};
 </script>
 

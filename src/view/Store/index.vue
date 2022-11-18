@@ -1,25 +1,23 @@
 <template>
   <div>
-    <el-table :data="tableData" :stripe="true" style="width: 100%" height="600">
-      <el-table-column prop="id" label="序号" width="180"> </el-table-column>
-      <el-table-column prop="name" label="名称" width="180"> </el-table-column>
-      <el-table-column prop="type" label="类型"> </el-table-column>
-      <el-table-column prop="stock" label="库存"> </el-table-column>
-    </el-table>
+    <TableFilter size="mini" />
+    <Table :data="tableData" />
     <el-divider></el-divider>
     <div class="control">
       <el-button type="primary" class="button" @click="showDialogFrom"
-        ><i class="el-icon-plus" style="font-size: 16px"></i
-      ></el-button>
+        ><i class="el-icon-plus" style="font-size: 16px"></i>添加库存</el-button
+      >
     </div>
-    <DialogFrom :visible.sync="visible" />
+    <AddDialogForm :visible="dialogFromVisible" @close="closeDialogFrom" />
   </div>
 </template>
 
 <script>
-import DialogFrom from "@/components/DialogForm";
+import TableFilter from "@/components/TableFilter"
+import AddDialogForm from "./AddDialogForm";
+import Table from "./components/Table";
 export default {
-  components: { DialogFrom },
+  components: { AddDialogForm, Table,TableFilter },
   data() {
     return {
       tableData: [
@@ -28,152 +26,88 @@ export default {
           name: "可乐",
           type: "220ml",
           stock: 5000,
+          date: "2022-11-14 16:54",
         },
         {
           id: 2,
           name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 1,
+          id: 3,
           name: "可乐",
-          type: "220ml",
-          stock: 5000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 2,
+          id: 4,
           name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 1,
+          id: 5,
           name: "可乐",
-          type: "220ml",
-          stock: 5000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 2,
+          id: 6,
           name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 1,
+          id: 7,
           name: "可乐",
-          type: "220ml",
-          stock: 5000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 2,
+          id: 8,
           name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 1,
+          id: 9,
           name: "可乐",
-          type: "220ml",
-          stock: 5000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 2,
+          id: 10,
           name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
         {
-          id: 1,
+          id: 11,
           name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
-        },
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "550ml",
-          stock: 2000,
+          type: "320ml",
+          stock: 6000,
+          date: "2022-11-14 16:54",
         },
       ],
-      visible: false,
+      dialogFromVisible: false,
     };
   },
   methods: {
     showDialogFrom: function () {
-      this.visible = true;
+      this.dialogFromVisible = true;
+    },
+    closeDialogFrom: function () {
+      this.dialogFromVisible = false;
     },
   },
 };

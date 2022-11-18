@@ -1,10 +1,8 @@
 <template>
   <el-menu
-    default-active="/home/index"
+    :default-active="$route.path"
     class="el-menu"
-    @open="handleOpen"
-    @close="handleClose"
-    background-color="#545c64"
+    background-color="#324157"
     text-color="#fff"
     active-text-color="#ffd04b"
     :router="true"
@@ -17,16 +15,27 @@
       <i class="el-icon-menu"></i>
       <span slot="title">库存</span>
     </el-menu-item>
+    <el-submenu index="/home/storeIn">
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>入库</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/home/storeIn/add">添加入库</el-menu-item>
+        <el-menu-item index="/home/storeIn/recording">入库记录</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
+    <el-submenu index="/home/storeOut">
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>出库</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/home/storeOut/add">添加出库</el-menu-item>
+        <el-menu-item index="/home/storeOut/recording">出库记录</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
 
-    <el-menu-item index="/home/storeIn">
-      <i class="el-icon-menu"></i>
-      <span slot="title">出库</span>
-    </el-menu-item>
-
-    <el-menu-item index="/home/storeOut">
-      <i class="el-icon-document"></i>
-      <span slot="title">入库</span>
-    </el-menu-item>
 
     <el-menu-item index="/home/setting">
       <i class="el-icon-setting"></i>

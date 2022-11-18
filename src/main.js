@@ -11,7 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
 
+import { getToken } from "@/utils/auth"
 
+
+
+console.log(getToken())
 // inconfont导入
 import("@/assets/iconfont/iconfont.css")
 
