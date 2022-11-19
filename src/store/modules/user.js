@@ -1,3 +1,6 @@
+import { login } from "@/api/user"
+import { setToken } from "@/utils/auth"
+
 export default {
     namespaced: true,
     state: {
@@ -6,9 +9,14 @@ export default {
         }
     },
     actions: {
-        async login({ commit }) {
-            let res = await getCategoryList()
-            commit("upDataCategoryList", res.data)
+        async login({ commit }, payload) {
+            let res = await login(payload)
+            if (res.data.status == 200) {
+                //储存用户数据
+                commit("upDataUserInfo", res.data.data)
+                setToken(res.data.data.token)
+            }
+            return res
         },
     },
     mutations: {

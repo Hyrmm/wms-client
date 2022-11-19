@@ -4,7 +4,7 @@
       <div class="collapse-btn"><i class="el-icon-s-unfold"></i></div>
       <div class="logo">库存后台管理系统</div>
       <div class="header-user-con">
-        <el-avatar size="30" class="user-avatar"> user </el-avatar>
+        <el-avatar class="user-avatar"> user </el-avatar>
         <el-dropdown class="user-name">
           <span class="el-dropdown-link">
             Admin<i class="el-icon-arrow-down el-icon--right"></i>
@@ -47,10 +47,6 @@
 import { Sidebar, AppMain, MainHeader } from "./components";
 export default {
   components: { Sidebar, AppMain, MainHeader },
-
-  updated() {
-    console.log(1);
-  },
 };
 </script>
 

@@ -1,8 +1,17 @@
 <template>
   <div class="warpper">
     <div class="login-container">
-      <div class="ms-title">后台管理系统</div>
-      <el-form :model="form" class="form">
+      <div class="ms-title">库存管理系统</div>
+      <el-form
+        :model="form"
+        class="form"
+        :rules="{
+          nick: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          passward: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+          ],
+        }"
+      >
         <el-form-item prop="nick" class="form-item">
           <el-input v-model="form.nick" class="item-input">
             <template slot="prepend"><i class="el-icon-user"></i></template>
@@ -14,7 +23,9 @@
           </el-input>
         </el-form-item>
         <el-form-item class="form-item">
-          <el-button></el-button>
+          <el-button type="primary" round @click="login" class="login-button"
+            >登陆</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -27,6 +38,15 @@ export default {
     return {
       form: {},
     };
+  },
+  methods: {
+    login: async function () {
+      let res = await this.$store.dispatch("user/login", this.form);
+      if (res.data.status == 200) {
+        this.$message.success(res.data.msg);
+        this.$router.push({ name: "home" });
+      }
+    },
   },
 };
 </script>
@@ -44,8 +64,8 @@ export default {
   justify-content: center;
   align-items: center;
   .login-container {
-    margin: -190px 0 0 -175px;
     border-radius: 5px;
+    width: 350px;
     background: rgba(255, 255, 255, 0.3);
     overflow: hidden;
     .ms-title {
@@ -57,21 +77,19 @@ export default {
       border-bottom: 1px solid #ddd;
     }
     .form {
+      overflow: hidden;
+      padding: 20px;
       .form-item {
         margin: 20px 0;
+      }
+      .login-button {
+        width: 100%;
       }
     }
   }
 }
 </style>
 <style>
-.el-form-item__content {
-  margin: 0 auto;
-}
-.el-form {
-  overflow: hidden;
-  padding: 20px;
-}
 </style>
 
 

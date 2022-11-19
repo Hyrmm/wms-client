@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import store from '@/store'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
+  baseURL: "http://127.0.0.1:3000/api", // api的base_url
   timeout: 5000 // 请求超时时间
 })
 
@@ -22,7 +21,22 @@ service.interceptors.request.use(config => {
 })
 // 响应拦截器
 service.interceptors.response.use(
-  response => response,
+  (response) => {
+
+    //统一管理响应,不是正常返回数据,Message提示
+
+    if (response.data.status != 200) {
+      Message({
+        message: response.data.msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
+    return response
+  },
+
+
+
   error => {
     console.log('err' + error)// for debug
     Message({

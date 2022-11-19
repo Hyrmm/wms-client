@@ -1,22 +1,21 @@
 
 import Vue from "vue"
 import Router from "vue-router"
-
 import Home from "@/pages/home"
 import Login from "@/pages/login"
+
+import { getToken } from "@/utils/auth"
+
 Vue.use(Router)
 
 
 
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: "*",
             redirect: "/home",
-            meta: {
-                show: true
-            }
         },
 
         {
@@ -109,7 +108,25 @@ export default new Router({
                     }
                 }
 
-            ]
+            ],
         },
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    //token验证
+    if (to.matched[0].path != "/login") {
+        let token = getToken()
+        if (token) {
+            next()
+        } else {
+            next({ name: "login" })
+        }
+    } else {
+        next()
+    }
+
+
+})
+
+export default router
