@@ -4,11 +4,19 @@
       <el-table-column prop="id" label="序号" width="80"> </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="type" label="类型"> </el-table-column>
-      <el-table-column prop="stock" label="库存" width="100" :sortable='true'> </el-table-column>
-      <el-table-column prop="date" label="最近变动" width="250" :sortable='true'>
+      <el-table-column prop="stock" label="库存" width="100" :sortable="true">
+      </el-table-column>
+      <el-table-column
+        prop="last_updata"
+        label="最近变动"
+        width="250"
+        :sortable="true"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{
+            dataFormat(scope.row.last_updata)
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -36,6 +44,7 @@
 
 <script>
 import EditDialogForm from "./EditDialogForm";
+import { formatDate } from "@/utils";
 export default {
   components: { EditDialogForm },
   data: function () {
@@ -55,6 +64,9 @@ export default {
     },
     closeDialogFrom: function () {
       this.dialogFromVisible = false;
+    },
+    dataFormat: function (date) {
+      return formatDate(new Date(date));
     },
   },
 };

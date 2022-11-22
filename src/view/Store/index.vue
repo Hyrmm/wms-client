@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TableFilter size="mini" />
-    <Table :data="tableData" />
+    <TableFilter size="mini" @search="search" />
+    <Table :data="stock" />
     <el-divider></el-divider>
     <div class="control">
       <el-button type="primary" class="button" @click="showDialogFrom"
@@ -13,94 +13,19 @@
 </template>
 
 <script>
-import TableFilter from "@/components/TableFilter"
+import TableFilter from "@/components/TableFilter";
 import AddDialogForm from "./AddDialogForm";
 import Table from "./components/Table";
+import { mapState } from "vuex";
 export default {
-  components: { AddDialogForm, Table,TableFilter },
+  components: { AddDialogForm, Table, TableFilter },
   data() {
     return {
-      tableData: [
-        {
-          id: 1,
-          name: "可乐",
-          type: "220ml",
-          stock: 5000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 2,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 3,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 4,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 5,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 6,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 7,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 8,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 9,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 10,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-        {
-          id: 11,
-          name: "可乐",
-          type: "320ml",
-          stock: 6000,
-          date: "2022-11-14 16:54",
-        },
-      ],
       dialogFromVisible: false,
     };
+  },
+  computed: {
+    ...mapState("store", ["stock"]),
   },
   methods: {
     showDialogFrom: function () {
@@ -109,6 +34,13 @@ export default {
     closeDialogFrom: function () {
       this.dialogFromVisible = false;
     },
+    search: function (payload) {
+      console.log(payload);
+    },
+  },
+  mounted() {
+    this.$store.dispatch("store/getStock");
+    console.log(this);
   },
 };
 </script>

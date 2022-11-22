@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TableFilter size="mini" />
+    <TableFilter size="mini" :date_filter="true" />
     <Table :data="tabaleData" />
   </div>
 </template>

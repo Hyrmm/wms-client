@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { getToken } from "@/utils/auth"
+import App from "@/main"
 import { Message } from 'element-ui'
-
 // 创建axios实例
 const service = axios.create({
   baseURL: "http://127.0.0.1:3000/api", // api的base_url
@@ -10,9 +11,7 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use(config => {
-  // if (store.getters.token) {
-  //   config.headers['X-Token'] = getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
-  // }
+  config.headers['authorization'] = getToken() // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
   return config
 }, error => {
   // Do something with request error
@@ -23,7 +22,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   (response) => {
 
-    //统一管理响应,不是正常返回数据,Message提示
+    // 统一管理响应,不是正常返回数据,Message提示
 
     if (response.data.status != 200) {
       Message({
@@ -32,6 +31,14 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
     }
+    // 401用户登陆失效重定向至登陆界面
+    if (response.data.status == 401) {
+      App.$router.replace({ name: 'login' })
+    }
+
+
+
+
     return response
   },
 

@@ -1,22 +1,33 @@
-import { getStock } from "@/api/store"
+import { getStock, getStoreOptions } from "@/api/store"
+import { formatOptions } from "@/utils"
 export default {
     namespaced: true,
     state: {
-        stock: {}
+        stock: [],
+        storeOptions: []
     },
     actions: {
         async getStock({ commit }, payload) {
             let res = await getStock(payload)
             if (res.data.status == 200) {
-                //储存用户数据
                 commit("upDataStock", res.data.data)
+            }
+            return res
+        },
+        async getStoreOptions({ commit }, payload) {
+            let res = await getStoreOptions(payload)
+            if (res.data.status == 200) {
+                commit("upDataStoreOptions", res.data.data)
             }
             return res
         }
     },
     mutations: {
-        upDataStock(data) {
-            this.stock = data
+        upDataStock(state, data) {
+            state.stock = data
+        },
+        upDataStoreOptions(state, data) {
+            state.storeOptions = formatOptions(data)
         }
     },
     getters: {}

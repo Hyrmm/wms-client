@@ -47,6 +47,10 @@
 import { Sidebar, AppMain, MainHeader } from "./components";
 export default {
   components: { Sidebar, AppMain, MainHeader },
+  //初始化storeOptions
+  mounted() {
+    this.$store.dispatch("store/getStoreOptions");
+  },
 };
 </script>
 
