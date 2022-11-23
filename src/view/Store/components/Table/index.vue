@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table v-bind="$attrs" :stripe="true" style="width: 100%" height="600">
-      <el-table-column prop="id" label="序号" width="80"> </el-table-column>
+      <el-table-column prop="index" label="#" width="100"> </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="type" label="类型"> </el-table-column>
       <el-table-column prop="stock" label="库存" width="100" :sortable="true">

@@ -10,7 +10,7 @@ export default {
         async getStock({ commit }, payload) {
             let res = await getStock(payload)
             if (res.data.status == 200) {
-                commit("upDataStock", res.data.data)
+                commit("upDataStock", res.data)
             }
             return res
         },

@@ -1,18 +1,18 @@
 <template>
   <div class="warpper">
     <el-pagination
+      v-on="$listeners"
       background
       layout="prev, pager, next"
-      :total="1000"
-      :page-size="20"
-      :page-sizes="20"
+      v-bind="$attrs"
     >
     </el-pagination>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+};
 </script>
 
 <style lang="less" scoped>

@@ -7,16 +7,23 @@
       :typeFilter="true"
       @search="search"
     />
-    <Table :data="tabaleData" />
+    <Table :data="tabaleData.data" />
+    <PagiNation
+      :total="tabaleData.total"
+      :page-size="20"
+      :current-page="tabaleData.current_page"
+      @current-change="currentPageChange"
+    />
   </div>
 </template>
 
 <script>
 import Table from "./components/Table";
 import TableFilter from "@/components/TableFilter";
+import PagiNation from "@/components/PagiNation";
 import { getStockRecording } from "@/api/store";
 export default {
-  components: { Table, TableFilter },
+  components: { Table, TableFilter, PagiNation },
   data: function () {
     return {
       tabaleData: [
@@ -47,6 +54,9 @@ export default {
   },
   methods: {
     search: async function (payload) {
+
+      //每次搜索前,重置当前页数为1
+      this.query.page = 1
       this.query.filter_name = payload.name ? payload.name : "";
       this.query.filter_type = payload.type ? payload.type : "";
       this.query.filter_date_start = payload.filter_date_start
@@ -60,8 +70,12 @@ export default {
     getTableData: async function (query) {
       let res = await getStockRecording(query);
       if (res.data.status == 200) {
-        this.tabaleData = res.data.data;
+        this.tabaleData = res.data;
       }
+    },
+    currentPageChange: function (curPage) {
+      this.query.page = curPage;
+      this.getTableData(this.query);
     },
   },
   mounted() {

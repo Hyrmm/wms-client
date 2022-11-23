@@ -4,7 +4,12 @@
     <Table :data="stock" />
     <el-divider></el-divider>
     <div class="control">
-      <PagiNation />
+      <PagiNation
+        :total="total"
+        :page-size="20"
+        :current-page="current_page"
+        @current-change="currentPageChange"
+      />
       <el-button type="primary" class="button" @click="showDialogFrom"
         ><i class="el-icon-plus" style="font-size: 16px"></i>添加库存</el-button
       >
@@ -24,10 +29,15 @@ export default {
   data() {
     return {
       dialogFromVisible: false,
+      query: { name: "" },
     };
   },
   computed: {
-    ...mapState("store", ["stock"]),
+    ...mapState("store", {
+      stock: (state) => state.stock.data,
+      current_page: (state) => state.stock.current_page,
+      total: (state) => state.stock.total,
+    }),
   },
   methods: {
     showDialogFrom: function () {
@@ -37,7 +47,17 @@ export default {
       this.dialogFromVisible = false;
     },
     search: function (payload) {
-      this.$store.dispatch("store/getStock", { page: 1, name: payload.name });
+      this.query.name = payload.name ? payload.name : "";
+      this.$store.dispatch("store/getStock", {
+        page: 1,
+        name: this.query.name,
+      });
+    },
+    currentPageChange: function (curPage) {
+      this.$store.dispatch("store/getStock", {
+        page: curPage,
+        name: this.query.name,
+      });
     },
   },
   mounted() {
