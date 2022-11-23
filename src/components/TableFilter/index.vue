@@ -1,6 +1,6 @@
 <template>
   <el-form :inline="true" :model="form" v-bind="$attrs">
-    <el-form-item label="名称">
+    <el-form-item v-if="nameFilter" label="名称">
       <el-select
         v-model="form.name"
         placeholder="名称不限"
@@ -16,22 +16,22 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="类型">
+    <el-form-item v-if="typeFilter" label="类型">
       <el-select
-        v-model="form.type"
+        v-model="form.typeIndex"
         placeholder="类型不限"
         clearable
         :disabled="disabled"
       >
         <el-option
-          v-for="item in typeOptions"
+          v-for="(item, index) in typeOptions"
           :key="item.value"
           :label="item.label"
-          :value="item.value"
+          :value="index"
         >
         </el-option> </el-select
     ></el-form-item>
-    <el-form-item v-if="date_filter" label="日期">
+    <el-form-item v-if="dateFilter" label="日期">
       <el-date-picker
         format="yyyy-MM-dd"
         value-format="yyyy-MM-dd"
@@ -43,12 +43,8 @@
       >
       </el-date-picker>
     </el-form-item>
-
     <el-form-item
-      ><el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="$emit('search', form)"
+      ><el-button type="primary" icon="el-icon-search" @click="searchClick"
         >查询</el-button
       ></el-form-item
     >
@@ -58,11 +54,11 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  props: ["date_filter"],
+  props: ["dateFilter", "nameFilter", "typeFilter"],
   data: function () {
     return {
       disabled: true,
-      form: { date: "", name: "", nameIndex: "", type: "" },
+      form: { date: [], name: "", nameIndex: "", type: "", typeIndex: "" },
     };
   },
   computed: {
@@ -73,12 +69,18 @@ export default {
         return [];
       }
     },
+    type() {
+      if (this.typeOptions[this.form.typeIndex]) {
+        return this.typeOptions[this.form.typeIndex].label;
+      }
+      return "";
+    },
     ...mapState("store", ["storeOptions"]),
   },
   methods: {
     nameOptionsChange(selectName) {
-      this.form.type = "";
-      // 清空出发type禁用
+      this.form.typeIndex = "";
+      // 清空触发type禁用
       if (!selectName) {
         this.disabled = true;
       } else {
@@ -88,6 +90,14 @@ export default {
         if (element.value == selectName) {
           this.form.nameIndex = index;
         }
+      });
+    },
+    searchClick() {
+      this.$emit("search", {
+        filter_date_start: this.form.date[0],
+        filter_date_end: this.form.date[1],
+        name: this.form.name,
+        type: this.type,
       });
     },
   },

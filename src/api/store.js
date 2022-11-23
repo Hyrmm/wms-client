@@ -1,26 +1,22 @@
 import request from "@/api"
 
-export const getStock = (query) => {
-
-    console.log(query)
-
-
+export const getStock = (params) => {
     return request(
         {
             url: "/store/getStock",
             method: "get",
-            query: query
+            params: params
         }
     )
 }
 
-
+//查询出入口记录
 export const getStockRecording = (query) => {
     return request(
         {
-            url: "/store/getStock",
+            url: "/store/getStockRecording",
             method: "get",
-            query: query
+            params: query
         }
     )
 }
@@ -29,7 +25,7 @@ export const getStoreOptions = (query) => {
         {
             url: "/store/getStoreOptions",
             method: "get",
-            query: query
+            params: query
         }
     )
 }

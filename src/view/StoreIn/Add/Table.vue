@@ -1,23 +1,23 @@
 <template>
   <div>
     <el-table v-bind="$attrs" :stripe="true" style="width: 100%">
-      <el-table-column prop="id" label="序号" width="80"> </el-table-column>
+      <el-table-column prop="id" label="#" width="40"> </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="type" label="类型"> </el-table-column>
       <el-table-column
         prop="amount"
         label="数量"
-        width="100"
+        width="80"
       ></el-table-column>
       <el-table-column
         prop="price"
         label="单价"
-        width="100"
+        width="80"
       ></el-table-column>
       <el-table-column
         prop="totalCost"
         label="成本"
-        width="100"
+        width="80"
       ></el-table-column>
       <el-table-column prop="date" label="日期" width="250">
         <template slot-scope="scope">

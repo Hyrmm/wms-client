@@ -1,24 +1,49 @@
 <template>
   <div>
-    <el-table v-bind="$attrs" :stripe="true" style="width: 100%" height="700">
-      <el-table-column prop="id" label="序号" width="80"> </el-table-column>
+    <el-table v-bind="$attrs" :stripe="true" style="width: 100%" height="600">
+      <el-table-column prop="id" label="#" width="40"> </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="type" label="类型"> </el-table-column>
-      <el-table-column prop="amount" label="数量" width="100" :sortable='true'></el-table-column>
-      <el-table-column prop="price" label="单价" width="100" :sortable='true'></el-table-column>
       <el-table-column
-        prop="anotherFee"
-        label="费用"
-        width="100"
-        :sortable='true'
+        prop="amount"
+        label="数量"
+        width="80"
+        :sortable="true"
       ></el-table-column>
-      <el-table-column prop="client" label="客户" width="100" ></el-table-column>
-      <el-table-column prop="status" label="订单状态" width="100" ></el-table-column>
-      <el-table-column prop="transportOrder" label="物流单号" width="200" ></el-table-column>
-      <el-table-column prop="date" label="日期" width="250" :sortable='true'>
+      <el-table-column
+        prop="price"
+        label="单价"
+        width="80"
+        :sortable="true"
+      ></el-table-column>
+      <el-table-column
+        prop="another_fee"
+        label="费用"
+        width="80"
+        :sortable="true"
+      ></el-table-column>
+      <el-table-column prop="client" label="客户" width="70"></el-table-column>
+      <el-table-column
+        prop="status"
+        label="订单状态"
+        width="80"
+      ></el-table-column>
+      <el-table-column
+        prop="transport_order"
+        label="物流单号"
+        width="320"
+      ></el-table-column>
+      <el-table-column
+        prop="updata_date"
+        label="日期"
+        width="200"
+        :sortable="true"
+      >
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{
+            dataFormat(scope.row.updata_date)
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -26,7 +51,11 @@
           <el-button type="text" size="big" @click="rowEditClick(scope.row)"
             >编辑</el-button
           >
-          <el-button type="text" size="big" @click="rowRemoveClick(scope.row)" style="color:red"
+          <el-button
+            type="text"
+            size="big"
+            @click="rowRemoveClick(scope.row)"
+            style="color: red"
             >删除</el-button
           >
         </template>
@@ -42,6 +71,7 @@
 
 <script>
 import EditDialogForm from "./EditDialogForm";
+import { formatDate } from "@/utils";
 export default {
   components: { EditDialogForm },
   data: function () {
@@ -63,6 +93,9 @@ export default {
     },
     closeDialogFrom: function () {
       this.dialogFromVisible = false;
+    },
+    dataFormat: function (date) {
+      return formatDate(new Date(date));
     },
   },
 };
