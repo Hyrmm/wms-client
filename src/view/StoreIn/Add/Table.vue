@@ -19,10 +19,10 @@
         label="成本"
         width="80"
       ></el-table-column>
-      <el-table-column prop="date" label="日期" width="250">
+      <el-table-column prop="updata_date" label="日期" width="250">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.updata_date }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">

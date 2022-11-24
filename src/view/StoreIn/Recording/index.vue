@@ -6,8 +6,9 @@
       :nameFilter="true"
       :typeFilter="true"
       @search="search"
+     
     />
-    <Table :data="tabaleData.data" />
+    <Table :data="tabaleData.data"  v-loading="tableLoading"/>
     <PagiNation
       :total="tabaleData.total"
       :page-size="20"
@@ -37,6 +38,7 @@ export default {
         filter_date_end: "",
         filter_type: "",
       },
+      tableLoading: false,
     };
   },
   methods: {
@@ -54,10 +56,12 @@ export default {
       this.getTableData(this.query);
     },
     getTableData: async function (query) {
+      this.tableLoading = true;
       let res = await getStockRecording(query);
       if (res.data.status == 200) {
         this.tabaleData = res.data;
       }
+      this.tableLoading = false;
     },
     currentPageChange: function (curPage) {
       this.query.page = curPage;

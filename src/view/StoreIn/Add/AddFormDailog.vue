@@ -9,13 +9,40 @@
       :model="addForm"
       label-position="left"
       label-width="100px"
-      :rules="rules"
+      :rules="{
+        name_type: [
+          {
+            type: 'array',
+            required: true,
+            message: '请输入要入库的名称及类型',
+            trigger: 'blur',
+          },
+        ],
+        amount: [
+          {
+            type: 'number',
+            min: 1,
+            required: true,
+            message: '请输要入库的数量(数字)',
+            trigger: 'blur',
+          },
+        ],
+        price: [
+          {
+            min: 0,
+            type: 'number',
+            required: true,
+            message: '请输入要入库的单价(数字)',
+            trigger: 'blur',
+          },
+        ],
+      }"
       ref="form"
     >
       <el-form-item label="名称/类型" prop="name_type">
         <el-cascader
           class="form-item"
-          :options="options"
+          :options="storeOptions"
           :props="{ expandTrigger: 'hover' }"
           v-model="addForm.name_type"
         ></el-cascader>
@@ -36,7 +63,7 @@
       </el-form-item>
       <el-form-item label="日期" prop="date">
         <el-date-picker
-          v-model="addForm.date"
+          v-model="addForm.updata_date"
           type="date"
           placeholder="选择日期"
           format="yyyy-MM-dd"
@@ -54,80 +81,30 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: function () {
     return {
       addForm: {},
-      options: [
-        {
-          value: "可乐",
-          label: "可乐",
-          children: [
-            { value: "1", label: "330ml" },
-            { value: "2", label: "550ml" },
-          ],
-        },
-        {
-          value: "雪碧",
-          label: "雪碧",
-          children: [{ value: "1", label: "330ml" }],
-        },
-      ],
-      rules: {
-        name_type: [
-          {
-            type: "array",
-            required: true,
-            message: "请输入要入库的名称及类型",
-            trigger: "blur",
-          },
-        ],
-        amount: [
-          {
-            type: "number",
-            min: 1,
-            required: true,
-            message: "请输要入库的数量(数字)",
-            trigger: "blur",
-          },
-        ],
-        price: [
-          {
-            min: 0,
-            type: "number",
-            required: true,
-            message: "请输入要入库的单价(数字)",
-            trigger: "blur",
-          },
-        ],
-        date: [
-          {
-            required: true,
-            message: "请输入要入库的日期",
-            trigger: "blur",
-          },
-        ],
-      },
     };
+  },
+  computed: {
+    ...mapState("store", ["storeOptions"]),
   },
   methods: {
     complete() {
-      console.log(this.addForm);
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.$message.success("添加成功");
-          console.log(this.addForm.name_type);
-          this.$emit(
-            "addRow",
-            Object.assign(
-              {
-                name: this.addForm.name_type[0],
-                type: this.addForm.name_type[1],
-                totalCost: this.addForm.amount * this.addForm.price,
-              },
-              this.addForm
-            )
-          );
+          this.$emit("addRow", {
+            stock_id: this.addForm.name_type[1],
+            name: this.addForm.name_type[0],
+            type: this.addForm.name_type[1],
+            price: this.addForm.price,
+            amount: this.addForm.amount,
+            updata_date: this.addForm.updata_date,
+            totalCost: this.addForm.amount * this.addForm.price,
+          });
           this.$emit("close");
         } else {
           this.$message.error("添加失败,请检查格式!");

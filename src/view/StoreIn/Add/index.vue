@@ -38,6 +38,7 @@ export default {
       this.addFormDailogVisible = true;
     },
     addRow(rwoData) {
+      console.log(rwoData);
       this.addData.push(rwoData);
     },
     removeRow(rowIndex, rowData) {

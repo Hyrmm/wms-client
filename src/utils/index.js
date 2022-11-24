@@ -27,11 +27,11 @@ export const formatOptions = (arr) => {
         if (cache[item.name]) {
             //有缓存
             let index = cache[item.name].index
-            options[index].children.push({ value: item.id, label: item.type })
+            options[index].children.push({ value: item.type, label: item.type, stock_id: item.id })
 
         } else {
             //首次推入数据以及记录位置
-            let index = options.push({ value: item.name, label: item.name, children: [{ value: item.id, label: item.type }] }) - 1
+            let index = options.push({ value: item.name, label: item.name, children: [{ value: item.type, label: item.type, stock_id: item.id }] }) - 1
             //记录缓存
             cache[item.name] = { name: item.name, index: index }
 

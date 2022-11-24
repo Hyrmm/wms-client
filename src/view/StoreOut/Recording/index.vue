@@ -7,7 +7,7 @@
       :typeFilter="true"
       @search="search"
     />
-    <Table :data="tabaleData.data" />
+    <Table :data="tabaleData.data" v-loading="tableLoading" />
     <PagiNation
       :total="tabaleData.total"
       :page-size="20"
@@ -26,20 +26,8 @@ export default {
   components: { Table, TableFilter, PagiNation },
   data: function () {
     return {
-      tabaleData: [
-        // {
-        //   id: 1,
-        //   name: "可乐",
-        //   type: "330ml",
-        //   price: 3.5,
-        //   amount: 100,
-        //   anotherFee: 350,
-        //   client: "韩先生",
-        //   status: "运输中",
-        //   transportOrder: "2020202000202002",
-        //   date: "2022-11-13 22:37",
-        // },
-      ],
+      tabaleData: {},
+      tableLoading: false,
       query: {
         type: "out_order",
         page: 1,
@@ -54,9 +42,8 @@ export default {
   },
   methods: {
     search: async function (payload) {
-
       //每次搜索前,重置当前页数为1
-      this.query.page = 1
+      this.query.page = 1;
       this.query.filter_name = payload.name ? payload.name : "";
       this.query.filter_type = payload.type ? payload.type : "";
       this.query.filter_date_start = payload.filter_date_start
@@ -68,10 +55,12 @@ export default {
       this.getTableData(this.query);
     },
     getTableData: async function (query) {
+      this.tableLoading = true;
       let res = await getStockRecording(query);
       if (res.data.status == 200) {
         this.tabaleData = res.data;
       }
+      this.tableLoading = false;
     },
     currentPageChange: function (curPage) {
       this.query.page = curPage;

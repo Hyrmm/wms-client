@@ -1,7 +1,7 @@
 <template>
   <div>
     <TableFilter size="mini" @search="search" :nameFilter="true" />
-    <Table :data="stock" />
+    <Table :data="stock" v-loading="tableLoading" />
     <el-divider></el-divider>
     <div class="control">
       <PagiNation
@@ -30,6 +30,7 @@ export default {
     return {
       dialogFromVisible: false,
       query: { name: "" },
+      tableLoading: false,
     };
   },
   computed: {
@@ -47,21 +48,49 @@ export default {
       this.dialogFromVisible = false;
     },
     search: function (payload) {
+      this.tableLoading = true;
       this.query.name = payload.name ? payload.name : "";
-      this.$store.dispatch("store/getStock", {
-        page: 1,
-        name: this.query.name,
-      });
+      this.$store
+        .dispatch("store/getStock", {
+          page: 1,
+          name: this.query.name,
+        })
+        .then(
+          (data) => {
+            this.tableLoading = false;
+          },
+          (error) => {
+            this.tableLoading = false;
+          }
+        );
     },
     currentPageChange: function (curPage) {
-      this.$store.dispatch("store/getStock", {
-        page: curPage,
-        name: this.query.name,
-      });
+      this.tableLoading = true;
+      this.$store
+        .dispatch("store/getStock", {
+          page: curPage,
+          name: this.query.name,
+        })
+        .then(
+          (data) => {
+            this.tableLoading = false;
+          },
+          (error) => {
+            this.tableLoading = false;
+          }
+        );
     },
   },
   mounted() {
-    this.$store.dispatch("store/getStock", { page: 1 });
+    this.tableLoading = true;
+    this.$store.dispatch("store/getStock", { page: 1 }).then(
+      (data) => {
+        this.tableLoading = false;
+      },
+      (error) => {
+        this.tableLoading = false;
+      }
+    );
   },
 };
 </script>

@@ -3,6 +3,11 @@
 </template>
 
 <script>
+export default {
+  mounted() {
+    this.$store.dispatch("store/getTransportStatusOptions");
+  },
+};
 </script>
 <style>
 * {

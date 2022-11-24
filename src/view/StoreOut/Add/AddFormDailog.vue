@@ -15,7 +15,7 @@
       <el-form-item label="名称/类型" prop="name_type">
         <el-cascader
           class="form-item"
-          :options="options"
+          :options="storeOptions"
           :props="{ expandTrigger: 'hover' }"
           v-model="addForm.name_type"
         ></el-cascader>
@@ -44,16 +44,24 @@
       <el-form-item label="客户" prop="client">
         <el-input
           class="el-input form-item"
-          v-model="addForm.client"
+          v-model="addForm.client_name"
           placeholder="客户"
         ></el-input>
       </el-form-item>
       <el-form-item label="订单状态" prop="status">
-        <el-input
-          class="el-input form-item"
-          v-model="addForm.status"
-          placeholder="订单状态"
-        ></el-input>
+        <el-select
+          v-model="addForm.transportStatus"
+          clearable
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in transportStatusOptions"
+            :key="item.id"
+            :label="item.status_name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="物流单号" prop="transportOrder">
         <el-input
@@ -62,7 +70,6 @@
           placeholder="物流单号"
         ></el-input>
       </el-form-item>
-
       <el-form-item label="日期" prop="date">
         <el-date-picker
           v-model="addForm.date"
@@ -83,25 +90,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: function () {
     return {
       addForm: {},
-      options: [
-        {
-          value: "可乐",
-          label: "可乐",
-          children: [
-            { value: "1", label: "330ml" },
-            { value: "2", label: "550ml" },
-          ],
-        },
-        {
-          value: "雪碧",
-          label: "雪碧",
-          children: [{ value: "1", label: "330ml" }],
-        },
-      ],
       rules: {
         name_type: [
           {
@@ -168,6 +161,9 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    ...mapState("store", ["storeOptions", "transportStatusOptions"]),
   },
   methods: {
     complete() {
