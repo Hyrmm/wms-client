@@ -46,8 +46,8 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
+      <el-table-column prop="nick" fixed="right" label="操作用户" width="100">
+        <!-- <template slot-scope="scope">
           <el-button type="text" size="big" @click="rowEditClick(scope.row)"
             >编辑</el-button
           >
@@ -58,7 +58,7 @@
             style="color: red"
             >删除</el-button
           >
-        </template>
+        </template> -->
       </el-table-column>
     </el-table>
     <EditDialogForm

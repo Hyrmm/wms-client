@@ -6,18 +6,19 @@
     text-color="#fff"
     active-text-color="#ffd04b"
     :router="true"
+
   >
     <el-menu-item index="/home/index">
-      <i class="el-icon-menu"></i>
+      <i class="el-icon-s-home"></i>
       <span slot="title">首页</span>
     </el-menu-item>
     <el-menu-item index="/home/store">
-      <i class="el-icon-menu"></i>
+      <i class="el-icon-box"></i>
       <span slot="title">库存</span>
     </el-menu-item>
     <el-submenu index="/home/storeIn">
       <template slot="title">
-        <i class="el-icon-location"></i>
+        <i class="el-icon-sell"></i>
         <span>入库</span>
       </template>
       <el-menu-item-group>
@@ -27,7 +28,7 @@
     </el-submenu>
     <el-submenu index="/home/storeOut">
       <template slot="title">
-        <i class="el-icon-location"></i>
+        <i class="el-icon-sold-out"></i>
         <span>出库</span>
       </template>
       <el-menu-item-group>
@@ -35,8 +36,6 @@
         <el-menu-item index="/home/storeOut/recording">出库记录</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-
-
     <el-menu-item index="/home/setting">
       <i class="el-icon-setting"></i>
       <span slot="title">设置</span>
@@ -47,11 +46,10 @@
 <script>
 export default {
   name: "Sidebar",
-  methods: {
-    handleOpen: function () {
-      this.$message("擦破");
-    },
-  },
+  methods: {},
+  mounted(){
+    console.log(this.$attrs)
+  }
 };
 </script>
 

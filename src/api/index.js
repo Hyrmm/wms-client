@@ -21,11 +21,9 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
-
     // 统一管理响应,不是正常返回数据,Message提示
-
     if (response.data.status != 200) {
-      App.$Message({
+      App.$message({
         message: response.data.msg,
         type: 'error',
         duration: 5 * 1000
@@ -35,19 +33,15 @@ service.interceptors.response.use(
     if (response.data.status == 401) {
       App.$router.replace({ name: 'login' })
     }
-
-
-
-
     return response
   },
 
 
 
-  error => {
-    console.log('err' + error)// for debug
-    Message({
-      message: error.message,
+  (error) => {
+    console.log('[响应拦截器]:' + error)// for debug
+    App.$message({
+      message: error,
       type: 'error',
       duration: 5 * 1000
     })

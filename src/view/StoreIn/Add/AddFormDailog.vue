@@ -45,7 +45,14 @@
           :options="storeOptions"
           :props="{ expandTrigger: 'hover' }"
           v-model="addForm.name_type"
-        ></el-cascader>
+          :children="addForm.type"
+        >
+          <!-- <template slot-scope="{ node, data }">
+            <span>{{ data.label }}</span>
+            <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+            <span>{{ (t = data) }}</span>
+          </template> -->
+        </el-cascader>
       </el-form-item>
       <el-form-item label="数量" prop="amount">
         <el-input
@@ -65,7 +72,7 @@
         <el-date-picker
           v-model="addForm.updata_date"
           type="date"
-          placeholder="选择日期"
+          placeholder="不填默认当前时间"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
           class="form-item"
@@ -81,28 +88,27 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { storeAddDailog } from "@/mixin";
+import { formatDate } from "@/utils";
 export default {
   data: function () {
-    return {
-      addForm: {},
-    };
+    return {};
   },
-  computed: {
-    ...mapState("store", ["storeOptions"]),
-  },
+  mixins: [storeAddDailog],
   methods: {
     complete() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.$message.success("添加成功");
           this.$emit("addRow", {
-            stock_id: this.addForm.name_type[1],
+            checked: true,
+            postStatus: "",
+            stock_id: this.stockId,
             name: this.addForm.name_type[0],
             type: this.addForm.name_type[1],
             price: this.addForm.price,
             amount: this.addForm.amount,
-            updata_date: this.addForm.updata_date,
+            updata_date: this.addForm.updata_date?this.addForm.updata_date:formatDate(new Date()),
             totalCost: this.addForm.amount * this.addForm.price,
           });
           this.$emit("close");
@@ -111,10 +117,7 @@ export default {
         }
       });
     },
-    closed() {
-      this.addForm = {};
-      this.$refs["form"].resetFields();
-    },
+
   },
 };
 </script>

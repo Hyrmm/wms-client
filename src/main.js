@@ -11,7 +11,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
 
-
+//echarts引入
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 
 

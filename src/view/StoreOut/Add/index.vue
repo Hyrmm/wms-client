@@ -14,7 +14,7 @@
         @click="addFormDailogOpen"
         >新增一条</el-button
       >
-      <el-button type="success" icon="el-icon-check" round>提交新增</el-button>
+      <el-button type="success" icon="el-icon-check" round @click="postRecording">提交选中</el-button>
     </div>
   </div>
 </template>
@@ -22,34 +22,17 @@
 <script>
 import Table from "./Table";
 import AddFormDailog from "./AddFormDailog";
+import { storeAddIndex } from "@/mixin";
 export default {
   components: { Table, AddFormDailog },
   data: function () {
-    return {
-      addData: [],
-      addFormDailogVisible: false,
-    };
+    return {};
   },
+  mixins: [storeAddIndex],
   methods: {
-    addFormDailogClose() {
-      this.addFormDailogVisible = false;
-    },
-    addFormDailogOpen() {
-      this.addFormDailogVisible = true;
-    },
-    addRow(rwoData) {
-      this.addData.push(rwoData);
-    },
-    removeRow(rowIndex, rowData) {
-      this.$confirm("是否确认执行删除操作?", "提示", {
-        type: "warning",
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-      }).then(() => {
-        this.addData.splice(rowIndex, 1);
-        this.$message.success("删除成功");
-      });
-    },
+    postRecording(){
+      this.post("outStore",["stock_id","price","amount","another_fee","client_name","transport_status","transport_order","updata_date"])
+    }
   },
 };
 </script>

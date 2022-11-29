@@ -10,11 +10,16 @@
         :current-page="current_page"
         @current-change="currentPageChange"
       />
-      <el-button type="primary" class="button" @click="showDialogFrom"
-        ><i class="el-icon-plus" style="font-size: 16px"></i>添加库存</el-button
+      <el-button type="primary" class="button" @click="addFormDailogOpen"
+        ><i class="el-icon-plus" style="font-size: 16px"></i>新增库存</el-button
       >
     </div>
-    <AddDialogForm :visible="dialogFromVisible" @close="closeDialogFrom" />
+    <AddDialogForm
+      :addData="addData"
+      :visible="addFormDailogVisible"
+      @close="addFormDailogClose"
+      @addStore="addStore"
+    />
   </div>
 </template>
 
@@ -24,15 +29,18 @@ import TableFilter from "@/components/TableFilter";
 import AddDialogForm from "./AddDialogForm";
 import Table from "./components/Table";
 import { mapState } from "vuex";
+import { storeAddIndex } from "@/mixin";
+import { addStore } from "@/api/store";
 export default {
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
     return {
-      dialogFromVisible: false,
+      addData: {},
       query: { name: "" },
       tableLoading: false,
     };
   },
+  mixins: [storeAddIndex],
   computed: {
     ...mapState("store", {
       stock: (state) => state.stock.data,
@@ -41,12 +49,6 @@ export default {
     }),
   },
   methods: {
-    showDialogFrom: function () {
-      this.dialogFromVisible = true;
-    },
-    closeDialogFrom: function () {
-      this.dialogFromVisible = false;
-    },
     search: function (payload) {
       this.tableLoading = true;
       this.query.name = payload.name ? payload.name : "";
@@ -79,6 +81,27 @@ export default {
             this.tableLoading = false;
           }
         );
+    },
+    reflash: function () {
+      this.tableLoading = true;
+      this.$store
+        .dispatch("store/getStock", { page: 1, name: this.query.name })
+        .then(
+          (data) => {
+            this.tableLoading = false;
+          },
+          (error) => {
+            this.tableLoading = false;
+          }
+        );
+    },
+    async addStore() {
+      let res = await addStore(this.addData);
+      if (res.data.status == 200) {
+        this.$message.success(res.data.msg);
+        this.addFormDailogVisible = false;
+        this.reflash();
+      }
     },
   },
   mounted() {

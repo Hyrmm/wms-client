@@ -80,7 +80,6 @@ const router = new Router({
                         title: "出库"
                     },
                     children: [{
-
                         path: "add",
                         name: "add",
                         component: () => import("@/view/StoreOut/Add"),
@@ -110,6 +109,12 @@ const router = new Router({
 
             ],
         },
+        {
+            path: "/agentFail",
+            name: "agentFail",
+            component: () => import("@/components/AgentFail"),
+
+        }
     ]
 })
 

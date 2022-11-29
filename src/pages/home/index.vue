@@ -1,13 +1,15 @@
 <template>
   <el-container class="warper">
     <el-header class="header" height="70px">
-      <div class="collapse-btn"><i class="el-icon-s-unfold"></i></div>
+      <div class="collapse-btn" @click="isCollapse = !isCollapse">
+        <i class="el-icon-s-unfold"></i>
+      </div>
       <div class="logo">库存后台管理系统</div>
       <div class="header-user-con">
         <el-avatar class="user-avatar"> user </el-avatar>
         <el-dropdown class="user-name">
           <span class="el-dropdown-link">
-            Admin<i class="el-icon-arrow-down el-icon--right"></i>
+            {{ nick }}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人中心</el-dropdown-item>
@@ -18,8 +20,7 @@
     </el-header>
     <el-container>
       <el-aside
-        style="background-color: #324157; overflow: hidden"
-        width="250px"
+        style="background-color: #324157; overflow: hidden; width: 150px"
       >
         <Sidebar class="sidebar-container" />
       </el-aside>
@@ -45,11 +46,23 @@
 
 <script>
 import { Sidebar, AppMain, MainHeader } from "./components";
+import { mapState } from "vuex";
 export default {
   components: { Sidebar, AppMain, MainHeader },
-  //初始化storeOptions
+  data: function () {
+    return {
+      isCollapse: false,
+    };
+  },
+  //初始化storeOptions,getTransportStatusOptions
   mounted() {
     this.$store.dispatch("store/getStoreOptions");
+    this.$store.dispatch("store/getTransportStatusOptions");
+  },
+  computed: {
+    ...mapState("user", {
+      nick: (state) => state.userInfo.nick,
+    }),
   },
 };
 </script>

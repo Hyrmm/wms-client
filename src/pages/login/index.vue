@@ -6,14 +6,14 @@
         :model="form"
         class="form"
         :rules="{
-          nick: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+          account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
           passward: [
             { required: true, message: '请输入密码', trigger: 'blur' },
           ],
         }"
       >
-        <el-form-item prop="nick" class="form-item">
-          <el-input v-model="form.nick" class="item-input">
+        <el-form-item prop="account" class="form-item">
+          <el-input v-model="form.account" class="item-input">
             <template slot="prepend"><i class="el-icon-user"></i></template>
           </el-input>
         </el-form-item>

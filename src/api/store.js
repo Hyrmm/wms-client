@@ -51,12 +51,23 @@ export const inStore = (data) => {
     )
 }
 //出库
-export const outStore = (query) => {
+export const outStore = (data) => {
     return request(
         {
-            url: "/store/inStore",
-            method: "poist",
-            params: query
+            url: "/store/outStore",
+            method: "post",
+            data: data
+        }
+    )
+}
+
+//新增库存
+export const addStore = (data) => {
+    return request(
+        {
+            url: "/store/addStore",
+            method: "post",
+            data: data
         }
     )
 }

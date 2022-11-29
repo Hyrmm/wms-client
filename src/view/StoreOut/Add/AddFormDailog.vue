@@ -41,16 +41,16 @@
           placeholder="单价"
         ></el-input>
       </el-form-item>
-      <el-form-item label="客户" prop="client">
+      <el-form-item label="客户" prop="clientName">
         <el-input
           class="el-input form-item"
-          v-model="addForm.client_name"
+          v-model="addForm.clientName"
           placeholder="客户"
         ></el-input>
       </el-form-item>
-      <el-form-item label="订单状态" prop="status">
+      <el-form-item label="订单状态" prop="transportStatusLabel">
         <el-select
-          v-model="addForm.transportStatus"
+          v-model="addForm.transportStatusLabel"
           clearable
           placeholder="请选择"
         >
@@ -58,7 +58,7 @@
             v-for="item in transportStatusOptions"
             :key="item.id"
             :label="item.status_name"
-            :value="item.id"
+            :value="item.status_name"
           >
           </el-option>
         </el-select>
@@ -70,11 +70,11 @@
           placeholder="物流单号"
         ></el-input>
       </el-form-item>
-      <el-form-item label="日期" prop="date">
+      <el-form-item label="日期" prop="updataDate">
         <el-date-picker
-          v-model="addForm.date"
+          v-model="addForm.updataDate"
           type="date"
-          placeholder="选择日期"
+          placeholder="不填默认当前时间"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
           class="form-item"
@@ -90,11 +90,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { storeAddDailog } from "@/mixin";
+import { formatDate } from "@/utils";
 export default {
   data: function () {
     return {
-      addForm: {},
       rules: {
         name_type: [
           {
@@ -131,14 +131,14 @@ export default {
             trigger: "blur",
           },
         ],
-        client: [
+        clientName: [
           {
             required: true,
             message: "请输入要入库的客户",
             trigger: "blur",
           },
         ],
-        status: [
+        transportStatusLabel: [
           {
             required: true,
             message: "请输入要入库的订单状态",
@@ -152,44 +152,46 @@ export default {
             trigger: "blur",
           },
         ],
-        date: [
-          {
-            required: true,
-            message: "请输入要入库的日期",
-            trigger: "blur",
-          },
-        ],
       },
     };
   },
+  mixins: [storeAddDailog],
   computed: {
-    ...mapState("store", ["storeOptions", "transportStatusOptions"]),
+    transportStatus() {
+      for (let item of this.transportStatusOptions) {
+        if (item.status_name == this.addForm.transportStatusLabel) {
+          return item.id;
+        }
+      }
+    },
   },
   methods: {
     complete() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.$message.success("添加成功");
-          console.log(this.addForm.name_type);
-          this.$emit(
-            "addRow",
-            Object.assign(
-              {
-                name: this.addForm.name_type[0],
-                type: this.addForm.name_type[1],
-              },
-              this.addForm
-            )
-          );
+          this.$emit("addRow", {
+            checked: true,
+            stock_id: this.stockId,
+            postStatus: "",
+            name: this.addForm.name_type[0],
+            type: this.addForm.name_type[1],
+            price: this.addForm.price,
+            amount: this.addForm.amount,
+            another_fee: this.addForm.anotherFee,
+            client_name: this.addForm.clientName,
+            transport_status_label: this.addForm.transportStatusLabel,
+            transport_status: this.transportStatus,
+            transport_order: this.addForm.transportOrder,
+            updata_date: this.addForm.updataDate
+              ? this.addForm.updataDate
+              : formatDate(new Date()),
+          });
           this.$emit("close");
         } else {
           this.$message.error("添加失败,请检查格式!");
         }
       });
-    },
-    closed() {
-      this.addForm = {};
-      this.$refs["form"].resetFields();
     },
   },
 };

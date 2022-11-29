@@ -1,15 +1,15 @@
 <template>
   <el-dialog title="添加库存" :visible="visible" @close="close">
-    <el-form :model="form" label-position="top" ref="addForm" :rules="rules">
+    <el-form :model="addData" label-position="top" ref="addForm" :rules="rules">
       <el-form-item label="商品名称" prop="name">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-input v-model="addData.name" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="商品类型" prop="type">
-        <el-input v-model="form.type" autocomplete="off"></el-input>
+        <el-input v-model="addData.type" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="库存数量">
         <el-input-number
-          v-model="form.amount"
+          v-model="addData.stock"
           controls-position="right"
           :min="1"
           :max="9999999"
@@ -18,9 +18,7 @@
     </el-form>
 
     <div slot="footer">
-      <el-button @click="complete('addForm')" type="primary"
-        >立即添加</el-button
-      >
+      <el-button @click="complete" type="primary">立即添加</el-button>
       <el-button @click="close">取消</el-button>
     </div>
   </el-dialog>
@@ -28,14 +26,9 @@
 
 <script>
 export default {
-  props: ["visible"],
+  props: ["visible","addData"],
   data: function () {
     return {
-      form: {
-        name: "",
-        type: "",
-        amount: 0,
-      },
       rules: {
         name: [
           {
@@ -57,23 +50,20 @@ export default {
   methods: {
     close: function () {
       // 清空历史表单、重置校验
-      this.form = {
-        name: "",
-        type: "",
-        amount: 0,
-      };
+      this.addData.name = "";
+      this.addData.stock = "";
+      this.addData.type = "";
       this.$refs["addForm"].resetFields();
       this.$emit("close");
     },
-    complete: function (formName) {
+    complete: function () {
       // 表单校验
-      this.$refs[formName].validate((valid) => {
+      this.$refs["addForm"].validate((valid) => {
         if (valid) {
           // 通过
-          this.$emit("close");
+          this.$emit("addStore");
         } else {
           this.$message.warning("请正确填写表单!");
-          return false;
         }
       });
     },

@@ -3,9 +3,13 @@
 </template>
 
 <script>
+import { userAgent } from "@/utils";
 export default {
   mounted() {
-    this.$store.dispatch("store/getTransportStatusOptions");
+    this.$store.dispatch("user/getUserInfo");
+    if (userAgent.versions.mobile) {
+      this.$router.replace({ name: "agentFail" });
+    }
   },
 };
 </script>
