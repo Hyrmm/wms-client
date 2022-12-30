@@ -1,18 +1,23 @@
 <template>
-  <div>
-    <TableFilter size="mini" @search="search" :nameFilter="true" />
-    <Table :data="stock" v-loading="tableLoading" />
-    <el-divider></el-divider>
+  <div class="warpper">
+    <div class="table-filter">
+      <TableFilter size="mini" @search="search" :nameFilter="true" />
+    </div>
+    <div class="table">
+      <Table :data="stock" v-loading="tableLoading" height="500" />
+    </div>
     <div class="control">
+      <el-button type="primary" class="button" @click="addFormDailogOpen"
+        ><i class="el-icon-plus" style="font-size: 16px"></i>新增库存</el-button
+      >
+    </div>
+    <div class="pagenation">
       <PagiNation
         :total="total"
         :page-size="20"
         :current-page="current_page"
         @current-change="currentPageChange"
       />
-      <el-button type="primary" class="button" @click="addFormDailogOpen"
-        ><i class="el-icon-plus" style="font-size: 16px"></i>新增库存</el-button
-      >
     </div>
     <AddDialogForm
       :addData="addData"
@@ -120,12 +125,44 @@ export default {
 
 
 <style lang="less" scoped>
-.control {
-  margin-top: 20px;
+.warpper {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  .button {
-    float: right;
+  .table-filter {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .table {
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .control {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: right;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+  }
+  .pagenation {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 12px;
+    overflow: hidden;
   }
 }
 </style>

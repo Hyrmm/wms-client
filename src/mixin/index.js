@@ -91,3 +91,7 @@ export const storeAddDailog = {
         },
     }
 }
+
+export const editableTable = {
+
+}

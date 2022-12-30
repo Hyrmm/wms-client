@@ -9,9 +9,20 @@
           </div>
           <div class="right">
             <div class="amount">
-              <span>12,559</span>
+              <span>{{ totalStock }}</span>
             </div>
             <div class="title">总库存</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left" style="background-color: #e6a23c">
+            <i class="el-icon-user"></i>
+          </div>
+          <div class="right">
+            <div class="amount" style="color: #e6a23c">
+              <span>{{ totalClient }}</span>
+            </div>
+            <div class="title">总客户</div>
           </div>
         </div>
         <div class="grid-content">
@@ -20,9 +31,9 @@
           </div>
           <div class="right">
             <div class="amount" style="color: #64d572">
-              <span>203,369</span>
+              <span>{{ totalInorder }}</span>
             </div>
-            <div class="title">出库记录</div>
+            <div class="title">入库记录</div>
           </div>
         </div>
         <div class="grid-content">
@@ -31,109 +42,44 @@
           </div>
           <div class="right">
             <div class="amount" style="color: #f25e43">
-              <span>5,959</span>
+              <span>{{ totaloutOrder }}</span>
             </div>
             <div class="title">出库记录</div>
           </div>
         </div>
       </div>
-      <div class="wp">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>待办事项</span>
-          </div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{ "列表内容 " + o }}
-          </div>
-        </el-card>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>待订单统计</span>
-          </div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{ "列表内容 " + o }}
-          </div>
-        </el-card>
-      </div>
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>图表</span>
-        </div>
-        <div style="height: 300px; width: 100%" ref="echarts"></div>
-        <div style="height: 300px; width: 100%" ref="zx"></div>
-        <div style="height: 300px; width: 100%" ref="bt"></div>
-      </el-card>
+      <Sales />
+      <Order />
+      <Store />
     </div>
   </div>
 </template>
 
 <script>
+import { formatAmount } from "@/utils";
+import { mapState } from "vuex";
+import Store from "./Store";
+import Order from "./Order";
+import Sales from "./Sales";
+
 export default {
-  mounted() {
-    var myZx = this.$echarts.init(this.$refs["zx"]);
-    var myChart = this.$echarts.init(this.$refs["echarts"]);
-    var myBt = this.$echarts.init(this.$refs["bt"]);
-    let option = {
-      title: {
-        text: "树状图",
-      },
-      xAxis: {
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      },
-      yAxis: {},
-      series: [
-        {
-          type: "bar",
-          data: [23, 24, 18, 25, 27, 28, 25],
-        },
-      ],
+  components: { Store, Order, Sales },
+  data() {
+    return {
+      dataVisual: {},
     };
-    let zx = {
-      title: {
-        text: "折线图",
-      },
-      xAxis: {
-        type: "category",
-        data: ["A", "B", "C"],
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          data: [120, 200, 150],
-          type: "line",
-        },
-      ],
-    };
-    var bt = {
-      title: {
-        text: "饼图",
-      },
-      series: [
-        {
-          type: "pie",
-          data: [
-            {
-              value: 335,
-              name: "直接访问",
-            },
-            {
-              value: 234,
-              name: "联盟广告",
-            },
-            {
-              value: 1548,
-              name: "搜索引擎",
-            },
-          ],
-        },
-      ],
-    };
-    myChart.setOption(option);
-    myZx.setOption(zx);
-    myBt.setOption(bt);
   },
+
+  computed: {
+    ...mapState("dataVisual", {
+      totalStock: (state) => formatAmount(state.commonInfo.total_stocks),
+      totalClient: (state) => formatAmount(state.commonInfo.total_client),
+      totalInorder: (state) => formatAmount(state.commonInfo.total_inOrder),
+      totaloutOrder: (state) => formatAmount(state.commonInfo.total_outOrder),
+    }),
+  },
+  methods: {},
+  mounted() {},
 };
 </script>
 

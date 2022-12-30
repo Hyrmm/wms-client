@@ -28,7 +28,7 @@
         <el-header>
           <MainHeader />
         </el-header>
-        <el-main>
+        <el-main class="main">
           <AppMain />
         </el-main>
       </el-container>
@@ -39,6 +39,7 @@
 <style lang="less" scoped>
 .warper {
   height: 100vh;
+  box-sizing: border-box;
 }
 </style>
 
@@ -54,10 +55,17 @@ export default {
       isCollapse: false,
     };
   },
-  //初始化storeOptions,getTransportStatusOptions
+  //初始化storeOptions,getTransportStatusOptions,clientOptions
   mounted() {
     this.$store.dispatch("store/getStoreOptions");
     this.$store.dispatch("store/getTransportStatusOptions");
+    this.$store.dispatch("client/getClientOptions");
+    this.$store.dispatch("dataVisual/getCommonInfo");
+    this.$store.dispatch("dataVisual/getStoreInfo");
+    this.$store.dispatch("dataVisual/getYearFinishOrder", { year: 2022 });
+    this.$store.dispatch("dataVisual/getSalesInfo", {
+      year: 2022,
+    });
   },
   computed: {
     ...mapState("user", {
@@ -68,6 +76,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main {
+  background-color: #f2f6fc;
+}
 .header {
   background-color: #242f42;
   position: relative;

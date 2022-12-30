@@ -27,7 +27,7 @@ export const getTransportStatusOptions = (query) => {
         }
     )
 }
-//查询出入口记录
+//查询出入库记录
 export const getStockRecording = (query) => {
     return request(
         {
@@ -71,7 +71,16 @@ export const addStore = (data) => {
         }
     )
 }
-
+//变更出库订单状态
+export const modifyOutStoreStatus = (data) => {
+    return request(
+        {
+            url: "/store/modifyOutStoreStatus",
+            method: "post",
+            data: data
+        }
+    )
+}
 
 
 

@@ -15,7 +15,7 @@
       <el-table-column prop="price" label="单价" width="80"></el-table-column>
       <el-table-column
         prop="another_fee"
-        label="费用"
+        label="总成本"
         width="80"
       ></el-table-column>
       <el-table-column
@@ -42,12 +42,12 @@
       <el-table-column prop="postStatus" label="状态" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.postStatus == 'success'" style="color: #67c23a"
-            >入库成功</span
+            >出库成功</span
           >
           <span
             v-else-if="scope.row.postStatus == 'fail'"
             style="color: #f56c6c"
-            >入库失败</span
+            >出库失败</span
           >
           <span v-else style="color: #e6a23c">待提交</span>
         </template>

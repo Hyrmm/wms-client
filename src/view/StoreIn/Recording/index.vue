@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <TableFilter
-      size="mini"
-      :dateFilter="true"
-      :nameFilter="true"
-      :typeFilter="true"
-      @search="search"
-     
-    />
-    <Table :data="tabaleData.data"  v-loading="tableLoading"/>
-    <PagiNation
-      :total="tabaleData.total"
-      :page-size="20"
-      :current-page="tabaleData.current_page"
-      @current-change="currentPageChange"
-    />
+  <div class="warpper">
+    <div class="table-filter">
+      <TableFilter
+        size="mini"
+        :dateFilter="true"
+        :nameFilter="true"
+        :typeFilter="true"
+        @search="search"
+      />
+    </div>
+    <div class="table">
+      <Table :data="tabaleData.data" v-loading="tableLoading" height="500"/>
+    </div>
+    <div class="pagenation">
+      <PagiNation
+        :total="tabaleData.total"
+        :page-size="20"
+        :current-page="tabaleData.current_page"
+        @current-change="currentPageChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -32,7 +37,7 @@ export default {
         type: "in_order",
         page: 1,
         order_by: "id",
-        direction: "ASC",
+        direction: "DESC",
         filter_name: "",
         filter_date_start: "",
         filter_date_end: "",
@@ -50,7 +55,7 @@ export default {
       this.query.filter_date_start = payload.filter_date_start
         ? payload.filter_date_start
         : "";
-      this.query.filter_date_start = payload.filter_date_end
+      this.query.filter_date_end = payload.filter_date_end
         ? payload.filter_date_end
         : "";
       this.getTableData(this.query);
@@ -74,5 +79,45 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.warpper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .table-filter {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .table {
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+    flex: 1;
+  }
+  .control {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: right;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+  }
+  .pagenation {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 12px;
+    overflow: hidden;
+  }
+}
 </style>

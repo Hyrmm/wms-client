@@ -88,14 +88,47 @@ const router = new Router({
                         }
                     },
                     {
-
                         path: "recording",
                         name: "recording",
                         component: () => import("@/view/StoreOut/Recording"),
                         meta: {
                             title: "出库记录"
                         }
-                    }
+                    },
+                    {
+                        path: "modify",
+                        name: "modify",
+                        component: () => import("@/view/StoreOut/Modify"),
+                        meta: {
+                            title: "订单状态"
+                        }
+                    },
+                    ]
+                },
+                {
+                    path: "client",
+                    name: "client",
+                    component: () => import("@/view/Client"),
+                    meta: {
+                        title: "客户"
+                    },
+                    children: [
+                        {
+                            path: "add",
+                            name: "add",
+                            component: () => import("@/view/Client/Add"),
+                            meta: {
+                                title: "新增客户"
+                            },
+                        },
+                        {
+                            path: "modify",
+                            name: "modify",
+                            component: () => import("@/view/Client/Modify"),
+                            meta: {
+                                title: "修改客户"
+                            },
+                        }
                     ]
                 },
                 {

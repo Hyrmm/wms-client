@@ -40,6 +40,9 @@ export const formatOptions = (arr) => {
     return options
 }
 
+export const formatAmount = (num) => {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+}
 //设备检测
 
 
