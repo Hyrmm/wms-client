@@ -2,7 +2,7 @@
  * @Author: Hyrm 1358188945@qq.com
  * @Date: 2022-11-11 11:25:40
  * @LastEditors: Hyrm 1358188945@qq.com
- * @LastEditTime: 2023-01-01 00:37:54
+ * @LastEditTime: 2023-02-05 17:05:40
  * @FilePath: \wms-client\src\api\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,11 +14,13 @@ import App from "@/main"
 
 //环境
 let baseURL
+
 if (process.env.NODE_ENV == "online") {
   baseURL = "http://43.138.122.88:5000/api"
 } else {
   baseURL = "http://127.0.0.1:5000/api"
 }
+
 
 const service = axios.create({
   baseURL

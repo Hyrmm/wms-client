@@ -1,5 +1,5 @@
 <template>
-  <div  class="warpper">
+  <div class="warpper">
     <div class="table"><Table :data="addData" @removeRow="removeRow" /></div>
     <AddFormDailog
       :visible="addFormDailogVisible"

@@ -1,10 +1,33 @@
 <template>
   <div>
-    <el-table v-bind="$attrs" :stripe="true" style="width: 100%" >
+    <el-table v-bind="$attrs" :stripe="true" style="width: 100%">
       <el-table-column prop="index" label="#" width="100"> </el-table-column>
-      <el-table-column prop="name" label="名称"> </el-table-column>
-      <el-table-column prop="type" label="类型"> </el-table-column>
+      <el-table-column prop="name" label="名称">
+        <template slot-scope="scope">
+          <el-input
+            v-if="scope.row.isEdit"
+            v-model="scope.row.tempName"
+          ></el-input>
+          <div v-else>{{ scope.row.name }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="type" label="类型">
+        <template slot-scope="scope">
+          <el-input
+            v-if="scope.row.isEdit"
+            v-model="scope.row.tempType"
+          ></el-input>
+          <div v-else>{{ scope.row.type }}</div>
+        </template>
+      </el-table-column>
       <el-table-column prop="stock" label="库存" width="100" :sortable="true">
+        <template slot-scope="scope">
+          <el-input
+            v-if="scope.row.isEdit"
+            v-model="scope.row.tempStock"
+          ></el-input>
+          <div v-else>{{ scope.row.stock }}</div>
+        </template>
       </el-table-column>
       <el-table-column
         prop="last_updata"
@@ -19,34 +42,49 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="text" size="big" @click="rowEditClick(scope.row)"
+          <el-button
+            v-if="!scope.row.isEdit"
+            type="primary"
+            class="edit-btn"
+            icon="el-icon-edit"
+            @click="$emit('editRow', scope.row)"
             >编辑</el-button
           >
           <el-button
-            type="text"
-            size="big"
-            @click="rowRemoveClick(scope.row)"
-            style="color: red"
+            v-if="!scope.row.isEdit"
+            type="danger"
+            class="edit-btn"
+            icon="el-icon-delete"
+            @click="$emit('delRow', scope.row)"
             >删除</el-button
+          >
+          <el-button
+            v-if="scope.row.isEdit"
+            type="success"
+            class="edit-btn"
+            icon="el-icon-circle-check"
+            @click="$emit('saveRow', scope.row)"
+            >保存</el-button
+          >
+          <el-button
+            v-if="scope.row.isEdit"
+            type="danger"
+            class="edit-btn"
+            icon="el-icon-delete"
+            @click="$emit('cancleRow', scope.row)"
+            >取消</el-button
           >
         </template>
       </el-table-column>
     </el-table>
-    <EditDialogForm
-      @close="closeDialogFrom"
-      :visible="dialogFromVisible"
-      :editData="editData"
-    />
   </div>
 </template>
 
 <script>
-import EditDialogForm from "./EditDialogForm";
 import { formatDate } from "@/utils";
 export default {
-  components: { EditDialogForm },
   data: function () {
     return {
       dialogFromVisible: false,
@@ -72,5 +110,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.edit-btn {
+  padding: 4px 8px;
+}
 </style>

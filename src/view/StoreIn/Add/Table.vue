@@ -22,7 +22,7 @@
       <el-table-column prop="updata_date" label="日期" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left:10px">{{ scope.row.updata_date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.updata_date }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="postStatus" label="状态" width="100">
@@ -37,6 +37,8 @@
           >
           <span v-else style="color: #e6a23c">待提交</span>
         </template>
+      </el-table-column>
+      <el-table-column prop="postType" label="入库类型" width="100">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">

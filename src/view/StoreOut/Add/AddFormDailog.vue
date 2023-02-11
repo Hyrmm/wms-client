@@ -1,98 +1,100 @@
 <template>
   <el-dialog
-    title="添加库存"
+    title="添加出库"
     v-bind="$attrs"
     v-on="$listeners"
     @closed="closed"
   >
-    <el-form
-      :model="addForm"
-      label-position="left"
-      label-width="100px"
-      :rules="rules"
-      ref="form"
-    >
-      <el-form-item label="名称/类型" prop="name_type">
-        <el-cascader
-          class="form-item"
-          :options="storeOptions"
-          :props="{ expandTrigger: 'hover' }"
-          v-model="addForm.name_type"
-        ></el-cascader>
-      </el-form-item>
-      <el-form-item label="数量" prop="amount">
-        <el-input
-          class="form-item"
-          v-model.number="addForm.amount"
-          placeholder="数量"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="单价" prop="price">
-        <el-input
-          class="el-input form-item"
-          v-model.number="addForm.price"
-          placeholder="单价"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="总成本" prop="anotherFee">
-        <el-input
-          class="el-input form-item"
-          v-model.number="addForm.anotherFee"
-          placeholder="单个成本"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="客户" prop="clientName">
-        <!-- <el-input
+    <div class="container">
+      <el-form
+        :model="addForm"
+        label-position="left"
+        label-width="100px"
+        :rules="rules"
+        ref="form"
+      >
+        <el-form-item label="名称/类型" prop="name_type">
+          <el-cascader
+            class="form-item"
+            :options="storeOptions"
+            :props="{ expandTrigger: 'hover' }"
+            v-model="addForm.name_type"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="数量" prop="amount">
+          <el-input
+            class="form-item"
+            v-model.number="addForm.amount"
+            placeholder="数量"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="单价" prop="price">
+          <el-input
+            class="el-input form-item"
+            v-model.number="addForm.price"
+            placeholder="单价"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="总成本" prop="anotherFee">
+          <el-input
+            class="el-input form-item"
+            v-model.number="addForm.anotherFee"
+            placeholder="单个成本"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="客户" prop="clientName">
+          <!-- <el-input
           class="el-input form-item"
           v-model="addForm.clientName"
           placeholder="客户"
         ></el-input> -->
-        <el-autocomplete
-          class="inline-input"
-          v-model="addForm.clientName"
-          :fetch-suggestions="querySearch"
-          placeholder="客户姓名"
-          :trigger-on-focus="false"
-          @select="handleSelect"
-        ></el-autocomplete>
-      </el-form-item>
-      <el-form-item label="订单状态" prop="transportStatusLabel">
-        <el-select
-          v-model="addForm.transportStatusLabel"
-          clearable
-          placeholder="请选择"
-        >
-          <el-option
-            v-for="item in transportStatusOptions"
-            :key="item.id"
-            :label="item.status_name"
-            :value="item.status_name"
+          <el-autocomplete
+            class="inline-input"
+            v-model="addForm.clientName"
+            :fetch-suggestions="querySearch"
+            placeholder="客户姓名"
+            :trigger-on-focus="false"
+            @select="handleSelect"
+          ></el-autocomplete>
+        </el-form-item>
+        <el-form-item label="订单状态" prop="transportStatusLabel">
+          <el-select
+            v-model="addForm.transportStatusLabel"
+            clearable
+            placeholder="请选择"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="物流单号" prop="transportOrder">
-        <el-input
-          class="el-input form-item"
-          v-model="addForm.transportOrder"
-          placeholder="物流单号"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="出库日期" prop="updataDate">
-        <el-date-picker
-          v-model="addForm.updataDate"
-          type="date"
-          placeholder="不填默认当前时间"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          class="form-item"
-        >
-        </el-date-picker>
-      </el-form-item>
-    </el-form>
-    <div slot="footer">
-      <el-button @click="complete" type="primary">立即添加</el-button>
-      <el-button @click="$emit('close')">取消</el-button>
+            <el-option
+              v-for="item in transportStatusOptions"
+              :key="item.id"
+              :label="item.status_name"
+              :value="item.status_name"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="物流单号" prop="transportOrder">
+          <el-input
+            class="el-input form-item"
+            v-model="addForm.transportOrder"
+            placeholder="物流单号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="出库日期" prop="updataDate">
+          <el-date-picker
+            v-model="addForm.updataDate"
+            type="date"
+            placeholder="不填默认当前时间"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            class="form-item"
+          >
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="complete" type="primary">立即添加</el-button>
+        <el-button @click="$emit('close')">取消</el-button>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -153,7 +155,7 @@ export default {
             message: "请输入要入库的订单状态",
             trigger: "blur",
           },
-        ]
+        ],
       },
     };
   },
@@ -228,5 +230,8 @@ export default {
 }
 .form-item {
   margin-right: 25px;
+}
+.container {
+  padding: 10px 10px;
 }
 </style>

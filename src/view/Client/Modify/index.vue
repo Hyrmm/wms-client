@@ -73,6 +73,9 @@ export default {
     //编辑表格方法
     editRow(rowData) {
       rowData.isEdit = true;
+      rowData.tempName = rowData.name;
+      rowData.tempTel = rowData.tel;
+      rowData.tempAddress = rowData.address;
     },
     cancleRow(rowData) {
       rowData.isEdit = false;

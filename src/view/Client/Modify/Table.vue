@@ -1,10 +1,6 @@
 <template>
   <el-table style="width: 100%" v-bind="$attrs">
-    <el-table-column
-      prop="index"
-      label="#"
-      width="60"
-    ></el-table-column>
+    <el-table-column prop="index" label="#" width="60"></el-table-column>
     <el-table-column prop="name" label="姓名" width="180">
       <template slot-scope="scope">
         <el-input

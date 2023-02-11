@@ -4,7 +4,15 @@
       <TableFilter size="mini" @search="search" :nameFilter="true" />
     </div>
     <div class="table">
-      <Table :data="stock" v-loading="tableLoading" height="500" />
+      <Table
+        :data="stock"
+        v-loading="tableLoading"
+        height="500"
+        @editRow="editRow"
+        @saveRow="saveRow"
+        @cancleRow="cancleRow"
+        @delRow="delRow"
+      />
     </div>
     <div class="control">
       <el-button type="primary" class="button" @click="addFormDailogOpen"
@@ -40,7 +48,9 @@ export default {
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
     return {
-      addData: {},
+      addData: {
+        stock: 0,
+      },
       query: { name: "" },
       tableLoading: false,
     };
@@ -107,6 +117,24 @@ export default {
         this.addFormDailogVisible = false;
         this.reflash();
       }
+    },
+    editRow(rowData) {
+      if (rowData.isEdit == undefined) {
+        this.$set(rowData, "isEdit", true);
+        this.$set(rowData, "tempName", rowData.name);
+        this.$set(rowData, "tempType", rowData.type);
+        this.$set(rowData, "tempStock", rowData.stock);
+      } else {
+        rowData.isEdit = true;
+        rowData.tempName = rowData.name;
+        rowData.tempType = rowData.type;
+        rowData.tempStock = rowData.stock;
+      }
+    },
+    saveRow(rowData) {},
+    delRow(rowData) {},
+    cancleRow(rowData) {
+      rowData.isEdit = false;
     },
   },
   mounted() {
