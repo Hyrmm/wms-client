@@ -11,7 +11,7 @@
         label-position="left"
         label-width="100px"
         :rules="rulesIn"
-        ref="inForm"
+        ref="form"
       >
         <el-form-item label="名称/类型" prop="name_type">
           <el-cascader
@@ -101,7 +101,7 @@ export default {
   mixins: [storeAddDailog],
   methods: {
     complete() {
-      this.$refs["inForm"].validate((valid) => {
+      this.$refs["form"].validate((valid) => {
         if (valid) {
           this.$message.success("添加成功");
           this.$emit("addRow", {

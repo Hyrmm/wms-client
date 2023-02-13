@@ -43,7 +43,7 @@ import AddDialogForm from "./AddDialogForm";
 import Table from "./components/Table";
 import { mapState } from "vuex";
 import { storeAddIndex } from "@/mixin";
-import { addStore } from "@/api/store";
+import { addStore, editStore, delStore } from "@/api/store";
 export default {
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
@@ -115,7 +115,10 @@ export default {
       if (res.data.status == 200) {
         this.$message.success(res.data.msg);
         this.addFormDailogVisible = false;
+        //刷新库存
         this.reflash();
+        //跟新库存可选项
+        this.$store.dispatch("store/getStoreOptions");
       }
     },
     editRow(rowData) {
@@ -131,10 +134,50 @@ export default {
         rowData.tempStock = rowData.stock;
       }
     },
-    saveRow(rowData) {},
-    delRow(rowData) {},
     cancleRow(rowData) {
       rowData.isEdit = false;
+    },
+    async saveRow(rowData) {
+      //提交更改到服务器,拦截是否有信息被改变 节流
+      console.log(rowData);
+      if (
+        rowData.name != rowData.tempName ||
+        rowData.type != rowData.tempType ||
+        rowData.stock != rowData.tempStock
+      ) {
+        let res = await editStore({
+          stockId: rowData.id,
+          name: rowData.tempName,
+          type: rowData.tempType,
+          stock: rowData.tempStock,
+        });
+        if (res.data.status == 200) {
+          //更新数据
+          rowData.name = rowData.tempName;
+          rowData.type = rowData.tempType;
+          rowData.stock = rowData.tempStock;
+          this.$message.success("修改成功");
+          //跟新库存可选项
+          this.$store.dispatch("store/getStoreOptions");
+          rowData.isEdit = false;
+        }
+      } else {
+        rowData.isEdit = false;
+      }
+    },
+    async delRow(rowData) {
+      this.$confirm("是否确认执行删除操作?", "提示", {
+        type: "warning",
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+      }).then(async () => {
+        let res = await delStore({ stockId: rowData.id });
+        if (res.data.status == 200) {
+          //刷新
+          this.reflash();
+          this.$message.success("删除成功");
+        }
+      });
     },
   },
   mounted() {

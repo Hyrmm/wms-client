@@ -81,8 +81,21 @@ export const addStore = (data) => {
 }
 
 //修改库存
-
-
+export const editStore = (data) => {
+    return request({
+        url: "/store/editStore",
+        method: "post",
+        data: data
+    })
+}
+//删除库存
+export const delStore = (data) => {
+    return request({
+        url: "/store/delStore",
+        method: "post",
+        data: data
+    })
+}
 
 
 //变更出库订单状态
