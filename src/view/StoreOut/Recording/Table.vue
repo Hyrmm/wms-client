@@ -67,7 +67,7 @@
       <el-table-column
         v-if="displayField.transport_order"
         prop="transport_order"
-        label="物流单号"
+        label="备注"
         width="320"
       ></el-table-column>
       <el-table-column

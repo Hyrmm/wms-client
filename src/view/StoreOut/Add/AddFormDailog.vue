@@ -72,11 +72,11 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="物流单号" prop="transportOrder">
+        <el-form-item label="备注" prop="transportOrder">
           <el-input
             class="el-input form-item"
             v-model="addForm.transportOrder"
-            placeholder="物流单号"
+            placeholder="备注"
           ></el-input>
         </el-form-item>
         <el-form-item label="出库日期" prop="updataDate">

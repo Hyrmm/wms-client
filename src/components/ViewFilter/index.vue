@@ -94,7 +94,7 @@ export default {
         {
           id: 11,
           label: "transport_order",
-          title: "物流单号",
+          title: "备注",
           isDisplay: this.transport_order,
         },
         {

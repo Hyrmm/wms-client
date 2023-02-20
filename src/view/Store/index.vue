@@ -100,7 +100,10 @@ export default {
     reflash: function () {
       this.tableLoading = true;
       this.$store
-        .dispatch("store/getStock", { page: 1, name: this.query.name })
+        .dispatch("store/getStock", {
+          page: this.current_page,
+          name: this.query.name,
+        })
         .then(
           (data) => {
             this.tableLoading = false;

@@ -52,8 +52,7 @@
 - :white_check_mark:数据可视化展示
 - :white_check_mark:基于Axios请求、响应拦截控制、统一管理请求
 - :white_check_mark:基于Vuex统一管理可复用、复杂的的状态数据
-
-- :x:面包屑、组件缓存
+- :white_check_mark:包屑、组件缓存、全局记录缓存
 - :x:依赖用户权限动态生成路由、导航栏
 - :x:响应式布局
 - 未完待续..

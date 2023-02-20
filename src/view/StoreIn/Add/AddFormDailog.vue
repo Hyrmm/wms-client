@@ -103,7 +103,6 @@ export default {
     complete() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.$message.success("添加成功");
           this.$emit("addRow", {
             checked: true,
             postStatus: "",
@@ -116,7 +115,6 @@ export default {
               ? this.addForm.updata_date
               : formatDate(new Date()),
             totalCost: this.addForm.amount * this.addForm.price,
-            postType: "入库",
           });
           this.$emit("close");
         } else {
