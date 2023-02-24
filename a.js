@@ -1,1 +1,0 @@
-rpm -ivh mysql-community-common-5.7.31-1.el6.x86_64.rpm mysql-community-libs-5.7.31-1.el6.x86_64.rpm mysql-community-client-5.7.31-1.el6.x86_64.rpm mysql-community-server-5.7.31-1.el6.x86_64.rpm
