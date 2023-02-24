@@ -25,7 +25,7 @@
         <Sidebar class="sidebar-container" />
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header height="100px">
           <MainHeader />
         </el-header>
         <el-main class="main">

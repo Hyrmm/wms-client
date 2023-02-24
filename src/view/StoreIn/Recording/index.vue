@@ -10,7 +10,7 @@
       />
     </div>
     <div class="table">
-      <Table :data="tabaleData.data" v-loading="tableLoading" height="500"/>
+      <Table :data="tabaleData.data" v-loading="tableLoading" height="500" />
     </div>
     <div class="pagenation">
       <PagiNation
@@ -29,6 +29,7 @@ import TableFilter from "@/components/TableFilter";
 import PagiNation from "@/components/PagiNation";
 import { getStockRecording } from "@/api/store";
 export default {
+  name: "recordingStore",
   components: { Table, TableFilter, PagiNation },
   data: function () {
     return {

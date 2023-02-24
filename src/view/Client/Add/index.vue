@@ -2,61 +2,118 @@
   <div class="warpper">
     <div class="table">
       <Table
-        height="500"
-        :data="tableData"
+        :data="addClientCache"
         @cancleRow="cancleRow"
         @editRow="editRow"
         @saveRow="saveRow"
+        @delRow="delRow"
       />
     </div>
     <div class="control">
-      <el-button icon="el-icon-plus" round type="primary" @click="addRow"
+      <el-button icon="el-icon-plus" type="primary" @click="addFormDailogOpen"
         >新增一条</el-button
       >
+      <el-button @click="postRecording" type="success" icon="el-icon-check"
+        >提交选中</el-button
+      >
     </div>
+    <AddFormDailog
+      :visible="addFormDailogVisible"
+      @close="addFormDailogClose"
+      @addRow="addRow"
+    />
   </div>
 </template>
 
 <script>
 import Table from "./Table";
+import AddFormDailog from "./AddFormDailog";
 import { addClient } from "@/api/client";
+import { mapState, mapMutations } from "vuex";
 export default {
+  name: "addClient",
   data: function () {
     return {
       tableData: [],
+      addFormDailogVisible: false,
     };
   },
-  components: { Table },
+  components: { Table, AddFormDailog },
+  computed: {
+    ...mapState("cache", ["addClientCache"]),
+  },
   methods: {
-    addRow() {
-      this.tableData.push({
-        name: "",
-        tel: "",
-        address: "",
-        isEdit: true,
-        isSaved: false,
-      });
+    addFormDailogOpen() {
+      this.addFormDailogVisible = true;
     },
-    editRow(rwoData) {
-      rwoData.isEdit = true;
+    addFormDailogClose() {
+      this.addFormDailogVisible = false;
+    },
+    addRow(rowData) {
+      this.updata_addClientCache(rowData);
+    },
+    editRow(rowData) {
+      if (rowData.isEdit == undefined) {
+        this.$set(rowData, "isEdit", true);
+        this.$set(rowData, "tempName", rowData.name);
+        this.$set(rowData, "tempPhone", rowData.phone);
+        this.$set(rowData, "tempAddress", rowData.address);
+      } else {
+        rowData.isEdit = true;
+        rowData.tempName = rowData.name;
+        rowData.tempPhone = rowData.phone;
+        rowData.tempAddress = rowData.address;
+      }
     },
     cancleRow(rwoData) {
       rwoData.isEdit = false;
     },
-    async saveRow(rowData) {
-      //验证为空
-      if (!(rowData.name && rowData.tel && rowData.address)) {
-        return this.$message.error("提交内容不可为空!");
+    delRow(rowIndex) {
+      this.$confirm("是否确认执行删除操作?", "提示", {
+        type: "warning",
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+      }).then(() => {
+        this.del_addClientCache({ index: rowIndex });
+        this.$message.success("删除成功");
+      });
+    },
+    saveRow(rowData) {
+      rowData.name = rowData.tempName;
+      rowData.phone = rowData.tempPhone;
+      rowData.address = rowData.tempAddress;
+      rowData.isEdit = false;
+    },
+    postRecording() {
+      this.post();
+    },
+    async post() {
+      let finishCache = [];
+      for await (let row of this.addClientCache) {
+        if (row.checked) {
+          try {
+            let res = await addClient({
+              name: row.name,
+              tel: row.phone,
+              address: row.address,
+            });
+            if (res.data.status == 200) {
+              finishCache.push(row);
+              row.postStatus = "success";
+            } else {
+              row.postStatus = "fail";
+            }
+          } catch {
+            row.postStatus = "fail";
+          }
+        }
       }
-      let res = await addClient(rowData);
-      if (res.data.status == 200) {
-        //修改成功,修正页面数据且更新getClientOptions
-        this.$store.dispatch("client/getClientOptions");
-        this.$message.success(res.data.msg);
-        rowData.isSaved = true;
-        rowData.isEdit = false;
+      //移除已完成的缓存的记录
+      for (let item of finishCache) {
+        this.del_addClientCache({ index: this.addClientCache.indexOf(item) });
       }
     },
+    ...mapMutations("cache", ["updata_addClientCache", "del_addClientCache"]),
   },
   mounted() {},
 };

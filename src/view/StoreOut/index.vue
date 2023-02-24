@@ -1,10 +1,17 @@
 <template>
-  <router-view></router-view>
+  <keep-alive :include="cacheView">
+    <router-view></router-view>
+  </keep-alive>
 </template>
 
 <script>
-
-export default {};
+import { mapState } from "vuex";
+export default {
+  name: "storeOut",
+  computed: {
+    ...mapState("cache", ["cacheView"]),
+  },
+};
 </script>
 
 <style>

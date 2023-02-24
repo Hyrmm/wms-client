@@ -32,6 +32,7 @@ import TableFilter from "@/components/TableFilter";
 import PageNation from "@/components/PagiNation";
 import { getClient, modifyClient, delClient } from "@/api/client";
 export default {
+  name: "modifyClient",
   data: function () {
     return {
       tableLoading: false,

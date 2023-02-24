@@ -1,12 +1,17 @@
 <template>
   <transition name="el-zoom-in-center" mode="out-in">
-    <router-view></router-view>
+    <keep-alive :include="cacheView">
+      <router-view ></router-view>
+    </keep-alive>
   </transition>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-    name:"index"
+  computed: {
+    ...mapState("cache", ["cacheView"]),
+  },
 };
 </script>
 

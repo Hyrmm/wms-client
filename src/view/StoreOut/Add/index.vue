@@ -15,18 +15,10 @@
       @addRow="addRow"
     />
     <div class="control">
-      <el-button
-        icon="el-icon-plus"
-        round
-        type="primary"
-        @click="addFormDailogOpen"
+      <el-button icon="el-icon-plus" type="primary" @click="addFormDailogOpen"
         >新增一条</el-button
       >
-      <el-button
-        type="success"
-        round
-        icon="el-icon-check"
-        @click="postRecording"
+      <el-button type="success" icon="el-icon-check" @click="postRecording"
         >提交选中</el-button
       >
     </div>
@@ -40,6 +32,7 @@ import { mapMutations, mapState } from "vuex";
 import { storeAddIndex } from "@/mixin";
 import { outStore } from "@/api/store";
 export default {
+  name: "addStoreOut",
   components: { Table, AddFormDailog },
   data: function () {
     return {};

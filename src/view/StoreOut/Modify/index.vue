@@ -37,6 +37,7 @@ import TableFilter from "@/components/TableFilter";
 import PageNation from "@/components/PagiNation";
 import { getStockRecording, modifyOutStoreStatus } from "@/api/store";
 export default {
+  name: "modifyStoreOut",
   components: { Table, TableFilter, PageNation },
   data: function () {
     return {

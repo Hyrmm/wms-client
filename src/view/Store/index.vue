@@ -45,6 +45,7 @@ import { mapState } from "vuex";
 import { storeAddIndex } from "@/mixin";
 import { addStore, editStore, delStore } from "@/api/store";
 export default {
+  name: "store",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
     return {
@@ -194,6 +195,7 @@ export default {
       }
     );
   },
+
 };
 </script>
 

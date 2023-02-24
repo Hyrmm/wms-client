@@ -60,6 +60,7 @@ import PagiNation from "@/components/PagiNation";
 import ViewFilter from "@/components/ViewFilter";
 import { getStockRecording } from "@/api/store";
 export default {
+  name: "recordingStoreOut",
   components: { Table, TableFilter, ViewFilter, PagiNation },
   data: function () {
     return {
