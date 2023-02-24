@@ -17,7 +17,12 @@ let baseURL
 
 if (process.env.NODE_ENV == "online") {
   baseURL = "http://43.138.122.88:5000/api"
-} else {
+} else if (process.env.NODE_ENV == "productionSelf") {
+  baseURL = "http://43.138.122.88:5000/api"
+} else if (process.env.NODE_ENV == "production") {
+  baseURL = "http://101.33.232.145:5000/api"
+}
+else {
   baseURL = "http://127.0.0.1:5000/api"
 }
 

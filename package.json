@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=online vue-cli-service serve",
     "local": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "buildSelf": "cross-env NODE_ENV=productionSelf vue-cli-service build",
+    "build": "cross-env NODE_ENV=production vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
