@@ -38,7 +38,6 @@ export default {
             state.storeOptions = formatOptions(data)
         },
         upDataTransportStatusOptions(state, data) {
-            console.log(this)
             state.transportStatusOptions = data
         }
     },

@@ -88,7 +88,6 @@ export default {
     editRow(rowData) {
       if (rowData.isEdit == undefined) {
         this.$set(rowData, "isEdit", true);
-        console.log(rowData);
         this.$set(rowData, "tempName", rowData.name);
         this.$set(rowData, "tempType", rowData.type);
         this.$set(rowData, "tempAmount", rowData.amount);

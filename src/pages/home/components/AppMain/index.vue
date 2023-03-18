@@ -1,7 +1,7 @@
 <template>
   <transition name="el-zoom-in-center" mode="out-in">
     <keep-alive :include="cacheView">
-      <router-view ></router-view>
+      <router-view :key="$route.path"></router-view>
     </keep-alive>
   </transition>
 </template>

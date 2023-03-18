@@ -74,7 +74,6 @@ export default {
       this.tableLoading = false;
     },
     search: function (payload) {
-      console.log(payload)
       //每次搜索前,重置当前页数为1
       this.query.page = 1;
       this.query.filter_name = payload.name;

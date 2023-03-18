@@ -143,7 +143,6 @@ export default {
     },
     async saveRow(rowData) {
       //提交更改到服务器,拦截是否有信息被改变 节流
-      console.log(rowData);
       if (
         rowData.name != rowData.tempName ||
         rowData.type != rowData.tempType ||

@@ -66,7 +66,6 @@ export default {
   name: "Sidebar",
   methods: {},
   mounted() {
-    console.log(this.$attrs);
   },
 };
 </script>

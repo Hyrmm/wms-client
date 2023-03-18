@@ -36,6 +36,12 @@ export default {
             }
 
         },
+        // 清除tab缓存
+        del_cacheView(state, payload) {
+            // 1.从缓存数组拿掉
+            state.toolBarData.splice(payload.index, 1)
+            state.cacheView.splice(payload.index, 1)
+        },
         //更新当前选中的tab
         updata_curView(state, payload) {
             for (let view of state.toolBarData) {
@@ -45,7 +51,9 @@ export default {
                     view.isSelect = false
                 }
             }
-        }
+        },
+
+
     },
     getters: {}
 }

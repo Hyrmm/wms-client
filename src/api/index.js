@@ -40,7 +40,6 @@ service.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
   Promise.reject(error)
 })
 // 响应拦截器
@@ -73,7 +72,6 @@ service.interceptors.response.use(
 
 
   (error) => {
-    console.log('[响应拦截器]:' + error)// for debug
     App.$message({
       message: error,
       type: 'error',

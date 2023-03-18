@@ -1,6 +1,5 @@
 
 
-    console.log(window)
 export const getToken = () => {
     return global.localStorage.getItem("authorization")
 }

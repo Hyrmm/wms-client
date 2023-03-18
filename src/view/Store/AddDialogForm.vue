@@ -68,7 +68,6 @@ export default {
       this.addData.name = "";
       this.addData.stock = 0;
       this.addData.type = "";
-      console.log(this.addData);
       this.$refs["addForm"].resetFields();
       this.$emit("close");
     },
@@ -80,7 +79,6 @@ export default {
           this.$emit("addStore");
         } else {
           // this.$message.warning(valid);
-          console.log(this.addData);
           this.$message.warning("请正确填写表单!");
         }
       });

@@ -1,6 +1,6 @@
 <template>
   <keep-alive :include="cacheView">
-    <router-view :key="$route.name"></router-view>
+    <router-view :key="$route.path"></router-view>
   </keep-alive>
 </template>
 
@@ -12,7 +12,6 @@ export default {
     ...mapState("cache", ["cacheView"]),
   },
   mounted() {
-    console.log(this.$router);
   },
 };
 </script>

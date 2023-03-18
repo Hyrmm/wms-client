@@ -22,7 +22,6 @@ export const storeAddIndex = {
         },
         //删除一条记录行
         removeRow(rowIndex, rowData) {
-            console.log(arguments)
             this.$confirm("是否确认执行删除操作?", "提示", {
                 type: "warning",
                 confirmButtonText: "确认",
