@@ -158,7 +158,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
-    console.log("#", [to, from])
+
     //token验证
     if (to.matched[0].path != "/login") {
         let token = getToken()
@@ -170,27 +170,31 @@ router.beforeEach((to, from, next) => {
     }
     //tab缓存
     if (to.meta.isCache) {
-        //首先判断是否是二级路由,存在一级路由直接跳转到其他一级路由的二级路由，无法监听到这个以及路由的变化
-        if (to.matched.length == 3) {
-            //这是一个二级路由,首先对他的一级路由进行判断缓存
-            if (!app.$store.state.cache.cacheView.includes(to.matched[1].meta.name)) {
-                app.$store.commit("cache/updata_cacheView", { componentName: to.matched[1].meta.name, title: to.matched[1].meta.title, routeName: to.matched[1].name, isSelect: false, tabHidden: true })
-            }
-        }
-
-
-
-
-        //是否已经缓存 
         try {
-            if (!app.$store.state.cache.cacheView.includes(to.meta.name)) {
-                app.$store.commit("cache/updata_cacheView", { componentName: to.meta.name, title: to.meta.title, routeName: to.name, isSelect: false })
+            //首先判断是否是二级路由,存在一级路由直接跳转到其他一级路由的二级路由，无法监听到这个以及路由的变化
+            if (to.matched.length == 3) {
+                //这是一个二级路由,首先对他的一级路由进行判断缓存
+                if (!app.$store.state.cache.cacheView.includes(to.matched[1].meta.name)) {
+                    app.$store.commit("cache/updata_cacheView", { componentName: to.matched[1].meta.name, title: to.matched[1].meta.title, routeName: to.matched[1].name, isSelect: false, tabHidden: true })
+                }
             }
-            //更新当前选中的tab
-            app.$store.commit("cache/updata_curView", { title: to.meta.title })
-        } catch {
-        }
 
+            //是否已经缓存 
+            try {
+                if (!app.$store.state.cache.cacheView.includes(to.meta.name)) {
+                    app.$store.commit("cache/updata_cacheView", { componentName: to.meta.name, title: to.meta.title, routeName: to.name, isSelect: false })
+                }
+                //更新当前选中的tab
+                app.$store.commit("cache/updata_curView", { title: to.meta.title })
+            } catch {
+            }
+        } catch { }
+
+
+
+
+
+        console.log("#", [to, from])
     }
     next()
 })

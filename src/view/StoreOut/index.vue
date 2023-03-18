@@ -1,6 +1,6 @@
 <template>
   <keep-alive :include="cacheView">
-    <router-view></router-view>
+    <router-view :key="$route.path"></router-view>
   </keep-alive>
 </template>
 
