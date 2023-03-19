@@ -22,7 +22,32 @@ Vue.use(ElementUI)
 
 
 //echarts引入
-import * as echarts from 'echarts'
+import * as echarts from 'echarts/core';
+import { BarChart, PieChart, TreemapChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent
+} from 'echarts/components';
+import { LegendComponent } from 'echarts/components';
+echarts.use([LegendComponent]);
+import { LabelLayout, UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  DatasetComponent,
+  TransformComponent,
+  BarChart,
+  PieChart,
+  TreemapChart,
+  LabelLayout,
+  UniversalTransition,
+  CanvasRenderer
+]);
 Vue.prototype.$echarts = echarts
 
 
