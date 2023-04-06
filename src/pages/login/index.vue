@@ -55,7 +55,7 @@ export default {
 
 <style lang="less" scoped>
 .warpper {
-  background-image: url("~@/assets/img/login-bg.jpg");
+  background-image: url("@/assets/img/login-bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
