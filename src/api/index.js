@@ -14,17 +14,15 @@ import App from "@/main"
 
 //环境
 let baseURL
-
-if (process.env.NODE_ENV == "online") {
+if (process.env.MYENV == "serve") {
   baseURL = "http://43.138.122.88:5000/api"
-} else if (process.env.NODE_ENV == "production") {
-  baseURL = "http://43.138.122.88:5000/api"
-}
-else {
+} else if (process.env.MYENV == "local") {
   baseURL = "http://127.0.0.1:5000/api"
 }
-
-
+else {
+  baseURL = "http://43.138.122.88:5000/api"
+}
+console.log('3333', process.env.MYENV)
 const service = axios.create({
   baseURL
   // baseURL: "http://127.0.0.1:5000/api",

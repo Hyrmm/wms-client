@@ -5,7 +5,8 @@
   "main": "./src/main.js",
   "scripts": {
     "build": "webpack --config ./build/webpack.prod.js",
-    "dev": "webpack-dev-server --config ./build/webpack.dev.js --hot true  --open"
+    "serve": "cross-env MYENV=serve webpack-dev-server --config ./build/webpack.dev.js --hot true --mode=development  --open",
+    "local": "cross-env MYENV=local webpack-dev-server --config ./build/webpack.dev.js --hot true --open"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "bable-loader": "^0.0.1-security",
     "clean-webpack-plugin": "^4.0.0",
     "compression-webpack-plugin": "^6.1.1",
+    "cross-env": "^7.0.3",
     "css-loader": "^3.6.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
