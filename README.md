@@ -26,7 +26,7 @@
 
 ## :door:传送门
 
-- 项目在线演示地址::link:[使劲点我](http://43.138.122.88:5000/) (默认账号密码root,root)
+- 项目在线演示地址::link:[使劲点我](http://hyrm.site:5000/) (默认账号密码root,root)
 
 - 项目提供远程接口文档地址::link:[使劲点我](https://www.apifox.cn/apidoc/shared-cc2e15b2-0ea5-4e16-91e9-6b113015a758/api-51164289)
 - 配套的后端项目地址: :link:[使劲点我](https://github.com/Hyrmm/wms-server)
