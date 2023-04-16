@@ -55,7 +55,7 @@ export default {
       isCollapse: false,
     };
   },
-  //初始化storeOptions,getTransportStatusOptions,clientOptions
+  //初始化storeOptions,getTransportStatusOptions,clientOptions1222
   mounted() {
     this.$store.dispatch("store/getStoreOptions");
     this.$store.dispatch("store/getTransportStatusOptions");

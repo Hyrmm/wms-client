@@ -1,5 +1,6 @@
 const path = require('path');
 const CommmonConfig = require('./webpack.config');
+const webpack = require("webpack")
 const WebpackMerge = require('webpack-merge');
 module.exports = WebpackMerge.merge(CommmonConfig, {
     mode: 'development',
@@ -11,7 +12,5 @@ module.exports = WebpackMerge.merge(CommmonConfig, {
             directory: path.join(__dirname, '../dist'),
         },
     },
-    // plugins: [
-    //     new Webpack.HotModuleReplacementPlugin()
-    // ]
+    plugins: [new webpack.HotModuleReplacementPlugin(),]
 })

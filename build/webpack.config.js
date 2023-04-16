@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const vueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path');
 module.exports = {
-    entry: path.resolve(__dirname, '../src/main.js'),    // 入口文件
+    entry: [path.resolve(__dirname, '../src/main.js'),'./build/dev-client.js'],    // 入口文件
     output: {
         filename: '[name].[hash:8].js',      // 打包后的文件名称
         path: path.resolve(__dirname, '../dist/js')  // 打包后的目录
@@ -82,5 +82,7 @@ module.exports = {
         splitChunks: {
             chunks: "all"
         }
-    }
+    },
+    // dev
+
 }

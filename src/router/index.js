@@ -290,7 +290,7 @@ router.beforeEach((to, from, next) => {
                 }
             }
 
-            //是否已经缓存 
+            //是否已经缓存 2131223
             try {
                 if (!app.$store.state.cache.cacheView.includes(to.meta.name)) {
                     app.$store.commit("cache/updata_cacheView", { componentName: to.meta.name, title: to.meta.title, routeName: to.name, isSelect: false })
