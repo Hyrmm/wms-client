@@ -43,11 +43,6 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="客户" prop="clientName">
-          <!-- <el-input
-          class="el-input form-item"
-          v-model="addForm.clientName"
-          placeholder="客户"
-        ></el-input> -->
           <el-autocomplete
             class="inline-input"
             v-model="addForm.clientName"

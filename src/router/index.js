@@ -181,30 +181,55 @@ const router = new Router({
                     }
                 },
                 {
-                    path: "store",
-                    name: "store",
-                    component: () => import("@/view/Store"),
+                    path: "store/material",
+                    name: "materialStock",
+                    component: () => import("@/view/materialStock"),
                     meta: {
-                        title: "库存",
+                        title: "原料库存",
                         isCache: true,
-                        name: "store"
+                        name: "materialStock"
                     }
                 },
                 {
-                    path: "storeIn/add",
-                    name: "addStoreIn",
-                    component: () => import("@/view/StoreIn/Add"),
+                    path: "store/product",
+                    name: "productStock",
+                    component: () => import("@/view/productStock"),
                     meta: {
-                        title: "添加入库", isCache: true, name: "addStore"
+                        title: "成品库存",
+                        isCache: true,
+                        name: "productStock"
                     }
                 },
                 {
-
-                    path: "storeIn/recording",
-                    name: "recordingStoreIn",
-                    component: () => import("@/view/StoreIn/Recording"),
+                    path: "storeIn/material",
+                    name: "addMaterialStoreIn",
+                    component: () => import("@/view/StoreIn/Material"),
                     meta: {
-                        title: "入库记录", isCache: true, name: "recordingStore"
+                        title: "原料入库", isCache: true, name: "addMaterial"
+                    }
+                },
+                {
+                    path: "storeIn/product",
+                    name: "addProductStoreIn",
+                    component: () => import("@/view/StoreIn/Product"),
+                    meta: {
+                        title: "成品入库", isCache: true, name: "addProduct"
+                    }
+                },
+                {
+                    path: "storeIn/materialRecording",
+                    name: "materialRecordingStoreIn",
+                    component: () => import("@/view/StoreIn/MaterialRecording"),
+                    meta: {
+                        title: "原料入库记录", isCache: true, name: "materialRecordingIn"
+                    }
+                },
+                {
+                    path: "storeIn/productRecording",
+                    name: "productRecordingStoreIn",
+                    component: () => import("@/view/StoreIn/ProductRecording"),
+                    meta: {
+                        title: "成品入库记录", isCache: true, name: "productRecordingIn"
                     }
                 },
                 {

@@ -10,40 +10,40 @@ import request from "@/api"
 
 
 export const getCommonInfo = () => {
-    return request(
-        {
-            url: "/dataVisual/getCommonInfo",
-            method: "get",
-        }
-    )
+    // return request(
+    //     {
+    //         url: "/dataVisual/getCommonInfo",
+    //         method: "get",
+    //     }
+    // )
 }
 
 export const getYearFinishOrder = (query) => {
-    return request(
-        {
-            url: "/dataVisual/getYearFinishOrder",
-            method: "get",
-            params: query
-        }
-    )
+    // return request(
+    //     {
+    //         url: "/dataVisual/getYearFinishOrder",
+    //         method: "get",
+    //         params: query
+    //     }
+    // )
 }
 
 
 export const getStoreInfo = (query) => {
-    return request(
-        {
-            url: "/dataVisual/getStoreInfo",
-            method: "get",
-        }
-    )
+    // return request(
+    //     {
+    //         url: "/dataVisual/getStoreInfo",
+    //         method: "get",
+    //     }
+    // )
 }
 export const getSalesInfo = (query) => {
-    return request(
-        {
-            url: "/dataVisual/getSalesInfo",
-            method: "get",
-            params: query
-        }
-    )
+    // return request(
+    //     {
+    //         url: "/dataVisual/getSalesInfo",
+    //         method: "get",
+    //         params: query
+    //     }
+    // )
 }
 

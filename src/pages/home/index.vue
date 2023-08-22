@@ -57,7 +57,9 @@ export default {
   },
   //初始化storeOptions,getTransportStatusOptions,clientOptions
   mounted() {
-    this.$store.dispatch("store/getStoreOptions");
+    this.$store.dispatch("store/getMaterialStock", { type: 1 });
+    this.$store.dispatch("store/getProductStock", { type: 2 });
+    this.$store.dispatch("store/getStoreOptions", { types: ["1", "2"] });
     this.$store.dispatch("store/getTransportStatusOptions");
     this.$store.dispatch("client/getClientOptions");
     this.$store.dispatch("dataVisual/getCommonInfo");

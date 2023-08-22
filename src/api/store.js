@@ -21,8 +21,8 @@ export const getStoreOptions = (query) => {
     return request(
         {
             url: "/store/getStoreOptions",
-            method: "get",
-            params: query
+            method: "post",
+            data: query
         }
     )
 }
@@ -35,11 +35,11 @@ export const getTransportStatusOptions = (query) => {
         }
     )
 }
-//查询出入库记录
+//查询材料出入库记录
 export const getStockRecording = (query) => {
     return request(
         {
-            url: "/store/getStockRecording",
+            url: "/store/getMaterialStockRecording",
             method: "get",
             params: query
         }
@@ -49,10 +49,10 @@ export const getStockRecording = (query) => {
 
 //入库
 
-export const inStore = (data) => {
+export const inStoreMaterial = (data) => {
     return request(
         {
-            url: "/store/inStore",
+            url: "/store/inStoreMaterial",
             method: "post",
             data: data
         }
@@ -69,29 +69,63 @@ export const outStore = (data) => {
     )
 }
 
-//新增库存
-export const addStore = (data) => {
+//新增材料库存
+export const addMaterialStore = (data) => {
     return request(
         {
-            url: "/store/addStore",
+            url: "/store/addMaterialStore",
+            method: "post",
+            data: data
+        }
+    )
+}
+// 新增成品库存
+export const addProductStore = (data) => {
+    return request(
+        {
+            url: "/store/addProductStore",
             method: "post",
             data: data
         }
     )
 }
 
-//修改库存
-export const editStore = (data) => {
+
+//修改材料库存
+export const editMaterialStore = (data) => {
     return request({
-        url: "/store/editStore",
+        url: "/store/editMaterialStore",
         method: "post",
         data: data
     })
 }
-//删除库存
-export const delStore = (data) => {
+//修改材料库存
+export const editProductStore = (data) => {
     return request({
-        url: "/store/delStore",
+        url: "/store/editProductStore",
+        method: "post",
+        data: data
+    })
+}
+
+
+
+
+
+//删除材料库存
+export const delMaterialStore = (data) => {
+    return request({
+        url: "/store/delMaterialStore",
+        method: "post",
+        data: data
+    })
+}
+
+
+//删除材料库存
+export const delProductStore = (data) => {
+    return request({
+        url: "/store/delProductStore",
         method: "post",
         data: data
     })

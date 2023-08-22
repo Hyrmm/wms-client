@@ -19,18 +19,26 @@
       <i class="el-icon-s-home"></i>
       <span slot="title">首页</span>
     </el-menu-item>
-    <el-menu-item index="/home/store">
-      <i class="el-icon-box"></i>
-      <span slot="title">库存</span>
-    </el-menu-item>
+    <el-submenu index="/home/store">
+      <template slot="title">
+        <i class="el-icon-sell"></i>
+        <span>库存</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/home/store/material">原料库存</el-menu-item>
+        <el-menu-item index="/home/store/product">成品库存</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
     <el-submenu index="/home/storeIn">
       <template slot="title">
         <i class="el-icon-sell"></i>
         <span>入库</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/home/storeIn/add">添加入库</el-menu-item>
-        <el-menu-item index="/home/storeIn/recording">入库记录</el-menu-item>
+        <el-menu-item index="/home/storeIn/material">原料入库</el-menu-item>
+        <el-menu-item index="/home/storeIn/product">成品入库</el-menu-item>
+        <el-menu-item index="/home/storeIn/materialRecording">原料入库记录</el-menu-item>
+        <el-menu-item index="/home/storeIn/productRecording">成品入库记录</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="/home/storeOut">
@@ -65,8 +73,7 @@
 export default {
   name: "Sidebar",
   methods: {},
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

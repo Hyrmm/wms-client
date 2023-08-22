@@ -65,7 +65,6 @@
         </el-option>
       </el-select>
     </el-form-item>
-
     <el-form-item
       ><el-button
         type="primary"
@@ -87,6 +86,7 @@ export default {
     "typeFilter",
     "transportStatusFilter",
     "clientNameFilter",
+    "stockType",
   ],
   data: function () {
     return {
@@ -117,7 +117,17 @@ export default {
       }
       return "";
     },
-    ...mapState("store", ["storeOptions"]),
+
+    storeOptions() {
+      switch (this.$props.stockType) {
+        case 1:
+          return this.$store.state.store["materialStoreOptions"];
+        case 2:
+          return this.$store.state.store["productStoreOptions"];
+        default:
+          return [];
+      }
+    },
     ...mapState("client", ["clientOptions"]),
   },
   methods: {
