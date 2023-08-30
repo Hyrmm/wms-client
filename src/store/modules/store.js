@@ -1,4 +1,4 @@
-import { getStock, getStoreOptions, getTransportStatusOptions } from "@/api/store"
+import { getStock, getStoreOptions } from "@/api/store"
 import { formatOptions } from "@/utils"
 export default {
     namespaced: true,
@@ -35,13 +35,6 @@ export default {
             }
             return res
         },
-        async getTransportStatusOptions({ commit }, payload) {
-            let res = await getTransportStatusOptions(payload)
-            if (res.data.status == 200) {
-                commit("upDataTransportStatusOptions", res.data.data)
-            }
-            return res
-        }
     },
     mutations: {
         upDataStock(state, data) {

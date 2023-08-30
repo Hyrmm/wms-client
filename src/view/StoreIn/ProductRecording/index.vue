@@ -6,7 +6,7 @@
         :dateFilter="true"
         :nameFilter="true"
         :typeFilter="true"
-        :stockType="1"
+        :stockType="2"
         @search="search"
       />
     </div>
@@ -28,7 +28,7 @@
 import Table from "./components/Table";
 import TableFilter from "@/components/TableFilter";
 import PagiNation from "@/components/PagiNation";
-import { getStockRecording } from "@/api/store";
+import { getProductStockRecording } from "@/api/store";
 export default {
   name: "recordingStore",
   components: { Table, TableFilter, PagiNation },
@@ -64,7 +64,7 @@ export default {
     },
     getTableData: async function (query) {
       this.tableLoading = true;
-      let res = await getStockRecording(query);
+      let res = await getProductStockRecording(query);
       if (res.data.status == 200) {
         this.tabaleData = res.data;
       }

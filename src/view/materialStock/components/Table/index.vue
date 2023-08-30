@@ -2,7 +2,7 @@
   <div>
     <el-table v-bind="$attrs" :stripe="true" style="width: 100%">
       <el-table-column prop="index" label="#" width="100"> </el-table-column>
-      <el-table-column prop="name" label="名称">
+      <el-table-column prop="name" label="名称" width="200">
         <template slot-scope="scope">
           <el-input
             v-if="scope.row.isEdit"
@@ -11,7 +11,7 @@
           <div v-else>{{ scope.row.name }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="type" label="类型">
+      <el-table-column prop="type" label="类型" width="200">
         <template slot-scope="scope">
           <el-input
             v-if="scope.row.isEdit"
@@ -20,7 +20,7 @@
           <div v-else>{{ scope.row.type }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="stock" label="库存" width="100" :sortable="true">
+      <el-table-column prop="stock" label="库存" width="160" :sortable="true">
         <template slot-scope="scope">
           <el-input
             v-if="scope.row.isEdit"
@@ -30,11 +30,25 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="last_updata"
-        label="最近变动"
-        width="250"
+        prop="price"
+        label="单个价值"
+        width="160"
         :sortable="true"
       >
+        <template slot-scope="scope">
+          <el-input
+            v-if="scope.row.isEdit"
+            v-model="scope.row.tempPrice"
+          ></el-input>
+          <div v-else>{{ scope.row.price }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="price" label="总价值" width="160" :sortable="true">
+        <template slot-scope="scope">
+          <div>{{ scope.row.price * scope.row.stock }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="last_updata" label="最近变动" :sortable="true">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{

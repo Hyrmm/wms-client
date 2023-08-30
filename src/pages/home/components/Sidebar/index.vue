@@ -47,9 +47,10 @@
         <span>出库</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/home/storeOut/add">添加出库</el-menu-item>
-        <el-menu-item index="/home/storeOut/recording">出库记录</el-menu-item>
-        <el-menu-item index="/home/storeOut/modify">变更状态</el-menu-item>
+        <el-menu-item index="/home/storeOut/material">原料出库</el-menu-item>
+        <el-menu-item index="/home/storeOut/product">成品出库</el-menu-item>
+        <el-menu-item index="/home/storeOut/materialRecording">原料出库记录</el-menu-item>
+        <el-menu-item index="/home/storeOut/productRecording">成品出库记录</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-submenu index="/home/client">

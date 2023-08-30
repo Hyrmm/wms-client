@@ -2,7 +2,7 @@
   <div class="warpper">
     <div class="table">
       <Table
-        :data="inStoreCache"
+        :data="materialInStoreCache"
         @delRow="removeRow"
         @editRow="editRow"
         @cancleRow="cancleRow"
@@ -38,7 +38,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState("cache", ["inStoreCache"]),
+    ...mapState("cache", ["materialInStoreCache"]),
   },
   mixins: [storeAddIndex],
   methods: {
@@ -48,24 +48,25 @@ export default {
         confirmButtonText: "确认",
         cancelButtonText: "取消",
       }).then(() => {
-        this.del_inStoreCache({ index: rowIndex });
+        this.del_inStoreCache({ index: rowIndex, stockType: 1 });
         this.$message.success("删除成功");
       });
     },
-    addRow(rwoData) {
-      this.updata_inStoreCache(rwoData);
+    addRow(rowData) {
+      rowData.stockType = 1;
+      this.updata_inStoreCache(rowData);
     },
     postRecording() {
       this.post();
     },
     async post() {
       let finishCache = [];
-      for await (let [index, row] of this.inStoreCache.entries()) {
+      for await (let [index, row] of this.materialInStoreCache.entries()) {
         if (row.checked) {
           try {
             let res = await inStoreMaterial({
               stock_id: row.stock_id,
-              price: row.price,
+              // price: row.price,
               amount: row.amount,
               client_id: row.client_id,
               client_name: row.client_name,
@@ -84,7 +85,10 @@ export default {
       }
       //移除已完成的缓存的记录
       for (let item of finishCache) {
-        this.del_inStoreCache({ index: this.inStoreCache.indexOf(item) });
+        this.del_inStoreCache({
+          index: this.materialInStoreCache.indexOf(item),
+          type: 1,
+        });
       }
     },
     editRow(rowData) {

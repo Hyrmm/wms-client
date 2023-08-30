@@ -1,6 +1,23 @@
 <template>
   <div>
     <el-table v-bind="$attrs" :stripe="true" style="width: 100%" height="600">
+      <el-table-column type="expand">
+        <template slot-scope="scope">
+          <el-tag
+            style="margin-right: 10px"
+            v-for="(item, index) in JSON.parse(scope.row.materialRecipe)"
+            :key="index"
+            type="success"
+            effect="plain"
+            sizi="mideum"
+            >{{ getMaterialNameType(item.stockId)[0] }}/{{
+              getMaterialNameType(item.stockId)[1]
+            }}
+            X {{ item.amount }}</el-tag
+          >
+        </template>
+      </el-table-column>
+
       <el-table-column prop="index" label="#" width="60"> </el-table-column>
       <el-table-column prop="name" label="名称"> </el-table-column>
       <el-table-column prop="type" label="类型"> </el-table-column>
@@ -12,14 +29,14 @@
       ></el-table-column>
       <el-table-column
         prop="price"
-        label="单价"
-        width="80"
+        label="单个成本"
+        width="120"
         :sortable="true"
       ></el-table-column>
       <el-table-column
         prop="total_cost"
-        label="成本"
-        width="80"
+        label="总成本"
+        width="120"
         :sortable="true"
       ></el-table-column>
       <el-table-column
@@ -86,6 +103,12 @@ export default {
 
     dataFormat: function (date) {
       return formatDate(new Date(date));
+    },
+    getMaterialNameType(stockId) {
+      for (const item of this.$store.state.store.materialStock.data) {
+        if (item.id == stockId) return [item.name, item.type];
+      }
+      return [];
     },
   },
 };

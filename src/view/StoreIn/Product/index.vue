@@ -2,7 +2,7 @@
   <div class="warpper">
     <div class="table">
       <Table
-        :data="inStoreCache"
+        :data="productInStoreCache"
         @delRow="removeRow"
         @editRow="editRow"
         @cancleRow="cancleRow"
@@ -30,7 +30,7 @@ import Table from "./Table";
 import AddFormDailog from "./AddFormDailog";
 import { storeAddIndex } from "@/mixin";
 import { mapMutations, mapState } from "vuex";
-import { inStore } from "@/api/store";
+import { inStoreProduct } from "@/api/store";
 export default {
   name: "addStore",
   components: { Table, AddFormDailog },
@@ -38,7 +38,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState("cache", ["inStoreCache"]),
+    ...mapState("cache", ["productInStoreCache"]),
   },
   mixins: [storeAddIndex],
   methods: {
@@ -48,24 +48,24 @@ export default {
         confirmButtonText: "确认",
         cancelButtonText: "取消",
       }).then(() => {
-        this.del_inStoreCache({ index: rowIndex });
+        this.del_inStoreCache({ index: rowIndex, stockType: 2 });
         this.$message.success("删除成功");
       });
     },
-    addRow(rwoData) {
-      this.updata_inStoreCache(rwoData);
+    addRow(rowData) {
+      rowData.stockType = 2;
+      this.updata_inStoreCache(rowData);
     },
     postRecording() {
       this.post();
     },
     async post() {
       let finishCache = [];
-      for await (let [index, row] of this.inStoreCache.entries()) {
+      for await (let [index, row] of this.productInStoreCache.entries()) {
         if (row.checked) {
           try {
-            let res = await inStore({
+            let res = await inStoreProduct({
               stock_id: row.stock_id,
-              price: row.price,
               amount: row.amount,
               updata_date: row.updata_date,
             });
@@ -82,7 +82,7 @@ export default {
       }
       //移除已完成的缓存的记录
       for (let item of finishCache) {
-        this.del_inStoreCache({ index: this.inStoreCache.indexOf(item) });
+        this.del_inStoreCache({ index: this.productInStoreCache.indexOf(item),stockType:2 });
       }
     },
     editRow(rowData) {
@@ -91,7 +91,6 @@ export default {
         this.$set(rowData, "tempName", rowData.name);
         this.$set(rowData, "tempType", rowData.type);
         this.$set(rowData, "tempAmount", rowData.amount);
-        this.$set(rowData, "tempPrice", rowData.price);
         this.$set(rowData, "tempStockId", rowData.stock_id);
         this.$set(rowData, "tempUpdataDate", rowData.updata_date);
         //分割
@@ -102,28 +101,25 @@ export default {
         rowData.tempName = rowData.name;
         rowData.tempType = rowData.type;
         rowData.tempAmount = rowData.amount;
-        rowData.tempPrice = rowData.price;
         rowData.tempStockId = rowData.stock_id;
         rowData.tempUpdataDate = rowData.updata_date;
       }
     },
     saveRow(rowData) {
       if (
-        rowData.amount != rowData.tempAmount ||
         rowData.price != rowData.tempPrice ||
         rowData.updata_date != rowData.tempUpdataDate ||
         rowData.stock_id != rowData.tempStockId ||
         rowData.name != rowData.tempName ||
-        rowData.type != rowData.tempType
+        rowData.type != rowData.tempType ||
+        rowData.amount != rowData.tempAmount
       ) {
         //有变动
-        rowData.price = rowData.tempPrice;
         rowData.name = rowData.tempName;
         rowData.type = rowData.tempType;
         rowData.amount = rowData.tempAmount;
         rowData.stock_id = rowData.tempStockId;
         rowData.updata_date = rowData.tempUpdataDate;
-        rowData.totalCost = rowData.tempAmount * rowData.tempPrice;
         rowData.isEdit = false;
       } else {
         //无修改变动啥的不干

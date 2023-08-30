@@ -1,8 +1,12 @@
 export default {
     namespaced: true,
     state: {
-        inStoreCache: [],
-        outStoreCache: [],
+        productInStoreCache: [],
+        materialInStoreCache: [],
+
+        productOutStoreCache: [],
+        materialOutStoreCache: [],
+
         addClientCache: [],
         cacheView: [],
         toolBarData: []
@@ -11,17 +15,56 @@ export default {
     },
     mutations: {
         updata_inStoreCache(state, payload) {
-            state.inStoreCache.push(payload)
+            switch (payload.stockType) {
+                case 1: {
+                    state.materialInStoreCache.push(payload)
+                    break
+                }
+                case 2: {
+                    state.productInStoreCache.push(payload)
+                    break
+                }
+            }
         },
         del_inStoreCache(state, payload) {
-            state.inStoreCache.splice(payload.index, 1)
+
+            switch (payload.stockType) {
+                case 1: {
+                    state.materialInStoreCache.splice(payload.index, 1)
+                    break
+                }
+                case 2: {
+                    state.productInStoreCache.splice(payload.index, 1)
+                    break
+                }
+            }
         },
         updata_outStoreCache(state, payload) {
-            state.outStoreCache.push(payload)
+            switch (payload.stockType) {
+                case 1: {
+                    state.materialOutStoreCache.push(payload)
+                    break
+                }
+                case 2: {
+                    state.productOutStoreCache.push(payload)
+                    break
+                }
+            }
         },
         del_outStoreCache(state, payload) {
-            state.outStoreCache.splice(payload.index, 1)
+            switch (payload.stockType) {
+                case 1: {
+                    state.materialOutStoreCache.splice(payload.index, 1)
+                    break
+                }
+                case 2: {
+                    state.productOutStoreCache.splice(payload.index, 1)
+                    break
+                }
+            }
         },
+
+
         updata_addClientCache(state, payload) {
             state.addClientCache.push(payload)
         },

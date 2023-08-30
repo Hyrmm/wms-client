@@ -1,7 +1,11 @@
 <template>
   <div class="warpper">
     <div class="table-filter">
-      <TableFilter :clientNameFilter="true" @search="search" />
+      <TableFilter
+        :clientNameFilter="true"
+        :client_type="true"
+        @search="search"
+      />
     </div>
     <div class="table">
       <Table
@@ -40,6 +44,7 @@ export default {
       query: {
         page: 1,
         filter_name: "",
+        client_type: "",
       },
     };
   },
@@ -49,6 +54,7 @@ export default {
       //重置当前页数为1
       this.query.page = 1;
       this.query.filter_name = payload.client_name;
+      this.query.client_type = payload.client_type;
       this.getTableData();
     },
     async getTableData() {

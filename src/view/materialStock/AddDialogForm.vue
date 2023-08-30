@@ -14,7 +14,13 @@
         <el-form-item label="商品类型" prop="type">
           <el-input v-model="addData.type"></el-input>
         </el-form-item>
-
+        <el-form-item label="单价" prop="price">
+          <el-input
+            class="el-input form-item"
+            v-model.number="addData.price"
+            placeholder="单价"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="库存数量" prop="stock">
           <el-input-number
             v-model="addData.stock"
@@ -59,6 +65,13 @@ export default {
             trigger: "blur",
           },
         ],
+        price: [
+          {
+            required: true,
+            message: "请输要单价(数字)",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
@@ -68,6 +81,7 @@ export default {
       this.addData.name = "";
       this.addData.stock = 0;
       this.addData.type = "";
+      this.addData.price = 0;
       this.$refs["addForm"].resetFields();
       this.$emit("close");
     },
@@ -83,7 +97,6 @@ export default {
         }
       });
     },
-
   },
   computed: {
     inner_visible: function () {

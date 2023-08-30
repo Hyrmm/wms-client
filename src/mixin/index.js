@@ -68,21 +68,6 @@ export const storeAddDailog = {
             addForm: {}
         }
     },
-    computed: {
-        ...mapState("store", ["storeOptions", "transportStatusOptions"]),
-        stockId: function () {
-            for (let option of this.storeOptions) {
-                if (option.label == this.addForm.name_type[0]) {
-                    for (let childerOption of option.children) {
-                        if (childerOption.label == this.addForm.name_type[1]) {
-                            return childerOption.stock_id;
-                        }
-                    }
-                }
-            }
-            return "";
-        },
-    },
     methods: {
         closed() {
             this.addForm = {};

@@ -31,6 +31,21 @@
         >
         </el-option> </el-select
     ></el-form-item>
+    <el-form-item v-if="out_type" label="出库类型">
+      <el-select v-model="form.out_type" placeholder="请选择">
+        <el-option
+          v-for="item in [
+            { id: 1, status_name: '退货' },
+            { id: 2, status_name: '生产成品' },
+            { id: 3, status_name: '损耗' },
+          ]"
+          :key="item.id"
+          :label="item.status_name"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
     <el-form-item v-if="clientNameFilter" label="客户">
       <el-autocomplete
         class="inline-input"
@@ -65,6 +80,21 @@
         </el-option>
       </el-select>
     </el-form-item>
+    <el-form-item v-if="client_type" label="客户类型">
+      <el-select v-model="form.client_type" placeholder="请选择" size="mini">
+        <el-option
+          v-for="item in [
+            { id: 1, lable: '原料客户' },
+            { id: 2, lable: '成品客户' },
+          ]"
+          :key="item.id"
+          :label="item.lable"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item
       ><el-button
         type="primary"
@@ -87,6 +117,8 @@ export default {
     "transportStatusFilter",
     "clientNameFilter",
     "stockType",
+    "out_type",
+    "client_type",
   ],
   data: function () {
     return {
@@ -154,11 +186,15 @@ export default {
         transport_status: this.form.transport_status,
         client_name: this.form.client_name,
         client_id: this.form.client_id,
+        out_type: this.form.out_type,
+        client_type: this.form.client_type,
       });
     },
     querySearch(queryString, cb) {
       let filterResult = this.$store.state.client.clientOptions.filter(
-        (item) => item.value.indexOf(queryString) != -1
+        (item) =>
+          item.value.indexOf(queryString) != -1 &&
+          item.type == this.$props.client_type
       );
       cb(filterResult);
     },

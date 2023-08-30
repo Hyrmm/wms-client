@@ -46,6 +46,21 @@
         </template>
       </el-table-column>
       <el-table-column
+        prop="price"
+        label="单个成本"
+        width="160"
+        :sortable="true"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.price ? scope.row.price : 0 }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="price" label="总成本" width="160" :sortable="true">
+        <template slot-scope="scope">
+          <div>{{ scope.row.price * scope.row.stock }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="last_updata"
         label="最近变动"
         width="250"
@@ -58,7 +73,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="180">
+      <!-- <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.isEdit"
@@ -93,7 +108,7 @@
             >取消</el-button
           >
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
   </div>
 </template>

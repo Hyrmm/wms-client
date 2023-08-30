@@ -1,7 +1,12 @@
 <template>
   <div class="warpper">
     <div class="table-filter">
-      <TableFilter size="mini" @search="search" :nameFilter="true" :stockType="1" />
+      <TableFilter
+        size="mini"
+        @search="search"
+        :nameFilter="true"
+        :stockType="1"
+      />
     </div>
     <div class="table">
       <Table
@@ -43,7 +48,11 @@ import AddDialogForm from "./AddDialogForm";
 import Table from "./components/Table";
 import { mapState } from "vuex";
 import { storeAddIndex } from "@/mixin";
-import { addMaterialStore, editMaterialStore, delMaterialStore } from "@/api/store";
+import {
+  addMaterialStore,
+  editMaterialStore,
+  delMaterialStore,
+} from "@/api/store";
 export default {
   name: "store",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
@@ -134,11 +143,13 @@ export default {
         this.$set(rowData, "tempName", rowData.name);
         this.$set(rowData, "tempType", rowData.type);
         this.$set(rowData, "tempStock", rowData.stock);
+        this.$set(rowData, "tempPrice", rowData.price);
       } else {
         rowData.isEdit = true;
         rowData.tempName = rowData.name;
         rowData.tempType = rowData.type;
         rowData.tempStock = rowData.stock;
+        rowData.tempPrice = rowData.price;
       }
     },
     cancleRow(rowData) {
@@ -149,19 +160,22 @@ export default {
       if (
         rowData.name != rowData.tempName ||
         rowData.type != rowData.tempType ||
-        rowData.stock != rowData.tempStock
+        rowData.stock != rowData.tempStock ||
+        rowData.price != rowData.tempPrice
       ) {
         let res = await editMaterialStore({
           stockId: rowData.id,
           name: rowData.tempName,
           type: rowData.tempType,
           stock: rowData.tempStock,
+          price: rowData.tempPrice,
         });
         if (res.data.status == 200) {
           //更新数据
           rowData.name = rowData.tempName;
           rowData.type = rowData.tempType;
           rowData.stock = rowData.tempStock;
+          rowData.price = rowData.tempPrice;
           this.$message.success("修改成功");
           //跟新库存可选项
           this.$store.dispatch("store/getStoreOptions", { types: ["1"] });

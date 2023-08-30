@@ -1,31 +1,55 @@
 <template>
   <div>
-    <el-table v-bind="$attrs" :stripe="true" style="width: 100%" height="600">
+    <el-table v-bind="$attrs" :stripe="true" style="width: 100%" ref="table">
       <el-table-column prop="index" label="#" width="60"> </el-table-column>
-      <el-table-column prop="name" label="名称" width="200"> </el-table-column>
-      <el-table-column prop="type" label="类型" width="200"> </el-table-column>
+      <el-table-column v-if="displayField.name" prop="name" label="名称">
+      </el-table-column>
+      <el-table-column v-if="displayField.type" prop="type" label="类型">
+      </el-table-column>
       <el-table-column
+        v-if="displayField.amount"
         prop="amount"
         label="数量"
         width="80"
         :sortable="true"
       ></el-table-column>
       <el-table-column
+        v-if="displayField.price"
         prop="price"
-        label="单价"
-        width="80"
+        label="出库价格(总)"
+        width="160"
         :sortable="true"
       ></el-table-column>
       <el-table-column
-        prop="total_cost"
-        label="成本"
-        width="80"
+        v-if="displayField.cost"
+        prop="cost"
+        label="单个成本"
+        width="120"
         :sortable="true"
       ></el-table-column>
-      <el-table-column prop="client" label="客户" width="120"></el-table-column>
       <el-table-column
+        v-if="displayField.client"
+        prop="client"
+        label="客户"
+        width="80"
+      ></el-table-column>
+      <el-table-column
+        v-if="displayField.client_tel"
+        prop="client_tel"
+        label="客户联系方式"
+        width="120"
+      ></el-table-column>
+      <el-table-column
+        v-if="displayField.client_address"
+        prop="client_address"
+        label="客户地址"
+        width="320"
+      ></el-table-column>
+      <el-table-column
+        v-if="displayField.updata_date"
         prop="updata_date"
-        label="日期"
+        label="出库日期"
+        width="200"
         :sortable="true"
       >
         <template slot-scope="scope">
@@ -35,37 +59,24 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="nick" fixed="right" label="操作用户" width="100">
-        <!-- <template slot-scope="scope">
-          <el-button type="text" size="big" @click="rowEditClick(scope.row)"
-            >编辑</el-button
-          >
-          <el-button
-            type="text"
-            size="big"
-            @click="rowRemoveClick(scope.row)"
-            style="color: red"
-            >删除</el-button
-          >
-        </template> -->
+      <el-table-column
+        v-if="displayField.nick"
+        prop="nick"
+        fixed="right"
+        label="操作用户"
+        width="100"
+      >
       </el-table-column>
     </el-table>
-    <EditDialogForm
-      @close="closeDialogFrom"
-      :visible="dialogFromVisible"
-      :editData="editData"
-    />
   </div>
 </template>
 
 <script>
 import { formatDate } from "@/utils";
-import EditDialogForm from "./EditDialogForm";
 export default {
-  components: { EditDialogForm },
+  props: ["displayField"],
   data: function () {
     return {
-      dialogFromVisible: false,
       editData: {},
     };
   },
@@ -83,8 +94,8 @@ export default {
     closeDialogFrom: function () {
       this.dialogFromVisible = false;
     },
-
     dataFormat: function (date) {
+      if(!date) return "xxxx-xx-xx xx:xx:xx"
       return formatDate(new Date(date));
     },
   },

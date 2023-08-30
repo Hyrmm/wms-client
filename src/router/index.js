@@ -233,19 +233,35 @@ const router = new Router({
                     }
                 },
                 {
-                    path: "storeOut/add",
-                    name: "addStoreOut",
-                    component: () => import("@/view/StoreOut/Add"),
+                    path: "storeOut/material",
+                    name: "addStoreOutMaterial",
+                    component: () => import("@/view/StoreOut/Material"),
                     meta: {
-                        title: "添加出库", isCache: true, name: 'addStoreOut'
+                        title: "原料出库", isCache: true, name: 'addStoreOutMaterial'
                     }
                 },
                 {
-                    path: "storeOut/recording",
-                    name: "recordingStoreOut",
-                    component: () => import("@/view/StoreOut/Recording"),
+                    path: "storeOut/product",
+                    name: "addStoreOutProduct",
+                    component: () => import("@/view/StoreOut/Product"),
                     meta: {
-                        title: "出库记录", isCache: true, name: 'recordingStoreOut'
+                        title: "成品出库", isCache: true, name: 'addStoreOutProduct'
+                    }
+                },
+                {
+                    path: "storeOut/materialRecording",
+                    name: "productRecordingStoreOut",
+                    component: () => import("@/view/StoreOut/MaterialRecording"),
+                    meta: {
+                        title: "原料出库记录", isCache: true, name: 'productRecordingStoreOut'
+                    }
+                },
+                {
+                    path: "storeOut/productRecording",
+                    name: "recordingStoreOut",
+                    component: () => import("@/view/StoreOut/ProductRecording"),
+                    meta: {
+                        title: "成品出库记录", isCache: true, name: 'recordingStoreOut'
                     }
                 },
                 {

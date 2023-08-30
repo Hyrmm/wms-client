@@ -1,27 +1,25 @@
 <template>
   <el-dialog
+    title="添加出库"
     v-bind="$attrs"
     v-on="$listeners"
     @closed="closed"
-    title="添加入库"
   >
     <div class="container">
       <el-form
         :model="addForm"
         label-position="left"
-        label-width="100px"
-        :rules="rulesIn"
+        label-width="150px"
+        :rules="rules"
         ref="form"
       >
         <el-form-item label="名称/类型" prop="name_type">
           <el-cascader
             class="form-item"
-            :options="materialStoreOptions"
+            :options="productStoreOptions"
             :props="{ expandTrigger: 'hover' }"
             v-model="addForm.name_type"
-            :children="addForm.type"
-          >
-          </el-cascader>
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="数量" prop="amount">
           <el-input
@@ -30,26 +28,26 @@
             placeholder="数量"
           ></el-input>
         </el-form-item>
-        <!-- <el-form-item label="单价" prop="price">
+        <el-form-item label="出库价格(总)" prop="price">
           <el-input
             class="el-input form-item"
             v-model.number="addForm.price"
             placeholder="单价"
           ></el-input>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="客户" prop="clientName">
           <el-autocomplete
             class="inline-input"
-            v-model="addForm.client_name"
+            v-model="addForm.clientName"
             :fetch-suggestions="querySearch"
             placeholder="客户姓名"
             :trigger-on-focus="false"
             @select="handleSelect"
           ></el-autocomplete>
         </el-form-item>
-        <el-form-item label="日期" prop="date">
+        <el-form-item label="出库日期" prop="updataDate">
           <el-date-picker
-            v-model="addForm.updata_date"
+            v-model="addForm.updataDate"
             type="date"
             placeholder="不填默认当前时间"
             format="yyyy-MM-dd"
@@ -74,8 +72,7 @@ import { mapState } from "vuex";
 export default {
   data: function () {
     return {
-      addForm: {},
-      rulesIn: {
+      rules: {
         name_type: [
           {
             type: "array",
@@ -84,71 +81,108 @@ export default {
             trigger: "blur",
           },
         ],
-        amount: [
-          {
-            type: "number",
-            min: 1,
-            required: true,
-            message: "请输要入库的数量(数字)",
-            trigger: "blur",
-          },
-        ],
         price: [
           {
             min: 0,
             type: "number",
             required: true,
-            message: "请输入要入库的单价(数字)",
+            message: "请输要入库的单价(数字)",
+            trigger: "blur",
+          },
+        ],
+        amount: [
+          {
+            min: 1,
+            type: "number",
+            required: true,
+            message: "请输要入库的数量(数字)",
+            trigger: "blur",
+          },
+        ],
+        anotherFee: [
+          {
+            min: 0,
+            type: "number",
+            required: true,
+            message: "请输入要入库的其他费用",
+            trigger: "blur",
+          },
+        ],
+        clientName: [
+          {
+            required: true,
+            message: "请输入要入库的客户",
+            trigger: "blur",
+          },
+        ],
+        transportStatusLabel: [
+          {
+            required: true,
+            message: "请输入要入库的订单状态",
             trigger: "blur",
           },
         ],
       },
     };
   },
+  mixins: [storeAddDailog],
+  computed: {
+    transportStatus() {
+      for (let item of this.transportStatusOptions) {
+        if (item.status_name == this.addForm.transportStatusLabel) {
+          return item.id;
+        }
+      }
+    },
+    ...mapState("client", ["clientOptions"]),
+    ...mapState("store", ["productStoreOptions"]),
+  },
   methods: {
     complete() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.$emit("addRow", {
-            checked: true,
-            postStatus: "",
-            stock_id: this.stockId,
-            name: this.addForm.name_type[0],
-            type: this.addForm.name_type[1],
-            // price: this.addForm.price,
-            amount: this.addForm.amount,
-            updata_date: this.addForm.updata_date
-              ? this.addForm.updata_date
-              : formatDate(new Date()),
-            totalCost: this.addForm.amount * this.addForm.price,
-            client_id:this.addForm.client_id,
-            client_name:this.addForm.client_name
-          });
-          this.$emit("close");
+          //验证客户名和ID合法
+          if (
+            this.addForm.clientId &&
+            this.clientOptions.filter(
+              (item) =>
+                item.id == this.addForm.clientId &&
+                item.value == this.addForm.clientName
+            ).length
+          ) {
+            this.$message.success("添加成功");
+            this.$emit("addRow", {
+              checked: true,
+              stock_id: this.stockId(),
+              postStatus: "",
+              name: this.addForm.name_type[0],
+              type: this.addForm.name_type[1],
+              price: this.addForm.price,
+              amount: this.addForm.amount,
+              client_name: this.addForm.clientName,
+              client_id: this.addForm.clientId,
+              updata_date: this.addForm.updataDate? this.addForm.updataDate: formatDate(new Date()),
+            });
+            this.$emit("close");
+          } else {
+            this.$message.error("客户不存在!");
+          }
         } else {
           this.$message.error("添加失败,请检查格式!");
         }
       });
     },
-
-    closed() {
-      this.addForm = {};
-      this.$refs["form"].resetFields();
-    },
-    handleSelect(selectData) {
-      this.addForm.client_id = selectData.id;
-    },
     querySearch(queryString, cb) {
       let filterResult = this.$store.state.client.clientOptions.filter(
-        (item) => item.value.indexOf(queryString) != -1 && item.type == 1
+        (item) => item.value.indexOf(queryString) != -1 && item.type == 2
       );
       cb(filterResult);
     },
-  },
-  computed: {
-    ...mapState("store", ["materialStoreOptions", "transportStatusOptions"]),
-    stockId: function () {
-      for (let option of this.materialStoreOptions) {
+    handleSelect(selectData) {
+      this.addForm.clientId = selectData.id;
+    },
+    stockId() {
+      for (let option of this.productStoreOptions) {
         if (option.label == this.addForm.name_type[0]) {
           for (let childerOption of option.children) {
             if (childerOption.label == this.addForm.name_type[1]) {

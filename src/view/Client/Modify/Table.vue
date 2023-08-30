@@ -28,6 +28,15 @@
         <div v-else>{{ scope.row.address }}</div>
       </template>
     </el-table-column>
+    <el-table-column prop="type" label="客户类型" width="180">
+      <template slot-scope="scope">
+        <!-- <el-input
+          v-if="scope.row.isEdit"
+          v-model="scope.row.tempTel"
+        ></el-input> -->
+        <div>{{ scope.row.type == 1 ? "原料客户" : "成品客户" }}</div>
+      </template>
+    </el-table-column>
     <el-table-column label="操作" width="180">
       <template slot-scope="scope">
         <el-button

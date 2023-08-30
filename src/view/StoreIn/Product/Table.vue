@@ -9,7 +9,7 @@
           ></el-checkbox>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="名称">
+      <el-table-column prop="name" label="名称" width="240">
         <template slot-scope="scope">
           <div v-if="scope.row.isEdit">
             <el-select
@@ -19,7 +19,7 @@
               @change="nameOptionsChange(scope)"
             >
               <el-option
-                v-for="item in storeOptions"
+                v-for="item in productStoreOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -30,7 +30,7 @@
           <div v-else>{{ scope.row.name }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="type" label="类型">
+      <el-table-column prop="type" label="类型" width="240">
         <template slot-scope="scope">
           <el-select
             v-if="scope.row.isEdit"
@@ -60,21 +60,7 @@
           <div v-else>{{ scope.row.amount }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="price" label="单价" width="160">
-        <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempPrice"
-          ></el-input>
-          <div v-else>{{ scope.row.price }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="totalCost"
-        label="成本"
-        width="160"
-      ></el-table-column>
-      <el-table-column prop="updata_date" label="日期" width="280">
+      <el-table-column prop="updata_date" label="日期">
         <template slot-scope="scope">
           <el-date-picker
             v-if="scope.row.isEdit"
@@ -92,7 +78,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="postStatus" label="状态" width="160">
+      <el-table-column prop="postStatus" label="状态" width="120">
         <template slot-scope="scope">
           <span v-if="scope.row.postStatus == 'success'" style="color: #67c23a"
             >入库成功</span
@@ -167,7 +153,7 @@ export default {
       } else {
         scope.row.disabled = false;
       }
-      this.storeOptions.forEach((element, index) => {
+      this.productStoreOptions.forEach((element, index) => {
         if (element.value == selectName) {
           scope.row.nameIndex = index;
         }
@@ -175,20 +161,29 @@ export default {
     },
     typeOptionsChange(scope) {
       //存在nameIndex 直接锁定
-      for (let child of this.storeOptions[scope.row.nameIndex].children) {
+      for (let child of this.productStoreOptions[scope.row.nameIndex].children) {
         if (child.label == scope.row.tempType) {
           scope.row.tempStockId = child.stock_id;
         }
       }
     },
+    handleSelect(rowData,event) {
+      rowData.tempClientId = event.id;
+    },
+    querySearch(queryString, cb) {
+      let filterResult = this.$store.state.client.clientOptions.filter(
+        (item) => item.value.indexOf(queryString) != -1 && item.type == 2
+      );
+      cb(filterResult);
+    },
   },
   computed: {
-    ...mapState("store", ["storeOptions"]),
+    ...mapState("store", ["productStoreOptions"]),
     typeOptions: {
       get() {
         return (scope) => {
-          if (this.storeOptions[scope.row.nameIndex]) {
-            return this.storeOptions[scope.row.nameIndex].children;
+          if (this.productStoreOptions[scope.row.nameIndex]) {
+            return this.productStoreOptions[scope.row.nameIndex].children;
           } else {
             return [];
           }

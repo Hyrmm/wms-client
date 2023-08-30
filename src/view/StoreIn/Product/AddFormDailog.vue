@@ -16,7 +16,7 @@
         <el-form-item label="名称/类型" prop="name_type">
           <el-cascader
             class="form-item"
-            :options="storeOptions"
+            :options="productStoreOptions"
             :props="{ expandTrigger: 'hover' }"
             v-model="addForm.name_type"
             :children="addForm.type"
@@ -28,13 +28,6 @@
             class="form-item"
             v-model.number="addForm.amount"
             placeholder="数量"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="单价" prop="price">
-          <el-input
-            class="el-input form-item"
-            v-model.number="addForm.price"
-            placeholder="单价"
           ></el-input>
         </el-form-item>
         <el-form-item label="日期" prop="date">
@@ -58,6 +51,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { storeAddDailog } from "@/mixin";
 import { formatDate } from "@/utils";
 export default {
@@ -81,15 +75,6 @@ export default {
             trigger: "blur",
           },
         ],
-        price: [
-          {
-            min: 0,
-            type: "number",
-            required: true,
-            message: "请输入要入库的单价(数字)",
-            trigger: "blur",
-          },
-        ],
       },
     };
   },
@@ -104,18 +89,32 @@ export default {
             stock_id: this.stockId,
             name: this.addForm.name_type[0],
             type: this.addForm.name_type[1],
-            price: this.addForm.price,
             amount: this.addForm.amount,
             updata_date: this.addForm.updata_date
               ? this.addForm.updata_date
               : formatDate(new Date()),
-            totalCost: this.addForm.amount * this.addForm.price,
           });
           this.$emit("close");
         } else {
           this.$message.error("添加失败,请检查格式!");
         }
       });
+    },
+
+  },
+  computed: {
+    ...mapState("store", ["productStoreOptions", "transportStatusOptions"]),
+    stockId: function () {
+      for (let option of this.productStoreOptions) {
+        if (option.label == this.addForm.name_type[0]) {
+          for (let childerOption of option.children) {
+            if (childerOption.label == this.addForm.name_type[1]) {
+              return childerOption.stock_id;
+            }
+          }
+        }
+      }
+      return "";
     },
   },
 };

@@ -26,17 +26,8 @@ export const getStoreOptions = (query) => {
         }
     )
 }
-export const getTransportStatusOptions = (query) => {
-    return request(
-        {
-            url: "/store/getTransportStatusOptions",
-            method: "get",
-            params: query
-        }
-    )
-}
-//查询材料出入库记录
-export const getStockRecording = (query) => {
+//查询原料出入库记录
+export const getMaterialStockRecording = (query) => {
     return request(
         {
             url: "/store/getMaterialStockRecording",
@@ -45,10 +36,17 @@ export const getStockRecording = (query) => {
         }
     )
 }
-
-
-//入库
-
+//查询成品出入库记录
+export const getProductStockRecording = (query) => {
+    return request(
+        {
+            url: "/store/getProductStockRecording",
+            method: "get",
+            params: query
+        }
+    )
+}
+//材料入库
 export const inStoreMaterial = (data) => {
     return request(
         {
@@ -58,11 +56,35 @@ export const inStoreMaterial = (data) => {
         }
     )
 }
-//出库
-export const outStore = (data) => {
+//成品入库
+export const inStoreProduct = (data) => {
+
     return request(
         {
-            url: "/store/outStore",
+            url: "/store/inStoreProduct",
+            method: "post",
+            data: data
+        }
+    )
+}
+
+
+
+//材料出库
+export const outStoreMaterial = (data) => {
+    return request(
+        {
+            url: "/store/outStoreMaterial",
+            method: "post",
+            data: data
+        }
+    )
+}
+//成品出库
+export const outStoreProduct = (data) => {
+    return request(
+        {
+            url: "/store/outStoreProduct",
             method: "post",
             data: data
         }
@@ -79,7 +101,7 @@ export const addMaterialStore = (data) => {
         }
     )
 }
-// 新增成品库存
+//新增成品库存
 export const addProductStore = (data) => {
     return request(
         {

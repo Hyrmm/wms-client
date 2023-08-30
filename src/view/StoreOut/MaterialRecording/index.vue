@@ -6,19 +6,45 @@
         :dateFilter="true"
         :nameFilter="true"
         :typeFilter="true"
+        :out_type="true"
         :clientNameFilter="true"
         :stockType="1"
+        :client_type="1"
         @search="search"
       />
     </div>
+    <div class="view-filter">
+      <ViewFilter
+        :name="true"
+        :type="true"
+        :amount="true"
+        :updata_date="true"
+        :nick="true"
+        :client="true"
+        :price="true"
+        :client_tel="true"
+        :client_address="true"
+        :out_type="true"
+        :defaultChecked="defaultChecked"
+        @change="checkedChange"
+      />
+    </div>
     <div class="table">
-      <Table :data="tabaleData.data" v-loading="tableLoading" height="500" />
+      <Table
+        :data="tableData.data"
+        v-loading="tableLoading"
+        height="500"
+        :displayField="displayField"
+        :stripe="true"
+        :highlight-current-row="true"
+        ref="table"
+      />
     </div>
     <div class="pagenation">
       <PagiNation
-        :total="tabaleData.total"
+        :total="tableData.total"
         :page-size="20"
-        :current-page="tabaleData.current_page"
+        :current-page="tableData.current_page"
         @current-change="currentPageChange"
       />
     </div>
@@ -26,30 +52,65 @@
 </template>
 
 <script>
-import Table from "./components/Table";
+import Table from "./Table";
 import TableFilter from "@/components/TableFilter";
 import PagiNation from "@/components/PagiNation";
+import ViewFilter from "@/components/ViewFilter";
 import { getMaterialStockRecording } from "@/api/store";
 export default {
-  name: "recordingStore",
-  components: { Table, TableFilter, PagiNation },
+  name: "recordingStoreOut",
+  components: { Table, TableFilter, ViewFilter, PagiNation },
   data: function () {
     return {
-      tabaleData: {},
+      displayField: {
+        name: true,
+        type: true,
+        amount: true,
+        updata_date: true,
+        nick: true,
+        out_type: true,
+        client: true,
+        price: true,
+        client_tel: false,
+        client_address: false,
+      },
+      defaultChecked: [
+        "name",
+        "type",
+        "amount",
+        "price",
+        "updata_date",
+        "nick",
+        "client",
+      ],
+      tableData: {},
+      tableLoading: false,
       query: {
-        type: "in_order",
+        type: "out_order",
         page: 1,
         order_by: "id",
         direction: "DESC",
         filter_name: "",
+        filter_type: "",
         filter_date_start: "",
         filter_date_end: "",
-        filter_type: "",
+        filter_clientId: "",
+        filter_clientName: "",
+        out_type: "",
       },
-      tableLoading: false,
     };
   },
   methods: {
+    getTableData: async function (query) {
+      this.tableLoading = true;
+      let res = await getMaterialStockRecording(query).catch(
+        (err) => (this.tableLoading = false)
+      );
+      if (res.data.status == 200) {
+        this.tableData = res.data;
+      }
+      this.tableLoading = false;
+    },
     search: async function (payload) {
       //每次搜索前,重置当前页数为1
       this.query.page = 1;
@@ -62,19 +123,24 @@ export default {
         ? payload.filter_date_end
         : "";
       this.query.filter_clientName = payload.client_name;
+      this.query.out_type = payload.out_type ? payload.out_type : "";
       this.getTableData(this.query);
-    },
-    getTableData: async function (query) {
-      this.tableLoading = true;
-      let res = await getMaterialStockRecording(query);
-      if (res.data.status == 200) {
-        this.tabaleData = res.data;
-      }
-      this.tableLoading = false;
     },
     currentPageChange: function (curPage) {
       this.query.page = curPage;
       this.getTableData(this.query);
+    },
+    checkedChange: function (checkedArr) {
+      for (let key in this.displayField) {
+        if (checkedArr.includes(key)) {
+          this.displayField[key] = true;
+        } else {
+          this.displayField[key] = false;
+        }
+        this.$nextTick(() => {
+          this.$refs["table"].$refs["table"].doLayout();
+        });
+      }
     },
   },
   mounted() {
@@ -89,6 +155,13 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .table-filter {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .view-filter {
+    margin-top: 10px;
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;

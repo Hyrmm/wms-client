@@ -55,12 +55,11 @@ export default {
       isCollapse: false,
     };
   },
-  //初始化storeOptions,getTransportStatusOptions,clientOptions
+  //初始化storeOptions,clientOptions
   mounted() {
     this.$store.dispatch("store/getMaterialStock", { type: 1 });
     this.$store.dispatch("store/getProductStock", { type: 2 });
     this.$store.dispatch("store/getStoreOptions", { types: ["1", "2"] });
-    this.$store.dispatch("store/getTransportStatusOptions");
     this.$store.dispatch("client/getClientOptions");
     this.$store.dispatch("dataVisual/getCommonInfo");
     this.$store.dispatch("dataVisual/getStoreInfo");
