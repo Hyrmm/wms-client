@@ -48,7 +48,11 @@ import AddDialogForm from "./AddDialogForm";
 import Table from "./components/Table";
 import { mapState } from "vuex";
 import { storeAddIndex } from "@/mixin";
-import { addProductStore, editProductStore, delProductStore } from "@/api/store";
+import {
+  addProductStore,
+  editProductStore,
+  delProductStore,
+} from "@/api/store";
 export default {
   name: "store",
   components: { AddDialogForm, Table, TableFilter, PagiNation },

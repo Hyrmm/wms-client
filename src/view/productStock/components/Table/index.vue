@@ -73,7 +73,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column fixed="right" label="操作" width="180">
+      <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.isEdit"
@@ -108,7 +108,7 @@
             >取消</el-button
           >
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
   </div>
 </template>

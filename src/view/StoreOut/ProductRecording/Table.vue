@@ -15,11 +15,14 @@
       ></el-table-column>
       <el-table-column
         v-if="displayField.price"
-        prop="price"
-        label="出库价格(总)"
+        label="出库单价"
         width="160"
         :sortable="true"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          {{ scope.row.price / scope.row.amount }}
+        </template>
+      </el-table-column>
       <el-table-column
         v-if="displayField.cost"
         prop="cost"
@@ -27,6 +30,16 @@
         width="120"
         :sortable="true"
       ></el-table-column>
+      <el-table-column
+        v-if="displayField.cost"
+        label="预期利润"
+        width="160"
+        :sortable="true"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.price - scope.row.cost * scope.row.amount }}
+        </template>
+      </el-table-column>
       <el-table-column
         v-if="displayField.client"
         prop="client"
@@ -95,7 +108,7 @@ export default {
       this.dialogFromVisible = false;
     },
     dataFormat: function (date) {
-      if(!date) return "xxxx-xx-xx xx:xx:xx"
+      if (!date) return "xxxx-xx-xx xx:xx:xx";
       return formatDate(new Date(date));
     },
   },

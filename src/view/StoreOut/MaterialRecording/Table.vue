@@ -45,9 +45,9 @@
         :sortable="true"
       >
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{
-            scope.row.price * scope.row.amount - scope.row.another_fee
-          }}</span>
+          <div style="margin-left: 10px">
+            {{ scope.row.price * scope.row.amount - scope.row.another_fee }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column
@@ -66,7 +66,7 @@
         v-if="displayField.client_address"
         prop="client_address"
         label="客户地址"
-        width="360"
+        width="280"
       ></el-table-column>
       <el-table-column
         v-if="displayField.status"
@@ -122,7 +122,7 @@
         prop="nick"
         fixed="right"
         label="操作用户"
-        width="100"
+        width="100px"
       >
       </el-table-column>
     </el-table>
