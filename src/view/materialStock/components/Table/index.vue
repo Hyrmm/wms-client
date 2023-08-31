@@ -48,6 +48,15 @@
           <div>{{ scope.row.price * scope.row.stock }}</div>
         </template>
       </el-table-column>
+      <el-table-column prop="last_updata" label="备注" :sortable="true">
+        <template slot-scope="scope">
+          <el-input
+            v-if="scope.row.isEdit"
+            v-model="scope.row.tempDes"
+          ></el-input>
+          <div v-else>{{ scope.row.des ? scope.row.des : "无备注" }}</div>
+        </template>
+      </el-table-column>
       <el-table-column prop="last_updata" label="最近变动" :sortable="true">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>

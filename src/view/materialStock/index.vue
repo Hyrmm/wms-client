@@ -144,12 +144,14 @@ export default {
         this.$set(rowData, "tempType", rowData.type);
         this.$set(rowData, "tempStock", rowData.stock);
         this.$set(rowData, "tempPrice", rowData.price);
+        this.$set(rowData, "tempDes", rowData.des);
       } else {
         rowData.isEdit = true;
         rowData.tempName = rowData.name;
         rowData.tempType = rowData.type;
         rowData.tempStock = rowData.stock;
         rowData.tempPrice = rowData.price;
+        rowData.tempDes = rowData.des;
       }
     },
     cancleRow(rowData) {
@@ -161,7 +163,8 @@ export default {
         rowData.name != rowData.tempName ||
         rowData.type != rowData.tempType ||
         rowData.stock != rowData.tempStock ||
-        rowData.price != rowData.tempPrice
+        rowData.price != rowData.tempPrice ||
+        rowData.des != rowData.tempDes
       ) {
         let res = await editMaterialStore({
           stockId: rowData.id,
@@ -169,6 +172,7 @@ export default {
           type: rowData.tempType,
           stock: rowData.tempStock,
           price: rowData.tempPrice,
+          des: rowData.tempDes,
         });
         if (res.data.status == 200) {
           //更新数据
@@ -176,6 +180,7 @@ export default {
           rowData.type = rowData.tempType;
           rowData.stock = rowData.tempStock;
           rowData.price = rowData.tempPrice;
+          rowData.des = rowData.tempDes;
           this.$message.success("修改成功");
           //跟新库存可选项
           this.$store.dispatch("store/getStoreOptions", { types: ["1"] });

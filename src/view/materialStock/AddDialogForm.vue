@@ -17,7 +17,8 @@
         <el-form-item label="单价" prop="price">
           <el-input
             class="el-input form-item"
-            v-model.number="addData.price"
+            type="number"
+            v-model="addData.price"
             placeholder="单价"
           ></el-input>
         </el-form-item>
