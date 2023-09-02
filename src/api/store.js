@@ -17,6 +17,15 @@ export const getStock = (params) => {
         }
     )
 }
+export const getAllStock = (params) => {
+    return request(
+        {
+            url: "/store/getAllStock",
+            method: "get",
+            params: params
+        }
+    )
+}
 export const getStoreOptions = (query) => {
     return request(
         {

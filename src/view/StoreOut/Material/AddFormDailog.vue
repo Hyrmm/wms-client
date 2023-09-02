@@ -217,7 +217,7 @@ export default {
     },
     querySearch(queryString, cb) {
       let filterResult = this.$store.state.client.clientOptions.filter(
-        (item) => item.value.indexOf(queryString) != -1 && item.type == 1
+        (item) => item.value.indexOf(queryString) != -1
       );
       cb(filterResult);
     },

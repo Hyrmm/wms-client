@@ -147,7 +147,7 @@ export default {
       return formatDate(new Date(date));
     },
     getMaterialNameType(stockId) {
-      for (const item of this.$store.state.store.materialStock.data) {
+      for (const item of this.$store.state.store.allMaterialStock.data) {
         if (item.id == stockId) return [item.name, item.type];
       }
       return [];

@@ -1,4 +1,4 @@
-import { getStock, getStoreOptions } from "@/api/store"
+import { getStock, getAllStock, getStoreOptions } from "@/api/store"
 import { formatOptions } from "@/utils"
 export default {
     namespaced: true,
@@ -7,8 +7,7 @@ export default {
         productStock: [],
         productStoreOptions: [],
         materialStoreOptions: [],
-        storeOptions: [],
-        transportStatusOptions: []
+        allMaterialStock: []
     },
     actions: {
         async getMaterialStock({ commit }, payload) {
@@ -25,9 +24,6 @@ export default {
             }
             return res
         },
-
-
-
         async getStoreOptions({ commit }, payload) {
             let res = await getStoreOptions(payload)
             if (res.data.status == 200) {
@@ -35,11 +31,15 @@ export default {
             }
             return res
         },
+        async getAllMaterialStock({ commit }, payload) {
+            let res = await getAllStock(payload)
+            if (res.data.status == 200) {
+                commit("upDataAllMaterialStock", res.data)
+            }
+            return res
+        }
     },
     mutations: {
-        upDataStock(state, data) {
-            state.stock = data
-        },
         upDataMaterialStock(state, data) {
             state.materialStock = data
         },
@@ -63,8 +63,8 @@ export default {
                 }
             }
         },
-        upDataTransportStatusOptions(state, data) {
-            state.transportStatusOptions = data
+        upDataAllMaterialStock(state, data) {
+            state.allMaterialStock = data
         }
     },
     getters: {}

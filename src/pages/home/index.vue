@@ -60,6 +60,7 @@ export default {
     this.$store.dispatch("store/getMaterialStock", { type: 1 });
     this.$store.dispatch("store/getProductStock", { type: 2 });
     this.$store.dispatch("store/getStoreOptions", { types: ["1", "2"] });
+    this.$store.dispatch("store/getAllMaterialStock", { type: 1 });
     this.$store.dispatch("client/getClientOptions");
     this.$store.dispatch("dataVisual/getCommonInfo");
     this.$store.dispatch("dataVisual/getStoreInfo");
