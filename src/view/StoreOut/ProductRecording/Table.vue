@@ -24,6 +24,16 @@
         </template>
       </el-table-column>
       <el-table-column
+        v-if="displayField.price"
+        label="出库总价"
+        width="160"
+        :sortable="true"
+      >
+        <template slot-scope="scope">
+          {{ scope.row.price}}
+        </template>
+      </el-table-column>
+      <el-table-column
         v-if="displayField.cost"
         prop="cost"
         label="单个成本"

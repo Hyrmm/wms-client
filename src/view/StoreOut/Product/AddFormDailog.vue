@@ -28,7 +28,7 @@
             placeholder="数量"
           ></el-input>
         </el-form-item>
-        <el-form-item label="出库价格(总)" prop="price">
+        <el-form-item label="出库单价" prop="price">
           <el-input
             class="el-input form-item"
             v-model.number="addForm.price"

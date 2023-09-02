@@ -99,7 +99,7 @@ export default {
           try {
             let res = await outStoreProduct({
               stock_id: row.stock_id,
-              price: row.price,
+              price: row.price * row.amount,
               amount: row.amount,
               client_id: row.client_id,
               updata_date: row.updata_date,
