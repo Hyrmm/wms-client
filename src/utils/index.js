@@ -1,3 +1,4 @@
+import { compare } from "pinyin"
 export const formatDate = (date, fmt = "yyyy-MM-dd hh:mm:ss") => {
 
     var o = {
@@ -37,6 +38,7 @@ export const formatOptions = (arr) => {
 
         }
     }
+    options = options.sort((a, b) => { return compare(a.value[0], b.value[0]) })
     return options
 }
 
