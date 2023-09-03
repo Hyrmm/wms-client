@@ -68,7 +68,7 @@
     <div style="display: flex">
       <el-card
         class="box-card"
-        style="flex: 1; margin: 10px 0; margin-right: 20px"
+        style="flex: 1.8; margin: 10px 0; margin-right: 20px"
       >
         <div slot="header" class="clearfix">
           <span>销售明细</span>
