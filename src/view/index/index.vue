@@ -9,9 +9,64 @@
           </div>
           <div class="right">
             <div class="amount">
-              <span>{{ totalStock }}</span>
+              <span>{{ materialTotalStock }}</span>
             </div>
-            <div class="title">总库存</div>
+            <div class="title">材料库存</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left">
+            <i class="el-icon-goods"></i>
+          </div>
+          <div class="right">
+            <div class="amount">
+              <span>{{ productTotalStock }}</span>
+            </div>
+            <div class="title">成品库存</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left" style="background-color: #64d572">
+            <i class="el-icon-sold-out"></i>
+          </div>
+          <div class="right">
+            <div class="amount" style="color: #64d572">
+              <span>{{ materialTotalInorder }}</span>
+            </div>
+            <div class="title">材料入库记录</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left" style="background-color: #f25e43">
+            <i class="el-icon-sold-out"></i>
+          </div>
+          <div class="right">
+            <div class="amount" style="color: #f25e43">
+              <span>{{ materialTotalOutorder }}</span>
+            </div>
+            <div class="title">材料出库记录</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left" style="background-color: #64d572">
+            <i class="el-icon-sold-out"></i>
+          </div>
+          <div class="right">
+            <div class="amount" style="color: #64d572">
+              <span>{{ productTotalInorder }}</span>
+            </div>
+            <div class="title">成品入库记录</div>
+          </div>
+        </div>
+        <div class="grid-content">
+          <div class="left" style="background-color: #f25e43">
+            <i class="el-icon-sold-out"></i>
+          </div>
+          <div class="right">
+            <div class="amount" style="color: #f25e43">
+              <span>{{ productTotalOutorder }}</span>
+            </div>
+            <div class="title">成品出库记录</div>
           </div>
         </div>
         <div class="grid-content">
@@ -25,31 +80,8 @@
             <div class="title">总客户</div>
           </div>
         </div>
-        <div class="grid-content">
-          <div class="left" style="background-color: #64d572">
-            <i class="el-icon-sold-out"></i>
-          </div>
-          <div class="right">
-            <div class="amount" style="color: #64d572">
-              <span>{{ totalInorder }}</span>
-            </div>
-            <div class="title">入库记录</div>
-          </div>
-        </div>
-        <div class="grid-content">
-          <div class="left" style="background-color: #f25e43">
-            <i class="el-icon-sold-out"></i>
-          </div>
-          <div class="right">
-            <div class="amount" style="color: #f25e43">
-              <span>{{ totaloutOrder }}</span>
-            </div>
-            <div class="title">出库记录</div>
-          </div>
-        </div>
       </div>
       <Sales />
-      <Order />
       <Store />
     </div>
   </div>
@@ -72,10 +104,22 @@ export default {
 
   computed: {
     ...mapState("dataVisual", {
-      totalStock: (state) => formatAmount(state.commonInfo.total_stocks),
+      materialTotalStock: (state) =>
+        formatAmount(state.commonInfo.material_total_stocks),
+      productTotalStock: (state) =>
+        formatAmount(state.commonInfo.product_total_stocks),
+
+      materialTotalInorder: (state) =>
+        formatAmount(state.commonInfo.material_total_inOrder),
+      productTotalInorder: (state) =>
+        formatAmount(state.commonInfo.product_total_inOrder),
+
+      materialTotalOutorder: (state) =>
+        formatAmount(state.commonInfo.material_total_outOrder),
+      productTotalOutorder: (state) =>
+        formatAmount(state.commonInfo.product_total_outOrder),
+
       totalClient: (state) => formatAmount(state.commonInfo.total_client),
-      totalInorder: (state) => formatAmount(state.commonInfo.total_inOrder),
-      totaloutOrder: (state) => formatAmount(state.commonInfo.total_outOrder),
     }),
   },
   methods: {},
@@ -98,7 +142,7 @@ export default {
       justify-content: space-between;
       margin-bottom: 20px;
       .grid-content {
-        width: 20%;
+        width: 12%;
         display: flex;
         border-radius: 4px;
         border: 1px solid #e4e7ed;
@@ -106,8 +150,8 @@ export default {
         overflow: hidden;
         color: #303133;
         .left {
-          width: 45%;
-          height: 100px;
+          width: 35%;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -121,7 +165,7 @@ export default {
           justify-content: center;
           flex-direction: column;
           height: 100%;
-          padding: 16px;
+          padding: 12px;
           box-sizing: border-box;
           font-size: 14px;
           .amount {

@@ -104,7 +104,7 @@
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{
-                dataFormat(scope.row.finish_date)
+                dataFormat(scope.row.updata_date)
               }}</span>
             </template>
           </el-table-column>

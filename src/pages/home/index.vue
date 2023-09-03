@@ -64,9 +64,8 @@ export default {
     this.$store.dispatch("client/getClientOptions");
     this.$store.dispatch("dataVisual/getCommonInfo");
     this.$store.dispatch("dataVisual/getStoreInfo");
-    this.$store.dispatch("dataVisual/getYearFinishOrder", { year: 2022 });
     this.$store.dispatch("dataVisual/getSalesInfo", {
-      year: 2022,
+      year: 2023,
     });
   },
   computed: {
