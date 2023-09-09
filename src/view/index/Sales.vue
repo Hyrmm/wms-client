@@ -89,9 +89,9 @@
           max-height="300"
         >
           <el-table-column type="index" label="#" width="40"> </el-table-column>
-          <el-table-column prop="client" label="客户" width="70">
+          <el-table-column prop="client" label="客户" width="160">
           </el-table-column>
-          <el-table-column prop="name_type" label="名称"> </el-table-column>
+          <el-table-column prop="name_type" label="名称"></el-table-column>
           <el-table-column prop="amount" label="数量" width="60">
           </el-table-column>
           <el-table-column prop="sales" label="销售额" width="80">
@@ -99,6 +99,9 @@
           <el-table-column prop="cost" label="成本" width="70">
           </el-table-column>
           <el-table-column prop="profit" label="利润" width="70">
+            <template slot-scope="scope">
+              {{ scope.row.profit.toFixed(2) }}
+            </template>
           </el-table-column>
           <el-table-column label="日期">
             <template slot-scope="scope">
@@ -156,6 +159,9 @@ export default {
     clientRank() {},
   },
   methods: {
+    formatAmount(val) {
+      return formatAmount(val);
+    },
     renderSales() {
       let sales = this.$echarts.init(this.$refs["sales"]);
       let salesOptions = {

@@ -12,7 +12,8 @@ export default {
     state: {
         commonInfo: {},
         yearFinishOrder: {},
-        storeInfo: [],
+        materialStoreInfo: [],
+        productStoreInfo: [],
         salesInfo: {}
     },
     actions: {
@@ -49,7 +50,8 @@ export default {
             state.yearFinishOrder = payload
         },
         updataStoreInfo: function (state, payload) {
-            state.storeInfo = payload
+            state.materialStoreInfo = payload.materialOptions
+            state.productStoreInfo = payload.productOptions
         },
         updataSalesInfo: function (state, payload) {
             state.salesInfo = payload

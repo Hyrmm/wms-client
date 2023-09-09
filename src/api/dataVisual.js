@@ -30,12 +30,12 @@ export const getYearFinishOrder = (query) => {
 
 
 export const getStoreInfo = (query) => {
-    // return request(
-    //     {
-    //         url: "/dataVisual/getStoreInfo",
-    //         method: "get",
-    //     }
-    // )
+    return request(
+        {
+            url: "/dataVisual/getStoreInfo",
+            method: "get",
+        }
+    )
 }
 export const getSalesInfo = (query) => {
     return request(

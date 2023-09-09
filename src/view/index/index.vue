@@ -82,7 +82,8 @@
         </div>
       </div>
       <Sales />
-      <Store />
+      <Store :type="1" />
+      <Store :type="2" />
     </div>
   </div>
 </template>

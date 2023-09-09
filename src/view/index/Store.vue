@@ -21,10 +21,23 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  props: ["type"],
   computed: {
     ...mapState("dataVisual", {
-      storeInfo: (state) => state.storeInfo,
+      materialStoreInfo: (state) => {
+        return state.materialStoreInfo;
+      },
+      productStoreInfo: (state) => {
+        return state.productStoreInfo;
+      },
     }),
+    storeInfo() {
+      if (this.$props.type == 1) {
+        return this.materialStoreInfo;
+      } else {
+        return this.productStoreInfo;
+      }
+    },
   },
   methods: {
     renderOrderStatus() {
@@ -87,7 +100,13 @@ export default {
   },
 
   watch: {
-    "$store.state.dataVisual.storeInfo": {
+    "$store.state.dataVisual.materialStoreInfo": {
+      handler(value) {
+        //订单状态图
+        this.renderOrderStatus();
+      },
+    },
+    "$store.state.dataVisual.productStoreInfo": {
       handler(value) {
         //订单状态图
         this.renderOrderStatus();
