@@ -14,9 +14,5 @@ module.exports = defineConfig({
     config
       .plugin('webpack-bundle-analyzer')
       .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
-  },
-  configureWebpack: (config) => {
-    //调试JS
-    config.devtool = "source-map"
-  },
+  }
 })
