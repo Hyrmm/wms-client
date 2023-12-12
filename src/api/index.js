@@ -16,9 +16,9 @@ import App from "@/main"
 let baseURL
 
 if (process.env.NODE_ENV == "online") {
-  baseURL = "http://101.34.62.140:5001/api"
+  baseURL = "http://hyrm.site:5001/api"
 } else if (process.env.NODE_ENV == "production") {
-  baseURL = "http://101.34.62.140:5001/api"
+  baseURL = "http://hyrm.site:5001/api"
 }
 else {
   baseURL = "http://127.0.0.1:5001/api"
