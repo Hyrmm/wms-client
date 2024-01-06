@@ -62,7 +62,7 @@ export default {
     async post() {
       let finishCache = [];
       for await (let [index, row] of this.productInStoreCache.entries()) {
-        if (row.checked) {
+        if (row.checked && row.postStatus!="success") {
           try {
             let res = await inStoreProduct({
               stock_id: row.stock_id,
