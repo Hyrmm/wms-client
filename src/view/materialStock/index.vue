@@ -1,44 +1,23 @@
 <template>
-  <div class="warpper">
-    <div class="table-filter">
-      <TableFilter
-        size="mini"
-        @search="search"
-        :nameFilter="true"
-        :stockType="1"
-      />
+    <div class="warpper">
+      <div class="table-filter">
+        <TableFilter size="mini" @search="search" :nameFilter="true" :nullStock="true" :stockType="1"
+          @nullStockChange="nullStockChange" />
+      </div>
+      <div class="table">
+        <Table :data="stock" v-loading="tableLoading" height="500" @editRow="editRow" @saveRow="saveRow"
+          @cancleRow="cancleRow" @delRow="delRow" />
+      </div>
+      <div class="control">
+        <el-button type="primary" class="button" @click="addFormDailogOpen"><i class="el-icon-plus"
+            style="font-size: 16px"></i>新增库存</el-button>
+      </div>
+      <div class="pagenation">
+        <PagiNation :total="total" :page-size="20" :current-page="current_page" @current-change="currentPageChange" />
+      </div>
+      <AddDialogForm :addData="addData" :visible="addFormDailogVisible" @close="addFormDailogClose"
+        @addStore="addStore" />
     </div>
-    <div class="table">
-      <Table
-        :data="stock"
-        v-loading="tableLoading"
-        height="500"
-        @editRow="editRow"
-        @saveRow="saveRow"
-        @cancleRow="cancleRow"
-        @delRow="delRow"
-      />
-    </div>
-    <div class="control">
-      <el-button type="primary" class="button" @click="addFormDailogOpen"
-        ><i class="el-icon-plus" style="font-size: 16px"></i>新增库存</el-button
-      >
-    </div>
-    <div class="pagenation">
-      <PagiNation
-        :total="total"
-        :page-size="20"
-        :current-page="current_page"
-        @current-change="currentPageChange"
-      />
-    </div>
-    <AddDialogForm
-      :addData="addData"
-      :visible="addFormDailogVisible"
-      @close="addFormDailogClose"
-      @addStore="addStore"
-    />
-  </div>
 </template>
 
 <script>
@@ -54,14 +33,14 @@ import {
   delMaterialStore,
 } from "@/api/store";
 export default {
-  name: "store",
+  name: "materialStock",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
     return {
       addData: {
         stock: 0,
       },
-      query: { name: "" },
+      query: { name: "", nullStock: true },
       tableLoading: false,
     };
   },
@@ -81,6 +60,7 @@ export default {
         .dispatch("store/getMaterialStock", {
           page: 1,
           name: this.query.name,
+          nullStock: this.query.nullStock,
           type: 1,
         })
         .then(
@@ -115,6 +95,7 @@ export default {
         .dispatch("store/getMaterialStock", {
           page: this.current_page,
           name: this.query.name,
+          nullStock: this.query.nullStock,
           type: 1,
         })
         .then(
@@ -204,10 +185,13 @@ export default {
         }
       });
     },
+    nullStockChange(checked) {
+      this.query.nullStock = checked
+    }
   },
   mounted() {
     this.tableLoading = true;
-    this.$store.dispatch("store/getMaterialStock", { page: 1, type: 1 }).then(
+    this.$store.dispatch("store/getMaterialStock", { page: 1, type: 1, nullStock: this.query.nullStock }).then(
       (data) => {
         this.tableLoading = false;
       },
@@ -225,12 +209,14 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   .table-filter {
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
     padding: 15px;
   }
+
   .table {
     box-sizing: border-box;
     background-color: #fff;
@@ -240,6 +226,7 @@ export default {
     overflow: hidden;
     flex: 1;
   }
+
   .control {
     box-sizing: border-box;
     display: flex;
@@ -250,6 +237,7 @@ export default {
     padding: 10px;
     overflow: hidden;
   }
+
   .pagenation {
     box-sizing: border-box;
     display: flex;

@@ -7,8 +7,11 @@
 <script>
 export default {
   name: "client",
+
+  computed: {
+    ...mapState("cache", ["cacheView"]),
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

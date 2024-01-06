@@ -32,7 +32,7 @@ import { storeAddIndex } from "@/mixin";
 import { mapMutations, mapState } from "vuex";
 import { inStoreProduct } from "@/api/store";
 export default {
-  name: "addStore",
+  name: "addProductStoreIn",
   components: { Table, AddFormDailog },
   data: function () {
     return {};

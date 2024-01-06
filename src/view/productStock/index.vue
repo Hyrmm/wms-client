@@ -1,43 +1,21 @@
 <template>
   <div class="warpper">
     <div class="table-filter">
-      <TableFilter
-        size="mini"
-        @search="search"
-        :nameFilter="true"
-        :stockType="2"
-      />
+      <TableFilter size="mini" @search="search" :nameFilter="true" :stockType="2" :nullStock="true"
+        @nullStockChange="nullStockChange" />
     </div>
     <div class="table">
-      <Table
-        :data="stock"
-        v-loading="tableLoading"
-        height="500"
-        @editRow="editRow"
-        @saveRow="saveRow"
-        @cancleRow="cancleRow"
-        @delRow="delRow"
-      />
+      <Table :data="stock" v-loading="tableLoading" height="500" @editRow="editRow" @saveRow="saveRow"
+        @cancleRow="cancleRow" @delRow="delRow" />
     </div>
     <div class="control">
-      <el-button type="primary" class="button" @click="addFormDailogOpen"
-        ><i class="el-icon-plus" style="font-size: 16px"></i>新增库存</el-button
-      >
+      <el-button type="primary" class="button" @click="addFormDailogOpen"><i class="el-icon-plus"
+          style="font-size: 16px"></i>新增库存</el-button>
     </div>
     <div class="pagenation">
-      <PagiNation
-        :total="total"
-        :page-size="20"
-        :current-page="current_page"
-        @current-change="currentPageChange"
-      />
+      <PagiNation :total="total" :page-size="20" :current-page="current_page" @current-change="currentPageChange" />
     </div>
-    <AddDialogForm
-      :addData="addData"
-      :visible="addFormDailogVisible"
-      @close="addFormDailogClose"
-      @addStore="addStore"
-    />
+    <AddDialogForm :addData="addData" :visible="addFormDailogVisible" @close="addFormDailogClose" @addStore="addStore" />
   </div>
 </template>
 
@@ -54,7 +32,7 @@ import {
   delProductStore,
 } from "@/api/store";
 export default {
-  name: "store",
+  name: "productStock",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
   data() {
     return {
@@ -85,6 +63,7 @@ export default {
           page: 1,
           name: this.query.name,
           type: 2,
+          nullStock: this.query.nullStock,
         })
         .then(
           (data) => {
@@ -119,6 +98,7 @@ export default {
           page: this.current_page,
           name: this.query.name,
           type: 2,
+          nullStock: this.query.nullStock,
         })
         .then(
           (data) => {
@@ -209,10 +189,14 @@ export default {
       ];
       this.addFormDailogVisible = true;
     },
+
+    nullStockChange(checked) {
+      this.query.nullStock = checked
+    }
   },
   mounted() {
     this.tableLoading = true;
-    this.$store.dispatch("store/getProductStock", { page: 1, type: 2 }).then(
+    this.$store.dispatch("store/getProductStock", { page: 1, type: 2, nullStock: this.query.nullStock }).then(
       (data) => {
         this.tableLoading = false;
       },
@@ -230,12 +214,14 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   .table-filter {
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
     padding: 15px;
   }
+
   .table {
     box-sizing: border-box;
     background-color: #fff;
@@ -245,6 +231,7 @@ export default {
     overflow: hidden;
     flex: 1;
   }
+
   .control {
     box-sizing: border-box;
     display: flex;
@@ -255,6 +242,7 @@ export default {
     padding: 10px;
     overflow: hidden;
   }
+
   .pagenation {
     box-sizing: border-box;
     display: flex;

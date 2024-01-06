@@ -1,109 +1,57 @@
 <template>
   <el-form :inline="true" :model="form" v-bind="$attrs">
     <el-form-item v-if="nameFilter" label="名称">
-      <el-select
-        v-model="form.name"
-        placeholder="名称不限"
-        clearable
-        @change="nameOptionsChange"
-      >
-        <el-option
-          v-for="item in storeOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
+      <el-select v-model="form.name" placeholder="名称不限" clearable @change="nameOptionsChange">
+        <el-option v-for="item in storeOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item v-if="typeFilter" label="类型">
-      <el-select
-        v-model="form.typeIndex"
-        placeholder="类型不限"
-        clearable
-        :disabled="disabled"
-      >
-        <el-option
-          v-for="(item, index) in typeOptions"
-          :key="item.stock_id"
-          :label="item.label"
-          :value="index"
-        >
-        </el-option> </el-select
-    ></el-form-item>
+      <el-select v-model="form.typeIndex" placeholder="类型不限" clearable :disabled="disabled">
+        <el-option v-for="(item, index) in typeOptions" :key="item.stock_id" :label="item.label" :value="index">
+        </el-option> </el-select></el-form-item>
     <el-form-item v-if="out_type" label="出库类型">
       <el-select v-model="form.out_type" placeholder="请选择">
-        <el-option
-          v-for="item in [
-            { id: 1, status_name: '退货' },
-            { id: 2, status_name: '生产成品' },
-            { id: 3, status_name: '损耗' },
-          ]"
-          :key="item.id"
-          :label="item.status_name"
-          :value="item.id"
-        >
+        <el-option v-for="item in [
+          { id: 1, status_name: '退货' },
+          { id: 2, status_name: '生产成品' },
+          { id: 3, status_name: '损耗' },
+        ]" :key="item.id" :label="item.status_name" :value="item.id">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item v-if="clientNameFilter" label="客户">
-      <el-autocomplete
-        class="inline-input"
-        v-model="form.client_name"
-        :fetch-suggestions="querySearch"
-        placeholder="客户姓名"
-        :trigger-on-focus="false"
-        @select="handleSelect"
-        size="mini"
-      ></el-autocomplete>
+      <el-autocomplete class="inline-input" v-model="form.client_name" :fetch-suggestions="querySearch" placeholder="客户姓名"
+        :trigger-on-focus="false" @select="handleSelect" size="mini"></el-autocomplete>
     </el-form-item>
     <el-form-item v-if="dateFilter" label="日期">
-      <el-date-picker
-        format="yyyy-MM-dd"
-        value-format="yyyy-MM-dd"
-        v-model="form.date"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-      >
+      <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="form.date" type="daterange"
+        range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
       </el-date-picker>
     </el-form-item>
     <el-form-item v-if="transportStatusFilter" label="订单状态">
       <el-select v-model="form.transport_status" placeholder="请选择">
-        <el-option
-          v-for="item in $store.state.store.transportStatusOptions"
-          :key="item.id"
-          :label="item.status_name"
-          :value="item.id"
-        >
+        <el-option v-for="item in $store.state.store.transportStatusOptions" :key="item.id" :label="item.status_name"
+          :value="item.id">
         </el-option>
       </el-select>
     </el-form-item>
     <el-form-item v-if="client_type" label="客户类型">
       <el-select v-model="form.client_type" placeholder="请选择" size="mini">
-        <el-option
-          v-for="item in [
-            { id: 1, lable: '原料客户' },
-            { id: 2, lable: '成品客户' },
-          ]"
-          :key="item.id"
-          :label="item.lable"
-          :value="item.id"
-        >
+        <el-option v-for="item in [
+          { id: 1, lable: '原料客户' },
+          { id: 2, lable: '成品客户' },
+        ]" :key="item.id" :label="item.lable" :value="item.id">
         </el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item
-      ><el-button
-        type="primary"
-        icon="el-icon-search"
-        @click="searchClick"
-        size="mini"
-        >查询</el-button
-      ></el-form-item
-    >
+    <el-form-item v-if="nullStock" label="非空库存">
+      <el-checkbox @change="nullStockChange" v-model="form.nullStock"></el-checkbox>
+    </el-form-item>
+
+    <el-form-item><el-button type="primary" icon="el-icon-search" @click="searchClick"
+        size="mini">查询</el-button></el-form-item>
   </el-form>
 </template>
 
@@ -119,6 +67,7 @@ export default {
     "stockType",
     "out_type",
     "client_type",
+    "nullStock"
   ],
   data: function () {
     return {
@@ -132,6 +81,7 @@ export default {
         transport_status: "",
         client_name: "",
         client_id: "",
+        nullStock: true
       },
     };
   },
@@ -188,6 +138,7 @@ export default {
         client_id: this.form.client_id,
         out_type: this.form.out_type,
         client_type: this.form.client_type,
+        nullStock: this.form.nullStock
       });
     },
     querySearch(queryString, cb) {
@@ -201,10 +152,16 @@ export default {
     handleSelect(selectData) {
       this.form.client_id = selectData.id;
     },
+    nullStockChange(data) {
+      this.$emit("nullStockChange", this.form.nullStock)
+    },
+    getNullStockChecked() {
+      return this.$refs.nullStockCom.checked
+    }
+
   },
-  mounted() {},
+  mounted() { },
 };
 </script>
 
-<style>
-</style>
+<style></style>

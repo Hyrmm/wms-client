@@ -31,7 +31,7 @@ import TableFilter from "@/components/TableFilter";
 import PagiNation from "@/components/PagiNation";
 import { getMaterialStockRecording } from "@/api/store";
 export default {
-  name: "recordingStore",
+  name: "materialRecordingStoreIn",
   components: { Table, TableFilter, PagiNation },
   data: function () {
     return {

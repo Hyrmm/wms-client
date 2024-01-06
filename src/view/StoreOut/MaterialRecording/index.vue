@@ -58,7 +58,7 @@ import PagiNation from "@/components/PagiNation";
 import ViewFilter from "@/components/ViewFilter";
 import { getMaterialStockRecording } from "@/api/store";
 export default {
-  name: "recordingStoreOut",
+  name: "materialRecordingStoreOut",
   components: { Table, TableFilter, ViewFilter, PagiNation },
   data: function () {
     return {
@@ -144,6 +144,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.defaultChecked)
     this.getTableData(this.query);
   },
 };
