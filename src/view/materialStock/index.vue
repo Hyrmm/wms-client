@@ -78,6 +78,7 @@ export default {
         .dispatch("store/getMaterialStock", {
           page: curPage,
           name: this.query.name,
+          nullStock: this.query.nullStock,
           type: 1,
         })
         .then(

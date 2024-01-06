@@ -19,9 +19,7 @@
       </div>
     </el-header>
     <el-container>
-      <el-aside
-        style="background-color: #324157; overflow: hidden; width: 150px"
-      >
+      <el-aside style="background-color: #324157; overflow: hidden; width: 150px">
         <Sidebar class="sidebar-container" />
       </el-aside>
       <el-container>
@@ -65,7 +63,7 @@ export default {
     this.$store.dispatch("dataVisual/getCommonInfo");
     this.$store.dispatch("dataVisual/getStoreInfo");
     this.$store.dispatch("dataVisual/getSalesInfo", {
-      year: 2023,
+      year: new Date().getFullYear()
     });
   },
   computed: {
@@ -80,6 +78,7 @@ export default {
 .main {
   background-color: #f2f6fc;
 }
+
 .header {
   background-color: #242f42;
   position: relative;
@@ -88,11 +87,13 @@ export default {
   height: 70px;
   font-size: 22px;
   color: #fff;
+
   .logo {
     float: left;
     width: 250px;
     line-height: 70px;
   }
+
   .collapse-btn {
     display: flex;
     justify-content: center;
@@ -102,17 +103,21 @@ export default {
     padding: 0 21px;
     cursor: pointer;
   }
+
   .header-user-con {
     float: right;
     padding-right: 20px;
     display: flex;
     height: 70px;
     align-items: center;
+
     .user-avatar {
       margin-left: 30px;
     }
+
     .user-name {
       margin-left: 15px;
+
       .el-dropdown-link {
         color: #fff;
         cursor: pointer;
@@ -121,5 +126,4 @@ export default {
       }
     }
   }
-}
-</style>
+}</style>

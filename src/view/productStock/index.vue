@@ -81,6 +81,7 @@ export default {
           page: curPage,
           name: this.query.name,
           type: 2,
+          nullStock: this.query.nullStock,
         })
         .then(
           (data) => {
