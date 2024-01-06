@@ -4,56 +4,36 @@
       <el-table-column prop="index" label="#" width="100"> </el-table-column>
       <el-table-column prop="name" label="名称" width="200">
         <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempName"
-          ></el-input>
+          <el-input v-if="scope.row.isEdit" v-model="scope.row.tempName"></el-input>
           <div v-else>{{ scope.row.name }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="type" label="类型" width="200">
         <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempType"
-          ></el-input>
+          <el-input v-if="scope.row.isEdit" v-model="scope.row.tempType"></el-input>
           <div v-else>{{ scope.row.type }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="stock" label="库存" width="160" :sortable="true">
         <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempStock"
-          ></el-input>
+          <el-input v-if="scope.row.isEdit" v-model="scope.row.tempStock"></el-input>
           <div v-else>{{ scope.row.stock }}</div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="price"
-        label="单个价值"
-        width="160"
-        :sortable="true"
-      >
+      <el-table-column prop="price" label="单个价值" width="160" :sortable="true">
         <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempPrice"
-          ></el-input>
+          <el-input v-if="scope.row.isEdit" v-model="scope.row.tempPrice"></el-input>
           <div v-else>{{ scope.row.price }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="price" label="总价值" width="160" :sortable="true">
         <template slot-scope="scope">
-          <div>{{ scope.row.price * scope.row.stock }}</div>
+          <div>{{ (scope.row.price * scope.row.stock).toFixed(2) }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="last_updata" label="备注" :sortable="true">
         <template slot-scope="scope">
-          <el-input
-            v-if="scope.row.isEdit"
-            v-model="scope.row.tempDes"
-          ></el-input>
+          <el-input v-if="scope.row.isEdit" v-model="scope.row.tempDes"></el-input>
           <div v-else>{{ scope.row.des ? scope.row.des : "无备注" }}</div>
         </template>
       </el-table-column>
@@ -67,38 +47,14 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
-          <el-button
-            v-if="!scope.row.isEdit"
-            type="primary"
-            class="edit-btn"
-            icon="el-icon-edit"
-            @click="$emit('editRow', scope.row)"
-            >编辑</el-button
-          >
-          <el-button
-            v-if="!scope.row.isEdit"
-            type="danger"
-            class="edit-btn"
-            icon="el-icon-delete"
-            @click="$emit('delRow', scope.row)"
-            >删除</el-button
-          >
-          <el-button
-            v-if="scope.row.isEdit"
-            type="success"
-            class="edit-btn"
-            icon="el-icon-circle-check"
-            @click="$emit('saveRow', scope.row)"
-            >保存</el-button
-          >
-          <el-button
-            v-if="scope.row.isEdit"
-            type="danger"
-            class="edit-btn"
-            icon="el-icon-delete"
-            @click="$emit('cancleRow', scope.row)"
-            >取消</el-button
-          >
+          <el-button v-if="!scope.row.isEdit" type="primary" class="edit-btn" icon="el-icon-edit"
+            @click="$emit('editRow', scope.row)">编辑</el-button>
+          <el-button v-if="!scope.row.isEdit" type="danger" class="edit-btn" icon="el-icon-delete"
+            @click="$emit('delRow', scope.row)">删除</el-button>
+          <el-button v-if="scope.row.isEdit" type="success" class="edit-btn" icon="el-icon-circle-check"
+            @click="$emit('saveRow', scope.row)">保存</el-button>
+          <el-button v-if="scope.row.isEdit" type="danger" class="edit-btn" icon="el-icon-delete"
+            @click="$emit('cancleRow', scope.row)">取消</el-button>
         </template>
       </el-table-column>
     </el-table>
