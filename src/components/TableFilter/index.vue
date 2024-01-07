@@ -1,10 +1,14 @@
 <template>
   <el-form :inline="true" :model="form" v-bind="$attrs">
-    <el-form-item v-if="nameFilter" label="名称">
+    <el-form-item v-if="nameFilter" label="名称（自选）">
       <el-select v-model="form.name" placeholder="名称不限" clearable @change="nameOptionsChange">
         <el-option v-for="item in storeOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
+    </el-form-item>
+    <el-form-item v-if="nameFilter" label="名称（关键词检索）">
+      <el-autocomplete class="inline-input" v-model="form.name" :fetch-suggestions="querySearchName" placeholder="名称不限"
+        :trigger-on-focus="false" ></el-autocomplete>
     </el-form-item>
     <el-form-item v-if="typeFilter" label="类型">
       <el-select v-model="form.typeIndex" placeholder="类型不限" clearable :disabled="disabled">
@@ -49,6 +53,8 @@
     <el-form-item v-if="nullStock" label="非空库存">
       <el-checkbox @change="nullStockChange" v-model="form.nullStock"></el-checkbox>
     </el-form-item>
+
+
 
     <el-form-item><el-button type="primary" icon="el-icon-search" @click="searchClick"
         size="mini">查询</el-button></el-form-item>
@@ -144,14 +150,25 @@ export default {
     querySearch(queryString, cb) {
       let filterResult = this.$store.state.client.clientOptions.filter(
         (item) =>
-          item.value.indexOf(queryString) != -1 &&
-          item.type == this.$props.client_type
+          item.value.indexOf(queryString) != -1
       );
       cb(filterResult);
     },
     handleSelect(selectData) {
       this.form.client_id = selectData.id;
     },
+    querySearchName(queryString, cb) {
+      let filterResult = this.$store.state.store.materialStoreOptions.filter(
+        (item) =>
+          item.value.indexOf(queryString) != -1
+      );
+      cb(filterResult);
+    },
+    handleSelectName(selectData) {
+      this.form.client_id = selectData.id;
+    },
+
+
     nullStockChange(data) {
       this.$emit("nullStockChange", this.form.nullStock)
     },
