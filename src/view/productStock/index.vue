@@ -11,6 +11,8 @@
     <div class="control">
       <el-button type="primary" class="button" @click="addFormDailogOpen"><i class="el-icon-plus"
           style="font-size: 16px"></i>新增库存</el-button>
+      <el-button type="primary" class="button" @click="exportExcel"><i class="el-icon-plus"
+          style="font-size: 16px"></i>导出库存（Excel）</el-button>
     </div>
     <div class="pagenation">
       <PagiNation :total="total" :page-size="20" :current-page="current_page" @current-change="currentPageChange" />
@@ -31,6 +33,7 @@ import {
   editProductStore,
   delProductStore,
 } from "@/api/store";
+import { writeFileXLSX, utils } from 'xlsx';
 export default {
   name: "productStock",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
@@ -52,6 +55,7 @@ export default {
       stock: (state) => state.productStock.data,
       current_page: (state) => state.productStock.current_page,
       total: (state) => state.productStock.total,
+      allProductStock: (state) => state.allProductStock
     }),
   },
   methods: {
@@ -193,6 +197,33 @@ export default {
 
     nullStockChange(checked) {
       this.query.nullStock = checked
+    },
+
+    exportExcel() {
+      const dataForm = [["成品名称", "成品类型", "成品库存", "成品单个原料配方", "成品单成本", "成品总成本"]]
+
+      for (const productStock of this.allProductStock.data) {
+        const materialRecipe = JSON.parse(productStock.materialRecipe)
+
+        let recipes = ''
+        for (const recipe of materialRecipe) {
+          if (recipes) {
+            recipes += `、[${recipe.materialNameType[0]}/${recipe.materialNameType[1]}X${recipe.amount}]`
+          } else {
+            recipes += `[${recipe.materialNameType[0]}/${recipe.materialNameType[1]}X${recipe.amount}]`
+          }
+
+        }
+
+        dataForm.push([productStock.name, productStock.type, productStock.stock, recipes, productStock.price, (productStock.stock * productStock.price).toFixed(2)])
+      }
+
+      const ws = utils.json_to_sheet(dataForm, { skipHeader: true });
+      const wb = utils.book_new()
+      utils.book_append_sheet(wb, ws, `成品总库存明细`)
+      const dateNow = new Date()
+      const exportData = `${dateNow.getFullYear()}.${dateNow.getMonth() + 1}.${dateNow.getDate()}(${dateNow.getHours()}时${dateNow.getMinutes()}分)`
+      writeFileXLSX(wb, `成品总库存明细${exportData}.xlsx`)
     }
   },
   mounted() {

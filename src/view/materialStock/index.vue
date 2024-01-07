@@ -1,23 +1,24 @@
 <template>
-    <div class="warpper">
-      <div class="table-filter">
-        <TableFilter size="mini" @search="search" :nameFilter="true" :nullStock="true" :stockType="1"
-          @nullStockChange="nullStockChange" />
-      </div>
-      <div class="table">
-        <Table :data="stock" v-loading="tableLoading" height="500" @editRow="editRow" @saveRow="saveRow"
-          @cancleRow="cancleRow" @delRow="delRow" />
-      </div>
-      <div class="control">
-        <el-button type="primary" class="button" @click="addFormDailogOpen"><i class="el-icon-plus"
-            style="font-size: 16px"></i>新增库存</el-button>
-      </div>
-      <div class="pagenation">
-        <PagiNation :total="total" :page-size="20" :current-page="current_page" @current-change="currentPageChange" />
-      </div>
-      <AddDialogForm :addData="addData" :visible="addFormDailogVisible" @close="addFormDailogClose"
-        @addStore="addStore" />
+  <div class="warpper">
+    <div class="table-filter">
+      <TableFilter size="mini" @search="search" :nameFilter="true" :nullStock="true" :stockType="1"
+        @nullStockChange="nullStockChange" />
     </div>
+    <div class="table">
+      <Table :data="stock" v-loading="tableLoading" height="500" @editRow="editRow" @saveRow="saveRow"
+        @cancleRow="cancleRow" @delRow="delRow" />
+    </div>
+    <div class="control">
+      <el-button type="primary" class="button" @click="addFormDailogOpen"><i class="el-icon-plus"
+          style="font-size: 16px"></i>新增库存</el-button>
+      <el-button type="primary" class="button" @click="exportExcel"><i class="el-icon-plus"
+          style="font-size: 16px"></i>导出库存（Excel）</el-button>
+    </div>
+    <div class="pagenation">
+      <PagiNation :total="total" :page-size="20" :current-page="current_page" @current-change="currentPageChange" />
+    </div>
+    <AddDialogForm :addData="addData" :visible="addFormDailogVisible" @close="addFormDailogClose" @addStore="addStore" />
+  </div>
 </template>
 
 <script>
@@ -32,6 +33,7 @@ import {
   editMaterialStore,
   delMaterialStore,
 } from "@/api/store";
+import { writeFileXLSX, utils } from 'xlsx';
 export default {
   name: "materialStock",
   components: { AddDialogForm, Table, TableFilter, PagiNation },
@@ -50,6 +52,7 @@ export default {
       stock: (state) => state.materialStock.data,
       current_page: (state) => state.materialStock.current_page,
       total: (state) => state.materialStock.total,
+      allMaterialStock: (state) => state.allMaterialStock
     }),
   },
   methods: {
@@ -188,7 +191,22 @@ export default {
     },
     nullStockChange(checked) {
       this.query.nullStock = checked
+    },
+    exportExcel() {
+      const dataForm = [["原料名称", "原料类型", "原料库存", "原料单成本", "原料总成本"]]
+
+      for (const materialStock of this.allMaterialStock.data) {
+        dataForm.push([materialStock.name, materialStock.type, materialStock.stock, materialStock.price, (materialStock.price * materialStock.stock).toFixed(2)])
+      }
+
+      const ws = utils.json_to_sheet(dataForm, { skipHeader: true });
+      const wb = utils.book_new()
+      utils.book_append_sheet(wb, ws, `原料总库存明细`)
+      const dateNow = new Date()
+      const exportData = `${dateNow.getFullYear()}.${dateNow.getMonth() + 1}.${dateNow.getDate()}(${dateNow.getHours()}时${dateNow.getMinutes()}分)`
+      writeFileXLSX(wb, `原料总库存明细${exportData}.xlsx`)
     }
+
   },
   mounted() {
     this.tableLoading = true;

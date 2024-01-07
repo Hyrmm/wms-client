@@ -7,7 +7,8 @@ export default {
         productStock: [],
         productStoreOptions: [],
         materialStoreOptions: [],
-        allMaterialStock: []
+        allMaterialStock: [],
+        allProductStock: []
     },
     actions: {
         async getMaterialStock({ commit }, payload) {
@@ -35,6 +36,13 @@ export default {
             let res = await getAllStock(payload)
             if (res.data.status == 200) {
                 commit("upDataAllMaterialStock", res.data)
+            }
+            return res
+        },
+        async getAllProductStock({ commit }, payload) {
+            let res = await getAllStock(payload)
+            if (res.data.status == 200) {
+                commit("upDataAllProductStock", res.data)
             }
             return res
         }
@@ -65,6 +73,9 @@ export default {
         },
         upDataAllMaterialStock(state, data) {
             state.allMaterialStock = data
+        },
+        upDataAllProductStock(state, data) {
+            state.allProductStock = data
         }
     },
     getters: {}
